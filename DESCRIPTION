@@ -1,0 +1,41 @@
+Package: sanofi.risk.metric
+Title: Sanofi risk metric
+Version: 0.0.0.9000
+Authors@R: c(
+  person('Edward', 'Gillian', email = 'edward.gillian-ext@sanofi.com', role = c('cre', 'aut')),
+  person('Hugo', 'Bottois', email = "hugo.bottois@sanofi.com", role = "aut"))
+Description: Sanofi riskmetric package.
+License: Apache License (>= 2)
+Depends: 
+  R (>= 4.1.0)
+Imports:
+  callr,
+  checkmate,
+  covr,
+  devtools,
+  dplyr,
+  forcats,
+  fs,
+  ggplot2,
+  glue,
+  magrittr,
+  plotly,
+  purrr,
+  rcmdcheck,
+  readr,
+  remotes,
+  riskmetric,
+  rlang,
+  stringr (>= 1.4.0),
+  tibble,
+  tidyr,
+  tidyselect
+Suggests: 
+  pkgload,
+  testthat (>= 3.0.0),
+  utils,
+  withr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.3
+Config/testthat/edition: 3
