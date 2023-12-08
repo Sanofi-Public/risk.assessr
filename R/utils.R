@@ -60,7 +60,7 @@ check_exists_and_overwrite <- function(path, overwrite) {
 #' @param pkg_tar path to tarball package
 #' @param temp_file_name name of `tempfile`
 #'
-#' @keywords internal
+#' @export
 unpack_tarball <- function(pkg_tar, temp_file_name = "temp_file_"){
   # Create temporary location for package installation
   temp_pkg_dir <- tempfile(temp_file_name)
@@ -87,7 +87,7 @@ unpack_tarball <- function(pkg_tar, temp_file_name = "temp_file_"){
 #' @param pkg_source_path directory path to R project
 #' @param pkg_disp vector with package name for display
 #' 
-#' @keywords internal
+#' @export
 install_package_local <- function (pkg_source_path, pkg_disp) {
   message(glue::glue("installing {pkg_disp} locally"))
   remotes::install_local(

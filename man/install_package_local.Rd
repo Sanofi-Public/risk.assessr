@@ -14,4 +14,3 @@ install_package_local(pkg_source_path, pkg_disp)
 \description{
 install package locally with source
 }
-\keyword{internal}

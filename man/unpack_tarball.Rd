@@ -14,4 +14,3 @@ unpack_tarball(pkg_tar, temp_file_name = "temp_file_")
 \description{
 Untar package and return installation directory
 }
-\keyword{internal}
