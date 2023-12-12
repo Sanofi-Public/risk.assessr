@@ -48,10 +48,18 @@ assess_pkg <- function(
   out_path <- sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
   sanofi.risk.metric::check_exists_and_overwrite(out_path, overwrite)
   
+  metadata <- sanofi.risk.metric::get_risk_metadata()
+  
   results <- list(
     pkg_name = pkg_name,
     pkg_version = pkg_ver,
     pkg_source_path = pkg_source_path,
+    date_time = metadata$datetime,
+    executor = metadata$executor,
+    sysname = metadata$info$sys$sysname,
+    version = metadata$info$sys$version,
+    release = metadata$info$sys$release,
+    machine = metadata$info$sys$machine,
     has_bug_reports_url = "",
     license = "",
     has_examples = "",
