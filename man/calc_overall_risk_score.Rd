@@ -4,12 +4,12 @@
 \alias{calc_overall_risk_score}
 \title{Calculate overall package risk scores}
 \usage{
-calc_overall_risk_score(data, weights = NULL)
+calc_overall_risk_score(data, default_weights = TRUE)
 }
 \arguments{
 \item{data}{risk metric data}
 
-\item{weights}{vector with weight values}
+\item{default_weights}{logical T/F for weights choice}
 }
 \value{
 pkg_score

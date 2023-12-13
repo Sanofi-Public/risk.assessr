@@ -105,14 +105,11 @@ assess_pkg <- function(
   results$revdep_score <- sanofi.risk.metric::calc_reverse_dependencies(pkg_source_path)
   
   results$export_calc <- sanofi.risk.metric::assess_exports(pkg_source_path)
-  
-  #create sanofi weights profile
-  
-  sanofi_weights <- sanofi.risk.metric::create_weights_profile()
-  
+ 
+  # calculate risk score with user defined metrics
   results$overall_risk_score <- 
     sanofi.risk.metric::calc_overall_risk_score(results, 
-                                                sanofi_weights)
+                                                default_weights = FALSE)
   
   return(results)
 }
