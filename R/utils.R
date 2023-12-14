@@ -192,16 +192,21 @@ assess_exports <- function(data) {
 #' Calculate overall package risk scores
 #'
 #' @param data risk metric data
-#' @param weights vector with weight values
+#' @param default_weights logical T/F for weights choice
 #'
 #' @return pkg_score
 #' @export
 #'
-calc_overall_risk_score <- function(data, weights = NULL) {
-  # calculate overall package risk score
-  if (is.null(weights)) {
+calc_overall_risk_score <- function(data, 
+                                    default_weights = TRUE) {
+  # create weights profile
+  if (default_weights == TRUE) {
     weights <- add_default_risk_weights(data) 
-  }
+    message(glue::glue("Default weights used"))
+  } else {
+    weights <- sanofi.risk.metric::create_weights_profile()
+    message(glue::glue("User defined weights used"))
+  }  
   
   # perform checks and standardize weights
   weights <- standardize_risk_weights(data, weights)
