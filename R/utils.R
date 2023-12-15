@@ -94,17 +94,13 @@ write_data_csv <- function(data,
   # convert data to dataframe
   data <- as.data.frame(data)
   
-  browser()
-  
   # check if file exists
   if(riskscore_data_exists == TRUE) {
     # If the file exists, run the append code.
-    browser()
     readr::write_excel_csv(data, riskscore_data_path, append=TRUE)
     message(glue::glue("Data appended to csv"))
   } else { 
     # If it doesn't exist, save the file with the columns included.
-    browser()
     readr::write_excel_csv(data, riskscore_data_path, append=FALSE)
     message(glue::glue("Data written to csv"))
   }
