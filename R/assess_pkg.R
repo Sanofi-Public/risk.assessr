@@ -122,10 +122,6 @@ assess_pkg <- function(
     sanofi.risk.metric::calc_overall_risk_score(results, 
                                                 default_weights = FALSE)
   
-  # set up file path
-  results_dir <- "/home/u1004798"
-  results_path <- file.path(results_dir, "riskdata_results.csv") 
-  
   # write data to csv
   sanofi.risk.metric::write_data_csv(results, 
                                      riskscore_data_path, 
