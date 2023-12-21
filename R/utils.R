@@ -82,24 +82,6 @@ unpack_tarball <- function(pkg_tar, temp_file_name = "temp_file_"){
   return(pkg_source_path)
 }
 
-#' install package locally with source
-#'
-#' @param pkg_source_path directory path to R project
-#' @param pkg_disp vector with package name for display
-#' 
-#' @export
-install_package_local <- function (pkg_source_path, pkg_disp) {
-  message(glue::glue("installing {pkg_disp} locally"))
-  remotes::install_local(
-    pkg_source_path,
-    upgrade = "never",
-    force = TRUE,
-    quiet = TRUE,
-    INSTALL_opts = "--with-keep.source"
-  )
-  message(glue::glue("{pkg_disp} installed locally"))
-}
-
 #' Set the default weight of each metric to 1.
 #'
 #' @param data risk metric data
