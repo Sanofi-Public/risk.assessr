@@ -6,6 +6,7 @@
 #' @param datapath - datapath with 0.gz file
 #' @param pkg_source_path - source path for install local
 #' @param out_dir path for writing results
+#' @param riskscore_data_path data path of current risk assessment package
 #' @param overwrite Logical (T/F). Whether or not to overwrite existing scorecard results
 #' @param rcmdcheck_args - arguments for R Cmd check
 #' @param covr_timeout - setting for covr time out
@@ -18,6 +19,8 @@ assess_pkg <- function(
     datapath,
     pkg_source_path,
     out_dir,
+    riskscore_data_path,
+    riskscore_data_exists,
     overwrite = TRUE,
     rcmdcheck_args = list(
       timeout = Inf,
@@ -48,10 +51,18 @@ assess_pkg <- function(
   out_path <- sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
   sanofi.risk.metric::check_exists_and_overwrite(out_path, overwrite)
   
+  metadata <- sanofi.risk.metric::get_risk_metadata()
+  
   results <- list(
     pkg_name = pkg_name,
     pkg_version = pkg_ver,
     pkg_source_path = pkg_source_path,
+    date_time = metadata$datetime,
+    executor = metadata$executor,
+    sysname = metadata$info$sys$sysname,
+    version = metadata$info$sys$version,
+    release = metadata$info$sys$release,
+    machine = metadata$info$sys$machine,
     has_bug_reports_url = "",
     license = "",
     has_examples = "",
@@ -110,6 +121,11 @@ assess_pkg <- function(
   results$overall_risk_score <- 
     sanofi.risk.metric::calc_overall_risk_score(results, 
                                                 default_weights = FALSE)
+  
+  # write data to csv
+  sanofi.risk.metric::write_data_csv(results, 
+                                     riskscore_data_path, 
+                                     riskscore_data_exists)
   
   return(results)
 }

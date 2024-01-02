@@ -13,6 +13,32 @@ get_pkg_desc <- function(pkg_source_path, fields = NULL){
   return(pkg_desc)
 }
 
+
+#' Get risk metadata
+#'
+#' @param executor - user who executes the riskmetrics process 
+#' 
+#' adapted from mrgvalprep::get_sys_info() and mpn.scorecard
+#' @importFrom rlang %||%
+#' 
+#' @return list with metadata
+#' @export
+#'
+
+get_risk_metadata <- function(executor = NULL) {
+  checkmate::assert_string(executor, null.ok = TRUE)
+  
+  metadata <- list(
+    datetime = as.character(Sys.time()),
+    executor = executor %||% Sys.getenv("USER"),
+    info = list()
+  )
+  
+  metadata[["info"]][["sys"]] <- as.list(Sys.info())[c("sysname", "version", "release", "machine")]
+  
+  return(metadata)
+}
+
 #' Assign output file path for various outputs during scorecard rendering
 #'
 #' @param out_dir output directory for saving results
@@ -54,6 +80,31 @@ check_exists_and_overwrite <- function(path, overwrite) {
   }
 }
 
+#' Write results to csv
+#'
+#' @param data - results data
+#' @param riskscore_data_path directory path and file name
+#' @param riskscore_data_exists logical with T/F if risk score data exists
+#'
+#' @export
+#'
+write_data_csv <- function(data, 
+                           riskscore_data_path, 
+                           riskscore_data_exists) {
+  # convert data to dataframe
+  data <- as.data.frame(data)
+  
+  # check if file exists
+  if(riskscore_data_exists == TRUE) {
+    # If the file exists, run the append code.
+    readr::write_excel_csv(data, riskscore_data_path, append=TRUE)
+    message(glue::glue("Data appended to csv"))
+  } else { 
+    # If it doesn't exist, save the file with the columns included.
+    readr::write_excel_csv(data, riskscore_data_path, append=FALSE)
+    message(glue::glue("Data written to csv"))
+  }
+}
 
 #' Untar package and return installation directory
 #'

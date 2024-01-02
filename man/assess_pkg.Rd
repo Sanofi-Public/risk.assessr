@@ -9,6 +9,8 @@ assess_pkg(
   datapath,
   pkg_source_path,
   out_dir,
+  riskscore_data_path,
+  riskscore_data_exists,
   overwrite = TRUE,
   rcmdcheck_args = list(timeout = Inf, args = "--no-manual", quiet = TRUE),
   covr_timeout = Inf
@@ -22,6 +24,8 @@ assess_pkg(
 \item{pkg_source_path}{- source path for install local}
 
 \item{out_dir}{path for writing results}
+
+\item{riskscore_data_path}{data path of current risk assessment package}
 
 \item{overwrite}{Logical (T/F). Whether or not to overwrite existing scorecard results}
 
