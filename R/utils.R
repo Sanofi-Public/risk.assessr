@@ -13,6 +13,32 @@ get_pkg_desc <- function(pkg_source_path, fields = NULL){
   return(pkg_desc)
 }
 
+#' Get risk metadata
+#'
+#' @param executor - user who executes the riskmetrics process 
+#' 
+#' adapted from mrgvalprep::get_sys_info() and mpn.scorecard
+#' @importFrom rlang %||%
+#' 
+#' @return list with metadata
+#' @export
+#'
+
+get_risk_metadata <- function(executor = NULL) {
+  checkmate::assert_string(executor, null.ok = TRUE)
+  
+  metadata <- list(
+    datetime = as.character(Sys.time()),
+    executor = executor %||% Sys.getenv("USER"),
+    info = list()
+  )
+  
+  metadata[["info"]][["sys"]] <- as.list(Sys.info())[c("sysname", "version", "release", "machine")]
+  
+  return(metadata)
+}
+
+
 #' Assign output file path for various outputs during scorecard rendering
 #'
 #' @param out_dir output directory for saving results
