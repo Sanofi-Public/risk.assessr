@@ -38,7 +38,6 @@ get_risk_metadata <- function(executor = NULL) {
   return(metadata)
 }
 
-
 #' Assign output file path for various outputs during scorecard rendering
 #'
 #' @param out_dir output directory for saving results
@@ -105,7 +104,6 @@ write_data_csv <- function(data,
     message(glue::glue("Data written to csv"))
   }
 }
-
 
 #' Untar package and return installation directory
 #'
