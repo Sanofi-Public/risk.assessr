@@ -6,6 +6,8 @@
 #' @param datapath - datapath with 0.gz file
 #' @param pkg_source_path - source path for install local
 #' @param out_dir path for writing results
+#' @param riskscore_data_path data path of current risk assessment package
+#' @param riskscore_data_exists logical with T/F if risk score data exists
 #' @param overwrite Logical (T/F). Whether or not to overwrite existing scorecard results
 #' @param rcmdcheck_args - arguments for R Cmd check
 #' @param covr_timeout - setting for covr time out
@@ -18,6 +20,8 @@ assess_pkg <- function(
     datapath,
     pkg_source_path,
     out_dir,
+    riskscore_data_path,
+    riskscore_data_exists,
     overwrite = TRUE,
     rcmdcheck_args = list(
       timeout = Inf,
@@ -110,6 +114,11 @@ assess_pkg <- function(
   results$overall_risk_score <- 
     sanofi.risk.metric::calc_overall_risk_score(results, 
                                                 default_weights = FALSE)
+  
+  # write data to csv
+  sanofi.risk.metric::write_data_csv(results, 
+                                     riskscore_data_path, 
+                                     riskscore_data_exists)
   
   return(results)
 }
