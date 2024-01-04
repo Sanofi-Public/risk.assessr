@@ -36,9 +36,18 @@ assess_pkg <- function(
   # Input checking
   checkmate::assert_string(pkg)
   checkmate::assert_file_exists(datapath)
-  checkmate::assert_string(out_dir)
   checkmate::assert_string(pkg_source_path)
+  checkmate::assert_directory_exists(pkg_source_path)
+  checkmate::assert_string(out_dir)
+  checkmate::assert_directory_exists(out_dir)
+  checkmate::check_logical(riskscore_data_exists)
+  checkmate::assert_string(riskscore_data_path)
+  checkmate::check_logical(overwrite)
   checkmate::assert_list(rcmdcheck_args)
+  checkmate::assert_numeric(rcmdcheck_args$timeout)
+  checkmate::anyInfinite(rcmdcheck_args$timeout)
+  checkmate::check_character(rcmdcheck_args$args, pattern = "--no-manual")
+  checkmate::check_logical(rcmdcheck_args$quiet)
   
   # Get package name and version
   pkg_desc <- get_pkg_desc(pkg_source_path, fields = c("Package", "Version"))

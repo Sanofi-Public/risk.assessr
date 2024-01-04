@@ -13,7 +13,6 @@ get_pkg_desc <- function(pkg_source_path, fields = NULL){
   return(pkg_desc)
 }
 
-
 #' Get risk metadata
 #'
 #' @param executor - user who executes the riskmetrics process 
@@ -104,51 +103,6 @@ write_data_csv <- function(data,
     readr::write_excel_csv(data, riskscore_data_path, append=FALSE)
     message(glue::glue("Data written to csv"))
   }
-}
-
-#' Untar package and return installation directory
-#'
-#' @param pkg_tar path to tarball package
-#' @param temp_file_name name of `tempfile`
-#'
-#' @export
-unpack_tarball <- function(pkg_tar, temp_file_name = "temp_file_"){
-  # Create temporary location for package installation
-  temp_pkg_dir <- tempfile(temp_file_name)
-  if (!dir.create(temp_pkg_dir)) stop("unable to create ", temp_pkg_dir)
-  
-  source_tar_dir <- file.path(temp_pkg_dir)
-  
-  # unpack tarball
-  
-  utils::untar(pkg_tar, exdir = source_tar_dir)
-  
-  # unpackaged package path
-  pkg_source_path <- fs::dir_ls(source_tar_dir)
-  
-  # Confirm tar is unpackaged in expected directory
-  checkmate::assert_string(pkg_source_path)
-  checkmate::assert_directory_exists(pkg_source_path)
-  
-  return(pkg_source_path)
-}
-
-#' install package locally with source
-#'
-#' @param pkg_source_path directory path to R project
-#' @param pkg_disp vector with package name for display
-#' 
-#' @export
-install_package_local <- function (pkg_source_path, pkg_disp) {
-  message(glue::glue("installing {pkg_disp} locally"))
-  remotes::install_local(
-    pkg_source_path,
-    upgrade = "never",
-    force = TRUE,
-    quiet = TRUE,
-    INSTALL_opts = "--with-keep.source"
-  )
-  message(glue::glue("{pkg_disp} installed locally"))
 }
 
 #' Set the default weight of each metric to 1.
