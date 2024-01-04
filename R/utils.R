@@ -105,33 +105,6 @@ write_data_csv <- function(data,
   }
 }
 
-#' Untar package and return installation directory
-#'
-#' @param pkg_tar path to tarball package
-#' @param temp_file_name name of `tempfile`
-#'
-#' @export
-unpack_tarball <- function(pkg_tar, temp_file_name = "temp_file_"){
-  # Create temporary location for package installation
-  temp_pkg_dir <- tempfile(temp_file_name)
-  if (!dir.create(temp_pkg_dir)) stop("unable to create ", temp_pkg_dir)
-  
-  source_tar_dir <- file.path(temp_pkg_dir)
-  
-  # unpack tarball
-  
-  utils::untar(pkg_tar, exdir = source_tar_dir)
-  
-  # unpackaged package path
-  pkg_source_path <- fs::dir_ls(source_tar_dir)
-  
-  # Confirm tar is unpackaged in expected directory
-  checkmate::assert_string(pkg_source_path)
-  checkmate::assert_directory_exists(pkg_source_path)
-  
-  return(pkg_source_path)
-}
-
 #' Set the default weight of each metric to 1.
 #'
 #' @param data risk metric data
