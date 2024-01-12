@@ -28,7 +28,7 @@ assess_pkg <- function(
       args = c("--ignore-vignettes", "--no-vignettes", "--no-manual"),
       build_args = "--no-build-vignettes",
       env = c(`_R_CHECK_FORCE_SUGGESTS_` = "FALSE"),
-      quiet = TRUE
+      quiet = FALSE
     ),
     covr_timeout = Inf
 ) {
@@ -50,8 +50,8 @@ assess_pkg <- function(
   checkmate::anyInfinite(rcmdcheck_args$timeout)
   checkmate::check_character(rcmdcheck_args$args, pattern = "--no-manual")
   checkmate::check_character(rcmdcheck_args$args, pattern = "--ignore-vignettes")
-  checkmate::check_character(rcmdcheck_args$args, "--no-vignettes")
-  checkmate::check_character(rcmdcheck_args$build_args, "--no-build-vignettes")
+  checkmate::check_character(rcmdcheck_args$args, pattern = "--no-vignettes")
+  checkmate::check_character(rcmdcheck_args$build_args, pattern = "--no-build-vignettes")
   checkmate::assert_string(rcmdcheck_args$env)
   checkmate::check_logical(rcmdcheck_args$quiet)
   
