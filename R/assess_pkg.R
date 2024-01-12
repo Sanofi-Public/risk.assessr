@@ -25,7 +25,9 @@ assess_pkg <- function(
     overwrite = TRUE,
     rcmdcheck_args = list(
       timeout = Inf,
-      args = "--no-manual",
+      args = c("--ignore-vignettes", "--no-vignettes", "--no-manual"),
+      build_args = "--no-build-vignettes",
+      env = c(`_R_CHECK_FORCE_SUGGESTS_` = "FALSE"),
       quiet = TRUE
     ),
     covr_timeout = Inf
@@ -47,6 +49,10 @@ assess_pkg <- function(
   checkmate::assert_numeric(rcmdcheck_args$timeout)
   checkmate::anyInfinite(rcmdcheck_args$timeout)
   checkmate::check_character(rcmdcheck_args$args, pattern = "--no-manual")
+  checkmate::check_character(rcmdcheck_args$args, pattern = "--ignore-vignettes")
+  checkmate::check_character(rcmdcheck_args$args, "--no-vignettes")
+  checkmate::check_character(rcmdcheck_args$build_args, "--no-build-vignettes")
+  checkmate::assert_string(rcmdcheck_args$env)
   checkmate::check_logical(rcmdcheck_args$quiet)
   
   # Get package name and version

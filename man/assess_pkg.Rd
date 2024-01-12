@@ -12,7 +12,9 @@ assess_pkg(
   riskscore_data_path,
   riskscore_data_exists,
   overwrite = TRUE,
-  rcmdcheck_args = list(timeout = Inf, args = "--no-manual", quiet = TRUE),
+  rcmdcheck_args = list(timeout = Inf, args = c("--ignore-vignettes", "--no-vignettes",
+    "--no-manual"), build_args = "--no-build-vignettes", env =
+    c(`_R_CHECK_FORCE_SUGGESTS_` = "FALSE"), quiet = TRUE),
   covr_timeout = Inf
 )
 }
