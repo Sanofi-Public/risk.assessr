@@ -25,8 +25,11 @@ assess_pkg <- function(
     overwrite = TRUE,
     rcmdcheck_args = list(
       timeout = Inf,
-      args = c("--ignore-vignettes", "--no-vignettes", "--no-manual"),
-   #   build_args = "--no-build-vignettes",
+      args = c("--ignore-vignettes", 
+               "--no-vignettes", 
+               "--as-cran",
+               "--no-manual"),
+      build_args = "--no-build-vignettes",
       env = c(`_R_CHECK_FORCE_SUGGESTS_` = "FALSE"),
       quiet = FALSE
     ),
