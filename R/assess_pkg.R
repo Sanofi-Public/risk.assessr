@@ -54,6 +54,7 @@ assess_pkg <- function(
   checkmate::check_character(rcmdcheck_args$args, pattern = "--no-manual")
   checkmate::check_character(rcmdcheck_args$args, pattern = "--ignore-vignettes")
   checkmate::check_character(rcmdcheck_args$args, pattern = "--no-vignettes")
+  checkmate::check_character(rcmdcheck_args$args, pattern = "--as-cran")
   checkmate::check_character(rcmdcheck_args$build_args, pattern = "--no-build-vignettes")
   checkmate::assert_string(rcmdcheck_args$env)
   checkmate::check_logical(rcmdcheck_args$quiet)
