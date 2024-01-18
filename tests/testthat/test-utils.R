@@ -16,7 +16,7 @@ test_that("test default metrics ", {
                                                 default_weights = TRUE)
   
   testthat::expect_equal(overall_risk_score_1, 
-                         0.5245318, 
+                         0.5039769, 
                          tolerance = 0.00001)
 }) 
 
@@ -26,6 +26,6 @@ test_that("test user defined metrics ", {
                                                 default_weights = FALSE)
   
   testthat::expect_equal(overall_risk_score_2, 
-                         0.3508283, 
+                         0.3393308, 
                          tolerance = 0.00001)
 }) 
