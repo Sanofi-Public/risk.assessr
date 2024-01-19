@@ -98,8 +98,8 @@ assess_pkg <- function(
     check = "",
     covr = "",
     dependencies = "",
-    dep_score = ""
-   # revdep_score = ""
+    dep_score = "",
+    revdep_score = ""
   )
   
   pscore <- sanofi.risk.metric::pkg_riskmetric(pkg_source_path)
@@ -134,6 +134,8 @@ assess_pkg <- function(
   results$dep_score <- deps_list$dep_score
   
   # results$revdep_score <- sanofi.risk.metric::calc_reverse_dependencies(pkg_source_path)
+  
+  results$revdep_score <- 0
   
   results$export_calc <- sanofi.risk.metric::assess_exports(pkg_source_path)
  
