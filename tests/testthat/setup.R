@@ -30,6 +30,6 @@ risk_results_1 <- list(
   export_calc = 0.586281,
   check = .7,
   covr = .1084,
-  dep_score = .9706878,
-  revdep_score = .1260338
+  dep_score = .9706878
+  # revdep_score = .1260338
 )
