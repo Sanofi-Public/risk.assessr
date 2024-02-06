@@ -16,15 +16,15 @@ numeric value between \code{0} (low number of  dependencies) and
 \description{
 Calculates a regularized score based on the number of dependencies a package has.
 Convert the number of dependencies \code{NROW(x)} into a validation
-score [0,1] \deqn{ 1 / (1 + exp(-0.5 * (NROW(x) + 14))) }
+score [0,1] \deqn{ 1 / (1 + exp(-0.5 * (NROW(x) + 19))) }
 }
 \details{
-removed - 1 from the formula e.g. \deqn{ 1 - 1 / (1 + exp(NROW(x)- 14)) } to
+removed - 1 from the formula e.g. \deqn{ 1 - 1 / (1 + exp(NROW(x)- 19)) } to
 reverse the return value e.g. 0 - low; 1 - high
 
 The scoring function is the classic logistic curve \deqn{ / (1 + exp(-k(x-x[0])) }
-\eqn{x = NROW(x)}, sigmoid midpoint is 15 reverse dependencies, ie. \eqn{x[0] = 14},
+\eqn{x = NROW(x)}, sigmoid midpoint is 20 reverse dependencies, ie. \eqn{x[0] = 19},
 and logistic growth rate of \eqn{k = 0.5}.
 
-\deqn{ 1 / (1 + exp(NROW(x)- 14)) }
+\deqn{ 1 / (1 + exp(NROW(x)- 19)) }
 }
