@@ -139,6 +139,10 @@ assess_pkg <- function(
   
   results$export_calc <- sanofi.risk.metric::assess_exports(pkg_source_path)
  
+  # convert NAs and NANs to zero
+  results <- rapply( results, f=function(x) ifelse(is.nan(x),0,x), how="replace" )	  
+  results <- rapply( results, f=function(x) ifelse(is.na(x),0,x), how="replace" )
+  
   # calculate risk score with user defined metrics
   results$overall_risk_score <- 
     sanofi.risk.metric::calc_overall_risk_score(results, 
