@@ -16,13 +16,13 @@ numeric value between \code{1} (high number of reverse dependencies) and
 \description{
 Score a package for the number of reverse dependencies it has; regularized
 Convert the number of reverse dependencies \code{length(x)} into a validation
-score [0,1] \deqn{ 1 / (1 + exp(-0.5 * (sqrt(length(x)) + sqrt(15)))) }
+score [0,1] \deqn{ 1 / (1 + exp(-0.5 * (sqrt(length(x)) + sqrt(20)))) }
 }
 \details{
 The scoring function is the classic logistic curve \deqn{
 1 / (1 + exp(-k(x-x[0])) } with a square root scale for the number of reverse dependencies
-\eqn{x = sqrt(length(x))}, sigmoid midpoint is 15 reverse dependencies, ie. \eqn{x[0] =
+\eqn{x = sqrt(length(x))}, sigmoid midpoint is 20 reverse dependencies, ie. \eqn{x[0] =
 sqrt(15)}, and logistic growth rate of \eqn{k = 0.5}.
 
-\deqn{ 1 / (1 + -0.5 * exp(sqrt(length(x)) - sqrt(15))) }
+\deqn{ 1 / (1 + -0.5 * exp(sqrt(length(x)) - sqrt(20))) }
 }
