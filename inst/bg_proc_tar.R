@@ -1,8 +1,19 @@
-library(sanofi.risk.assessment.tar)
+library(here)
 library(sanofi.risk.metric)
 
+# when sourcing as background job,
+# set working directory to project root folder e.g. sanofi.risk.metric not inst
+# set copy job results to 'To results object in global environment' to have audit of job execution
+
 # choose the tar file for processing
-file_path <- file.choose()
+# choose method for uploading file
+# 1) file.choose to choose your tar file manually
+# file_path <- file.choose()
+# 2) write input path for tar file
+file_path <- file.path("/home/u1004798/github-helper-repos/data/tar-files/Sanofi/teal.builder.checks_0.0.3.tar.gz")
+
+# get initial working directory
+initial_wd <- getwd()
 
 start_time <- proc.time() 
 
@@ -12,7 +23,7 @@ pkg <- basename(file_path)
 # load file path into the data path variable
 dp <- file_path 
 
-pkg_disp <- stringr::str_extract(pkg, "[^_]+")
+pkg_disp <- stringr::str_extract(pkg, "[^-]+")
 
 pkg_source_path <- 
   sanofi.risk.assessment.tar::unpack_tarball(dp, pkg_disp)
@@ -22,31 +33,45 @@ package_installed <-
                                                     pkg_disp) 
 
 if (package_installed == TRUE ) {	
+  
   # get home directory
-  home <- setwd(Sys.getenv("HOME"))
   
-  home
+  home <- setwd(find.package("sanofi.risk.metric"))
   
+  message("home is ", home)
   
-  out_dir <- file.path(home, "github-helper-repos/sanofi.risk.metric/inst/results")
+  # home <- file.path(home, "inst")
   
-  out_dir
+  out_dir <- file.path(home, "inst/results")
+  
+  message("out_dir is ", out_dir)
+  
+  # message("here 1 says ", dr_here())
+  
+  # set working directory back to initial directory
+  setwd(initial_wd)
+  
+  # message("here 2 says ", dr_here())
+  
+  # set working directory back to initial directory
+  here::here(initial_wd)
+  
+  # message("here 3 says ", dr_here())
   
   # set up current package
   current_package <- "sanofi.risk.metric"
   
   # check if risk score data exists and set up path to risk score data
   riskscore_data_list <- 
-    sanofi.risk.assessment.tar::check_riskscore_data(current_package)
+    sanofi.risk.metric::check_riskscore_data(current_package)
   
   riskscore_data_path <- riskscore_data_list$riskscore_data_path
   
-  # data written to different data path
-  # change to out_dir?
-  riskscore_data_path
-  #[1] "/home/u1004798/R/x86_64-pc-linux-gnu-library/4.1/sanofi.risk.metric/extdata/riskdata_results.csv"
+  message("data path is ", riskscore_data_path)
   
   riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
+  
+  message("data path exists ", riskscore_data_exists)
   
   # assess package for risk
   assess_package <- 

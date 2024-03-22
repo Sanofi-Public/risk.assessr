@@ -70,6 +70,7 @@ get_result_path <- function(
 check_exists_and_overwrite <- function(path, overwrite) {
   checkmate::assert_string(path)
   checkmate::assert_logical(overwrite, len = 1)
+  
   if (fs::file_exists(path)) {
     if (isTRUE(overwrite)) {
       fs::file_delete(path)
@@ -91,6 +92,7 @@ write_data_csv <- function(data,
                            riskscore_data_path, 
                            riskscore_data_exists) {
   # convert data to dataframe
+  
   data <- as.data.frame(data)
   
   # check if file exists
@@ -194,3 +196,35 @@ calc_overall_risk_score <- function(data,
   return(pkg_score)
 }
 
+#' check if risk score data exists
+#'
+#' @param current_package - current risk assessment package
+#'
+#' @return riskscore_data_list - list with path and exists logical
+#' @export
+#'
+check_riskscore_data <- function(current_package) {
+  library(sanofi.risk.metric)
+  riskscore_data_list <- list()
+  #riskscore_data_path <- 
+  #  base::system.file("inst/extdata", 
+  #              "riskdata_results.csv", 
+  #              package = current_package)
+  riskscore_data_path <- here::here("inst", "extdata", "riskdata_results.csv")
+       
+  # riskscore_data_exists <- 
+  #  file.exists(base::system.file("inst/extdata", 
+  #                          "riskdata_results.csv", 
+  #                          package = current_package))
+  
+  riskscore_data_exists <- 
+    file.exists(riskscore_data_path)
+  
+  riskscore_data_list <- list(
+    riskscore_data_path = riskscore_data_path,
+    riskscore_data_exists = riskscore_data_exists #,
+    # test_path = test_path,
+    # test_data_exists = test_data_exists
+  )
+  return(riskscore_data_list)
+}
