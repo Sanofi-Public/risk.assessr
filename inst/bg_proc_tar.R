@@ -10,7 +10,7 @@ library(sanofi.risk.metric)
 # 1) file.choose to choose your tar file manually
 # file_path <- file.choose()
 # 2) write input path for tar file
-file_path <- file.path("/home/u1004798/github-helper-repos/data/tar-files/Sanofi/teal.builder.checks_0.0.3.tar.gz")
+file_path <- file.path("/home/u1004798/github-helper-repos/data/tar-files/tidyverse/purrr-1.0.2.tar.gz")
 
 # get initial working directory
 initial_wd <- getwd()
@@ -23,7 +23,7 @@ pkg <- basename(file_path)
 # load file path into the data path variable
 dp <- file_path 
 
-pkg_disp <- stringr::str_extract(pkg, "[^-]+")
+pkg_disp <- stringr::str_extract(pkg, "[^_]+")
 
 pkg_source_path <- 
   sanofi.risk.assessment.tar::unpack_tarball(dp, pkg_disp)
@@ -40,30 +40,19 @@ if (package_installed == TRUE ) {
   
   message("home is ", home)
   
-  # home <- file.path(home, "inst")
-  
   out_dir <- file.path(home, "inst/results")
   
   message("out_dir is ", out_dir)
   
-  # message("here 1 says ", dr_here())
-  
-  # set working directory back to initial directory
-  setwd(initial_wd)
-  
-  # message("here 2 says ", dr_here())
-  
   # set working directory back to initial directory
   here::here(initial_wd)
-  
-  # message("here 3 says ", dr_here())
   
   # set up current package
   current_package <- "sanofi.risk.metric"
   
   # check if risk score data exists and set up path to risk score data
   riskscore_data_list <- 
-    sanofi.risk.metric::check_riskscore_data(current_package)
+    sanofi.risk.metric::check_riskscore_data_internal()
   
   riskscore_data_path <- riskscore_data_list$riskscore_data_path
   

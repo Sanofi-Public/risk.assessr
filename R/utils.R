@@ -198,33 +198,22 @@ calc_overall_risk_score <- function(data,
 
 #' check if risk score data exists
 #'
-#' @param current_package - current risk assessment package
-#'
 #' @return riskscore_data_list - list with path and exists logical
 #' @export
 #'
-check_riskscore_data <- function(current_package) {
+check_riskscore_data_internal <- function() {
   library(sanofi.risk.metric)
+  
   riskscore_data_list <- list()
-  #riskscore_data_path <- 
-  #  base::system.file("inst/extdata", 
-  #              "riskdata_results.csv", 
-  #              package = current_package)
+  
   riskscore_data_path <- here::here("inst", "extdata", "riskdata_results.csv")
-       
-  # riskscore_data_exists <- 
-  #  file.exists(base::system.file("inst/extdata", 
-  #                          "riskdata_results.csv", 
-  #                          package = current_package))
   
   riskscore_data_exists <- 
     file.exists(riskscore_data_path)
   
   riskscore_data_list <- list(
     riskscore_data_path = riskscore_data_path,
-    riskscore_data_exists = riskscore_data_exists #,
-    # test_path = test_path,
-    # test_data_exists = test_data_exists
+    riskscore_data_exists = riskscore_data_exists 
   )
   return(riskscore_data_list)
 }
