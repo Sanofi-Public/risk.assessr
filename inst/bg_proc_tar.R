@@ -1,4 +1,5 @@
 library(here)
+library(rlang)
 library(sanofi.risk.metric)
 
 # when sourcing as background job,
@@ -10,7 +11,13 @@ library(sanofi.risk.metric)
 # 1) file.choose to choose your tar file manually
 # file_path <- file.choose()
 # 2) write input path for tar file
-file_path <- file.path("/home/u1004798/github-helper-repos/data/tar-files/tidyverse/purrr-1.0.2.tar.gz")
+# file_path <- file.path("/home/u1004798/github-helper-repos/data/tar-files/tidyverse/purrr-1.0.2.tar.gz")
+
+# 3) add data tunneling method
+tar_file <- "purrr-1.0.2.tar.gz"
+
+file_path <- paste0("/home/u1004798/github-helper-repos/data/tar-files/tidyverse/", {{tar_file}})
+
 
 # get initial working directory
 initial_wd <- getwd()
