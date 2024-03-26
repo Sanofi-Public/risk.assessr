@@ -12,81 +12,93 @@ library(sanofi.risk.metric)
 # file_path <- file.choose()
 # 2) write input path for tar file
 # file_path <- file.path("/home/u1004798/github-helper-repos/data/tar-files/tidyverse/purrr-1.0.2.tar.gz")
-
 # 3) add data tunneling method
-tar_file <- "purrr-1.0.2.tar.gz"
 
-file_path <- paste0("/home/u1004798/github-helper-repos/data/tar-files/tidyverse/", {{tar_file}})
+bg_proc_tar <- function(tar_file) {
+  file_path <- paste0("/home/u1004798/github-helper-repos/data/input_bg_data/", {{tar_file}})
+  
+  
+  # get initial working directory
+  initial_wd <- getwd()
+  
+  start_time <- proc.time() 
+  
+  # get the name of the file
+  pkg <- basename(file_path)
+  
+  # load file path into the data path variable
+  dp <- file_path 
+  
+  pkg_disp <- stringr::str_extract(pkg, "[^_]+")
+  
+  pkg_source_path <- 
+    sanofi.risk.assessment.tar::unpack_tarball(dp, pkg_disp)
+  
+  package_installed <- 
+    sanofi.risk.assessment.tar::install_package_local(pkg_source_path, 
+                                                      pkg_disp) 
+  
+  if (package_installed == TRUE ) {	
+    
+    # get home directory
+    
+    home <- setwd(find.package("sanofi.risk.metric"))
+    
+    message("home is ", home)
+    
+    out_path <- paste0("/home/u1004798/github-helper-repos/sanofi.risk.metric")
+    
+    out_dir <- file.path(out_path, "inst/results")
+    
+    message("out_dir is ", out_dir)
+    
+    # set working directory back to initial directory
+    here::here(initial_wd)
+    
+    # set up current package
+    current_package <- "sanofi.risk.metric"
+    
+    # check if risk score data exists and set up path to risk score data
+    riskscore_data_list <- 
+      sanofi.risk.metric::check_riskscore_data_internal()
+    
+    riskscore_data_path <- riskscore_data_list$riskscore_data_path
+    
+    message("data path is ", riskscore_data_path)
+    
+    riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
+    
+    message("data path exists ", riskscore_data_exists)
+    
+    # assess package for risk
+    assess_package <- 
+      sanofi.risk.metric::assess_pkg(pkg,
+                                     dp,
+                                     pkg_source_path,
+                                     out_dir,
+                                     overwrite = TRUE,
+                                     riskscore_data_path,
+                                     riskscore_data_exists
+      ) 
+    
+    # calculate elapsed time
+    end_time <- proc.time()  
+    
+    elapsed_time <- end_time - start_time 
+    
+    message("Elapsed time (seconds) is ", elapsed_time["elapsed"])
+    
+  } else {
+    message("Package not installed")
+  }
 
+}
 
-# get initial working directory
-initial_wd <- getwd()
+# create path to tar files
+input_tar_path <- file.path("/home/u1004798/github-helper-repos/data/input_bg_data")
 
-start_time <- proc.time() 
+# create list of tar files 
+input_tar_list <- list.files(path = input_tar_path, pattern = "*.tar.gz$", full.names = FALSE)
 
-# get the name of the file
-pkg <- basename(file_path)
-
-# load file path into the data path variable
-dp <- file_path 
-
-pkg_disp <- stringr::str_extract(pkg, "[^_]+")
-
-pkg_source_path <- 
-  sanofi.risk.assessment.tar::unpack_tarball(dp, pkg_disp)
-
-package_installed <- 
-  sanofi.risk.assessment.tar::install_package_local(pkg_source_path, 
-                                                    pkg_disp) 
-
-if (package_installed == TRUE ) {	
-  
-  # get home directory
-  
-  home <- setwd(find.package("sanofi.risk.metric"))
-  
-  message("home is ", home)
-  
-  out_dir <- file.path(home, "inst/results")
-  
-  message("out_dir is ", out_dir)
-  
-  # set working directory back to initial directory
-  here::here(initial_wd)
-  
-  # set up current package
-  current_package <- "sanofi.risk.metric"
-  
-  # check if risk score data exists and set up path to risk score data
-  riskscore_data_list <- 
-    sanofi.risk.metric::check_riskscore_data_internal()
-  
-  riskscore_data_path <- riskscore_data_list$riskscore_data_path
-  
-  message("data path is ", riskscore_data_path)
-  
-  riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
-  
-  message("data path exists ", riskscore_data_exists)
-  
-  # assess package for risk
-  assess_package <- 
-    sanofi.risk.metric::assess_pkg(pkg,
-                                   dp,
-                                   pkg_source_path,
-                                   out_dir,
-                                   overwrite = TRUE,
-                                   riskscore_data_path,
-                                   riskscore_data_exists
-    ) 
-  
-  # calculate elapsed time
-  end_time <- proc.time()  
-  
-  elapsed_time <- end_time - start_time 
-  
-  message("Elapsed time (seconds) is ", elapsed_time["elapsed"])
-  
-} else {
-  message("Package not installed")
-}	 
+# apply list vector to function
+purrr::map(input_tar_list, bg_proc_tar)
