@@ -15,6 +15,7 @@ library(sanofi.risk.metric)
 # 3) add data tunneling method
 
 bg_proc_tar <- function(tar_file) {
+  
   file_path <- paste0("/home/u1004798/github-helper-repos/data/input_bg_data/", {{tar_file}})
   
   
@@ -100,5 +101,10 @@ input_tar_path <- file.path("/home/u1004798/github-helper-repos/data/input_bg_da
 # create list of tar files 
 input_tar_list <- list.files(path = input_tar_path, pattern = "*.tar.gz$", full.names = FALSE)
 
+
+# create list with 1 tar file
+# input_tar_list <- list.files(path = input_tar_path, pattern = "dplyr_1.0.1.tar.gz$", full.names = FALSE)
+
 # apply list vector to function
 purrr::map(input_tar_list, bg_proc_tar)
+
