@@ -196,6 +196,40 @@ calc_overall_risk_score <- function(data,
   return(pkg_score)
 }
 
+#' Calculate package risk profile
+#'
+#' @param risk_data overall risk score
+#'
+#' @return risk_profile
+#' @export
+#'
+calc_risk_profile <- function(risk_data) {
+  
+  # get risk profile thresholds
+  risk_profile_thresholds <- sanofi.risk.metric::create_risk_profile()
+  
+  risk_data <- as.data.frame(risk_data)
+  # set up risk profile thresholds
+  high_risk_threshold <- risk_profile_thresholds$high_risk_threshold
+  medium_risk_threshold <- risk_profile_thresholds$medium_risk_threshold
+  low_risk_threshold <- risk_profile_thresholds$low_risk_threshold
+  
+  # perform risk profile 
+  risk_data <- risk_data |> 
+    dplyr::mutate(risk_profile = dplyr::case_when(risk_data <= low_risk_threshold ~ "Low",
+                                                  risk_data <= medium_risk_threshold ~ "Medium",
+                                                  risk_data <= high_risk_threshold ~ "High",
+                                                  TRUE ~ " ")) 
+  
+  # pull risk profile
+  risk_profile <- risk_data |> dplyr::pull(risk_profile)
+  
+  message(glue::glue("Risk profile calculated"))  
+  
+  return(risk_profile)
+}
+
+
 #' check if risk score data exists
 #'
 #' @return riskscore_data_list - list with path and exists logical
