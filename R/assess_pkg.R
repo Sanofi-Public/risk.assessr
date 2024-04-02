@@ -146,6 +146,10 @@ assess_pkg <- function(
     sanofi.risk.metric::calc_overall_risk_score(results, 
                                                 default_weights = FALSE)
   
+  # calculate risk profile with user defined thresholds
+  results$risk_profile <- 
+    sanofi.risk.metric::calc_risk_profile(results$overall_risk_score)
+  
   # write data to csv
   sanofi.risk.metric::write_data_csv(results, 
                                      riskscore_data_path, 

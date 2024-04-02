@@ -70,6 +70,7 @@ get_result_path <- function(
 check_exists_and_overwrite <- function(path, overwrite) {
   checkmate::assert_string(path)
   checkmate::assert_logical(overwrite, len = 1)
+  
   if (fs::file_exists(path)) {
     if (isTRUE(overwrite)) {
       fs::file_delete(path)
@@ -91,6 +92,7 @@ write_data_csv <- function(data,
                            riskscore_data_path, 
                            riskscore_data_exists) {
   # convert data to dataframe
+  
   data <- as.data.frame(data)
   
   # check if file exists
@@ -194,3 +196,58 @@ calc_overall_risk_score <- function(data,
   return(pkg_score)
 }
 
+#' Calculate package risk profile
+#'
+#' @param risk_data overall risk score
+#'
+#' @return risk_profile
+#' @export
+#'
+calc_risk_profile <- function(risk_data) {
+  
+  # get risk profile thresholds
+  risk_profile_thresholds <- sanofi.risk.metric::create_risk_profile()
+  
+  risk_data <- as.data.frame(risk_data)
+  # set up risk profile thresholds
+  high_risk_threshold <- risk_profile_thresholds$high_risk_threshold
+  medium_risk_threshold <- risk_profile_thresholds$medium_risk_threshold
+  low_risk_threshold <- risk_profile_thresholds$low_risk_threshold
+  
+  # perform risk profile 
+  risk_data <- risk_data |> 
+    dplyr::mutate(risk_profile = dplyr::case_when(risk_data <= low_risk_threshold ~ "Low",
+                                                  risk_data <= medium_risk_threshold ~ "Medium",
+                                                  risk_data <= high_risk_threshold ~ "High",
+                                                  TRUE ~ " ")) 
+  
+  # pull risk profile
+  risk_profile <- risk_data |> dplyr::pull(risk_profile)
+  
+  message(glue::glue("Risk profile calculated"))  
+  
+  return(risk_profile)
+}
+
+
+#' check if risk score data exists
+#'
+#' @return riskscore_data_list - list with path and exists logical
+#' @export
+#'
+check_riskscore_data_internal <- function() {
+  library(sanofi.risk.metric)
+  
+  riskscore_data_list <- list()
+  
+  riskscore_data_path <- here::here("inst", "extdata", "riskdata_results.csv")
+  
+  riskscore_data_exists <- 
+    file.exists(riskscore_data_path)
+  
+  riskscore_data_list <- list(
+    riskscore_data_path = riskscore_data_path,
+    riskscore_data_exists = riskscore_data_exists 
+  )
+  return(riskscore_data_list)
+}
