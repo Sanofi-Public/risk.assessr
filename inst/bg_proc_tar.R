@@ -6,11 +6,21 @@ library(sanofi.risk.metric)
 # set working directory to project root folder e.g. sanofi.risk.metric not inst
 # set copy job results to 'To results object in global environment' to have audit of job execution
 
-# for eWise need to set tmpDir to own direcetory rather than
+# for eWise need to set tmpDir to own directory rather than
 # eWise default
 # R_SESSION_TMPDIR /home/u1004798/tmp  
 # Sys.setenv(R_SESSION_TMPDIR = "/home/u1004798/tmp")
-# Sys.getenv("R_SESSION_TMPDIR")
+# Sys.getenv("R_SESSION_TMPDIR") - working?
+# 
+# Valentin PLANES-EXT 3h ago3 hours ago  Additional comments
+# In your R session do
+# Sys.setenv(R_SESSION_TMPDIR="/home/u1004798/tmp")
+# don't forget to create "tmp" dir ;)
+# 
+# unix:::set_tempdir("/home/u1004798/tmp")
+# [1] "/home/u1004798/tmp"
+#> tempdir()
+# [1] "/home/u1004798/tmp" - working unixtools - loaded in this directory
 
 # choose the tar file for processing
 # choose method for uploading file
