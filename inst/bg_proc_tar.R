@@ -6,6 +6,12 @@ library(sanofi.risk.metric)
 # set working directory to project root folder e.g. sanofi.risk.metric not inst
 # set copy job results to 'To results object in global environment' to have audit of job execution
 
+# for eWise need to set tmpDir to own direcetory rather than
+# eWise default
+# R_SESSION_TMPDIR /home/u1004798/tmp  
+# Sys.setenv(R_SESSION_TMPDIR = "/home/u1004798/tmp")
+# Sys.getenv("R_SESSION_TMPDIR")
+
 # choose the tar file for processing
 # choose method for uploading file
 # 1) file.choose to choose your tar file manually
@@ -98,6 +104,7 @@ bg_proc_tar <- function(tar_file) {
 }
 
 # create path to tar files
+
 input_tar_path <- file.path("/home/u1004798/github-helper-repos/data/input_bg_data")
 
 # create list of tar files 
