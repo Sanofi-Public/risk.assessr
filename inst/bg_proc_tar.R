@@ -1,5 +1,6 @@
 library(here)
 library(rlang)
+library(unix)
 library(sanofi.risk.metric)
 
 # when sourcing as background job,
@@ -8,23 +9,26 @@ library(sanofi.risk.metric)
 
 # for eWise need to set tmpDir to own directory rather than
 # eWise default
-# R_SESSION_TMPDIR /home/u1004798/tmp  
-# Sys.setenv(R_SESSION_TMPDIR = "/home/u1004798/tmp")
-# Sys.getenv("R_SESSION_TMPDIR") - working?
-# Restart R
+# 
+# # Restart R
 # Rebuild the package
 # #Load all
+# 
+# R_SESSION_TMPDIR /home/u1004798/tmp  
+# - working?
+# Sys.setenv(R_SESSION_TMPDIR = "/home/u1004798/tmp")
+# Sys.getenv("R_SESSION_TMPDIR") 
+# 
+# # unix:::set_tempdir("/home/u1004798/tmp")
+# [1] "/home/u1004798/tmp"
+#> tempdir()
+# [1] "/home/u1004798/tmp" - working unixtools - loaded in this directory
 # 
 # Valentin PLANES-EXT 3h ago3 hours ago  Additional comments
 # In your R session do
 # Sys.setenv(R_SESSION_TMPDIR="/home/u1004798/tmp")
 # don't forget to create "tmp" dir ;)
 # 
-# unix:::set_tempdir("/home/u1004798/tmp")
-# [1] "/home/u1004798/tmp"
-#> tempdir()
-# [1] "/home/u1004798/tmp" - working unixtools - loaded in this directory
-
 # choose the tar file for processing
 # choose method for uploading file
 # 1) file.choose to choose your tar file manually
@@ -117,6 +121,8 @@ bg_proc_tar <- function(tar_file) {
 }
 
 # create path to tar files
+Sys.getenv("R_SESSION_TMPDIR") 
+tempdir()
 
 input_tar_path <- file.path("/home/u1004798/github-helper-repos/data/input_bg_data")
 
