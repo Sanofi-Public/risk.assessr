@@ -11,6 +11,9 @@ library(sanofi.risk.metric)
 # R_SESSION_TMPDIR /home/u1004798/tmp  
 # Sys.setenv(R_SESSION_TMPDIR = "/home/u1004798/tmp")
 # Sys.getenv("R_SESSION_TMPDIR") - working?
+# Restart R
+# Rebuild the package
+# #Load all
 # 
 # Valentin PLANES-EXT 3h ago3 hours ago  Additional comments
 # In your R session do
