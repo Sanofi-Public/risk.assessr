@@ -38,6 +38,16 @@ library(sanofi.risk.metric)
 # file paths in line 19 and line 100 are absolute to avoid known R package problems with maintaining
 # reliable package paths - when setting up a local repo, these need to be set for local use 
 # 3) add data tunneling method
+# 
+# processing of vignettes
+# when running bg_proc_tar, the following message may appear:
+#  Run R CMD build without --no-build-vignettes to re-create
+#  go to sanofi.risk.metric::assess_pkg() line 32
+#  comment out build_args = "--no-build-vignettes"
+#  Document package
+#  Install package
+#  Load All
+#  re-run bg_proc_tar
 
 bg_proc_tar <- function(tar_file) {
   
