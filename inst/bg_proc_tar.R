@@ -19,21 +19,34 @@ library(sanofi.risk.metric)
 # for eWise need to set tmpDir to own directory rather than
 # eWise default
 # run set_temp_dir_linux() in the inst folder
-
-# when sourcing as background job,
-# set working directory to project root folder e.g. sanofi.risk.metric not inst
-# set copy job results to 'To results object in global environment' to have audit of job execution
+#
+# file paths in line 19 and line 100 are absolute to avoid known R package problems with maintaining
+# reliable package paths - when setting up a local repo, these need to be set for local use 
 # 
+##############################################
+# Processing of individual tar files
 # choose the tar file for processing
+# 
 # choose method for uploading file
 # 1) file.choose to choose your tar file manually
 # file_path <- file.choose()
 # 2) write input path for tar file
 # file_path <- file.path("/home/u1004798/github-helper-repos/data/tar-files/tidyverse/purrr-1.0.2.tar.gz")
-# file paths in line 19 and line 100 are absolute to avoid known R package problems with maintaining
-# reliable package paths - when setting up a local repo, these need to be set for local use 
-# 3) add data tunneling method - add tar files to folder input_bg_data
 # 
+##############################################
+# Processing of multiple tar files
+# data tunneling method - copy tar files to folder input_bg_data
+# 
+##############################################
+# Run bg_proc_tar as a background job
+# 
+# Click Source with Down arrow
+# 
+# Choose ` Source as Background job`
+# 
+# when sourcing as background job,
+# set working directory to project root folder e.g. sanofi.risk.metric not inst
+# set copy job results to 'To results object in global environment' to have audit of job execution
 
 bg_proc_tar <- function(tar_file) {
   
