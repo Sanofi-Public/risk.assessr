@@ -1,0 +1,30 @@
+---
+title: "How to process tar files in background"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to process tar files in background}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Overview - Background processing of tar files
+
+The R script **bg_proc_tar** execute the creation of risk metrics for R packages in a batch mode that can
+be run in background.
+
+This script **bg_proc_tar** is located in the **inst** folder.
+
+# Setup - Background processing of tar files
+
+```{r setup}
+library(sanofi.risk.metric)
+```
+
+# Usage - Background processing of tar files
