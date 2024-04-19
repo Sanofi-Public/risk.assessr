@@ -16,15 +16,47 @@ knitr::opts_chunk$set(
 
 # Overview - Background processing of tar files
 
-The R script **bg_proc_tar** execute the creation of risk metrics for R packages in a batch mode that can
+The R script **bg_proc_tar** executes the creation of risk metrics for R packages in a batch mode that can
 be run in background.
 
 This script **bg_proc_tar** is located in the **inst** folder.
+
+This script sets up the batch mode with an input path for the tar files and output file for the riskmetrics results and calls the the **sanofi.risk.metric::assess_pkg()** to execute the risk metric processing
 
 # Setup - Background processing of tar files
 
 ```{r setup}
 library(sanofi.risk.metric)
 ```
+
+## Initial Steps
+
+1. Restart R
+2. Rebuild the package
+3. Load all
+
+## File paths
+
+Unfortunately, the file paths in lines 53 and 136 (input file path) and line 84 (output path) in **bg_proc_tar()** are absolute to avoid known R package problems with maintaining reliable package paths.
+
+When setting up a local repo, the user will need to specify folders for the input path and the output path to execute this script locally. 
+
+The user will also need to ensure that they have read and write permission for the specified folders.
+
+## Set up input/output file paths in the eWise environment
+
+As the eWise environment is a Linux environment, the input path can be set up in the following manner:
+
+| folder path | type  | Comments |
+|-------------|-------|----------|
+| /home/**username**/github-helper-repos/data/input_bg_data/ | input - needed in lines 53 and 136  | This is a suggested path including the username of the user; however, the user is free to create their own |
+| /home/**username**/github-helper-repos/sanofi.risk.metric | output - needed in line84  | This is a suggested path including the username of the user; however, the user is free to create their own. The actual folder is out_dir <- file.path(out_path, "inst/results") which consists of the **out_path** specified plus **inst/results** |
+
+## Set up tmp file path in the eWise environment
+
+- explain set_temp_dir_linux
+
+## include Windows setup
+
 
 # Usage - Background processing of tar files
