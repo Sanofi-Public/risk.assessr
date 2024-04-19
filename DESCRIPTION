@@ -18,6 +18,7 @@ Imports:
   fs,
   ggplot2,
   glue,
+  here,
   magrittr,
   plotly,
   purrr,
@@ -33,6 +34,7 @@ Imports:
 Suggests: 
   pkgload,
   testthat (>= 3.0.0),
+  unix,
   utils,
   withr
 Encoding: UTF-8
