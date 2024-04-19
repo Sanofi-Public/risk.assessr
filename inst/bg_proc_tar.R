@@ -3,31 +3,26 @@ library(rlang)
 library(unix)
 library(sanofi.risk.metric)
 
-# when sourcing as background job,
-# set working directory to project root folder e.g. sanofi.risk.metric not inst
-# set copy job results to 'To results object in global environment' to have audit of job execution
+# Restart R
+# Rebuild the package
+# #Load all
+
+# processing of vignettes
+# when running bg_proc_tar, the following message may appear:
+#  Run R CMD build without --no-build-vignettes to re-create
+#  go to sanofi.risk.metric::assess_pkg() line 32
+#  comment out build_args = "--no-build-vignettes"
+#  Document package
+#  Install package
+#  Load All
 
 # for eWise need to set tmpDir to own directory rather than
 # eWise default
-# 
-# # Restart R
-# Rebuild the package
-# #Load all
-# 
-# R_SESSION_TMPDIR /home/u1004798/tmp  
-# - working?
-# Sys.setenv(R_SESSION_TMPDIR = "/home/u1004798/tmp")
-# Sys.getenv("R_SESSION_TMPDIR") 
-# 
-# # unix:::set_tempdir("/home/u1004798/tmp")
-# [1] "/home/u1004798/tmp"
-#> tempdir()
-# [1] "/home/u1004798/tmp" - working unixtools - loaded in this directory
-# 
-# Valentin PLANES-EXT 3h ago3 hours ago  Additional comments
-# In your R session do
-# Sys.setenv(R_SESSION_TMPDIR="/home/u1004798/tmp")
-# don't forget to create "tmp" dir ;)
+# run set_temp_dir_linux() in the inst folder
+
+# when sourcing as background job,
+# set working directory to project root folder e.g. sanofi.risk.metric not inst
+# set copy job results to 'To results object in global environment' to have audit of job execution
 # 
 # choose the tar file for processing
 # choose method for uploading file
@@ -37,17 +32,8 @@ library(sanofi.risk.metric)
 # file_path <- file.path("/home/u1004798/github-helper-repos/data/tar-files/tidyverse/purrr-1.0.2.tar.gz")
 # file paths in line 19 and line 100 are absolute to avoid known R package problems with maintaining
 # reliable package paths - when setting up a local repo, these need to be set for local use 
-# 3) add data tunneling method
+# 3) add data tunneling method - add tar files to folder input_bg_data
 # 
-# processing of vignettes
-# when running bg_proc_tar, the following message may appear:
-#  Run R CMD build without --no-build-vignettes to re-create
-#  go to sanofi.risk.metric::assess_pkg() line 32
-#  comment out build_args = "--no-build-vignettes"
-#  Document package
-#  Install package
-#  Load All
-#  re-run bg_proc_tar
 
 bg_proc_tar <- function(tar_file) {
   
