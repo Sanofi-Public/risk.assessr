@@ -48,9 +48,11 @@ library(sanofi.risk.metric)
 # set working directory to project root folder e.g. sanofi.risk.metric not inst
 # set copy job results to 'To results object in global environment' to have audit of job execution
 
-bg_proc_tar <- function(tar_file) {
+bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
   
-  file_path <- paste0("/home/u1004798/github-helper-repos/data/input_bg_data/", {{tar_file}})
+  input_path <- input_tar_path
+  
+  file_path <- paste0(input_path,"/", {{tar_file}})
   
   
   # get initial working directory
@@ -81,7 +83,9 @@ bg_proc_tar <- function(tar_file) {
     
     message("home is ", home)
     
-    out_path <- paste0("/home/u1004798/github-helper-repos/sanofi.risk.metric")
+    # out_path <- paste0("/home/u1004798/github-helper-repos/sanofi.risk.metric")
+    
+    message("out path is ", out_path)
     
     out_dir <- file.path(out_path, "inst/results")
     
@@ -126,22 +130,50 @@ bg_proc_tar <- function(tar_file) {
   } else {
     message("Package not installed")
   }
+  
+}
 
+check_dir <- function(dir_to_check) {
+  # check if the temp directory doesn't exist
+  if (!dir.exists(dir_to_check)) {
+    message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
+    # create directory with all the files 
+    # in the current directory have all permissions type
+    dir.create(dir_to_check, showWarnings = TRUE, recursive = FALSE, mode = "0777")
+    # check directory existence
+  }
+  message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
 }
 
 # create path to tar files
-Sys.getenv("R_SESSION_TMPDIR") 
-tempdir()
 
-input_tar_path <- file.path("/home/u1004798/github-helper-repos/data/input_bg_data")
+# get the user name
+user <- Sys.info()["user"]
+
+# create tmp dir based on user name
+itp <- paste0("/home/", user, "/github-helper-repos/data/input_bg_data")
+
+input_tar_path <- file.path(itp)
+
+
+# check directory existence
+check_dir(input_tar_path)
 
 # create list of tar files 
 input_tar_list <- list.files(path = input_tar_path, pattern = "*.tar.gz$", full.names = FALSE)
 
+# create output path for results
+out_path <- paste0("/home/", user, "/github-helper-repos/sanofi.risk.metric")
+
+# check directory existence
+check_dir(out_path)
 
 # create list with 1 tar file
 # input_tar_list <- list.files(path = input_tar_path, pattern = "dplyr_1.0.1.tar.gz$", full.names = FALSE)
 
 # apply list vector to function
-purrr::map(input_tar_list, bg_proc_tar)
+purrr::pmap(list(input_tar_list, 
+                 input_tar_path, 
+                 out_path), bg_proc_tar)
+
 
