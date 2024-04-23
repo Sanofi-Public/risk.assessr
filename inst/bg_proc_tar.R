@@ -145,35 +145,55 @@ check_dir <- function(dir_to_check) {
   message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
 }
 
-# create path to tar files
+bg_proc_tar_setup <- function() {
+  
+  # create path to tar files
+  
+  # get the user name
+  user <- Sys.info()["user"]
+  
+  # create tmp dir based on user name
+  itp <- paste0("/home/", 
+                user, 
+                "/github-helper-repos/data/input_bg_data")
+  
+  input_tar_path <- file.path(itp)
+  
+  
+  # check directory existence
+  check_dir(input_tar_path)
+  
+  # create list of tar files 
+  input_tar_list <- list.files(path = input_tar_path, 
+                               pattern = "*.tar.gz$", 
+                               full.names = FALSE)
+  
+  # create output path for results
+  out_path <- paste0("/home/", 
+                     user, 
+                     "/github-helper-repos/sanofi.risk.metric")
+  
+  # check directory existence
+  check_dir(out_path)
+  
+  bpt_list <- list(
+    input_tar_path = input_tar_path,
+    input_tar_list = input_tar_list,
+    out_path =  out_path 
+  )
+  return(bpt_list)
+}
 
-# get the user name
-user <- Sys.info()["user"]
-
-# create tmp dir based on user name
-itp <- paste0("/home/", user, "/github-helper-repos/data/input_bg_data")
-
-input_tar_path <- file.path(itp)
-
-
-# check directory existence
-check_dir(input_tar_path)
-
-# create list of tar files 
-input_tar_list <- list.files(path = input_tar_path, pattern = "*.tar.gz$", full.names = FALSE)
-
-# create output path for results
-out_path <- paste0("/home/", user, "/github-helper-repos/sanofi.risk.metric")
-
-# check directory existence
-check_dir(out_path)
+bpt_list <- bg_proc_tar_setup()
 
 # create list with 1 tar file
 # input_tar_list <- list.files(path = input_tar_path, pattern = "dplyr_1.0.1.tar.gz$", full.names = FALSE)
 
 # apply list vector to function
-purrr::pmap(list(input_tar_list, 
-                 input_tar_path, 
-                 out_path), bg_proc_tar)
+purrr::pmap(list(bpt_list$input_tar_list, 
+                 bpt_list$input_tar_path, 
+                 bpt_list$out_path), 
+            bg_proc_tar)
+
 
 
