@@ -147,7 +147,7 @@ check_dir <- function(dir_to_check) {
 
 set_temp_dir_linux <- function() {
   # get the user name
-  browser()
+  
   user <- Sys.info()["user"]
   
   # create tmp dir based on user name
