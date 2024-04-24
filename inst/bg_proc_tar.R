@@ -83,8 +83,6 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
     
     message("home is ", home)
     
-    # out_path <- paste0("/home/u1004798/github-helper-repos/sanofi.risk.metric")
-    
     message("out path is ", out_path)
     
     out_dir <- file.path(out_path, "inst/results")
