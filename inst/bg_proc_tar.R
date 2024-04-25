@@ -48,6 +48,8 @@ library(sanofi.risk.metric)
 # set working directory to project root folder e.g. sanofi.risk.metric not inst
 # set copy job results to 'To results object in global environment' to have audit of job execution
 
+# background process main function ----
+
 bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
   
   input_path <- input_tar_path
@@ -131,6 +133,8 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
   
 }
 
+# check directory ----
+
 check_dir <- function(dir_to_check) {
   # check if the temp directory doesn't exist
   if (!dir.exists(dir_to_check)) {
@@ -142,6 +146,8 @@ check_dir <- function(dir_to_check) {
   }
   message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
 }
+
+# setup temp directory for Linux ----
 
 set_temp_dir_linux <- function() {
   # get the user name
@@ -173,6 +179,8 @@ set_temp_dir_linux <- function() {
   unix:::set_tempdir(tmp_dir)
   message("tempdir is ", tempdir())
 }
+
+# background process setup ----
 
 bg_proc_tar_setup <- function() {
   

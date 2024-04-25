@@ -1,11 +1,13 @@
 library(rstudioapi)
 
-# create path to script file
+# create path to script file ----
 
-# get the user name
+# get the user name ----
 user <- Sys.info()["user"]
 
-# create input dir based on user name
+# include directory creation?????
+
+# create input dir based on user name ----
 ip <- paste0("/home/", 
               user, 
               "/github-helper-repos/sanofi.risk.metric/inst")
@@ -14,7 +16,7 @@ input_path <- file.path(ip)
 
 script_path <- paste0(input_path, "/bg_proc_tar.R")
 
-# create path to working directory
+# create path to working directory ----
 
 wd <- paste0("/home/", 
              user, 
