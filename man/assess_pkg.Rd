@@ -31,7 +31,7 @@ assess_pkg(
 
 \item{riskscore_data_exists}{logical with T/F if risk score data exists}
 
-\item{overwrite}{Logical (T/F). Whether or not to overwrite existing scorecard results}
+\item{overwrite}{Logical (T/F). Whether or not to overwrite existing risk metric results}
 
 \item{rcmdcheck_args}{- arguments for R Cmd check}
 

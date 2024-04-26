@@ -8,7 +8,7 @@
 #' @param out_dir path for writing results
 #' @param riskscore_data_path data path of current risk assessment package
 #' @param riskscore_data_exists logical with T/F if risk score data exists
-#' @param overwrite Logical (T/F). Whether or not to overwrite existing scorecard results
+#' @param overwrite Logical (T/F). Whether or not to overwrite existing risk metric results
 #' @param rcmdcheck_args - arguments for R Cmd check
 #' @param covr_timeout - setting for covr time out
 #'
