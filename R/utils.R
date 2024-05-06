@@ -179,8 +179,9 @@ assess_exports <- function(data) {
 #' @export
 #'
 calc_overall_risk_score <- function(data, 
-                                    default_weights = TRUE) {
+                                    default_weights = FALSE) {
   # create weights profile
+  
   if (default_weights == TRUE) {
     weights <- add_default_risk_weights(data) 
     message(glue::glue("Default weights used"))
@@ -250,4 +251,49 @@ check_riskscore_data_internal <- function() {
     riskscore_data_exists = riskscore_data_exists 
   )
   return(riskscore_data_list)
+}
+
+recalc_risk_scores <- function(comments) {
+  
+ #  current_package <- "sanofi.risk.metric"
+  
+  # check if risk score data exists and set up path to risk score data
+  riskscore_data_list <- 
+    sanofi.risk.metric::check_riskscore_data_internal()
+  
+  riskscore_data_path <- riskscore_data_list$riskscore_data_path
+  
+  message("data path is ", riskscore_data_path)
+  
+  riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
+  
+  results <- read.csv(file.path(riskscore_data_path))
+  
+  results <- results |> 
+    dplyr::select(-X) 
+  
+  # convert NAs and NANs to zero
+  results <- rapply( results, f=function(x) ifelse(is.nan(x),0,x), how="replace" )	  
+  results <- rapply( results, f=function(x) ifelse(is.na(x),0,x), how="replace" )
+  
+  # calculate risk score with user defined metrics
+    results$overall_risk_score <- results |>
+    split(1:nrow(results)) %>%
+    purrr::map(sanofi.risk.metric::calc_overall_risk_score) %>%
+    unlist()
+  
+  
+  # calculate risk profile with user defined thresholds
+ # results$risk_profile <- 
+ #    sanofi.risk.metric::calc_risk_profile(results$overall_risk_score)
+  
+#  results <- results |> 
+#    dplyr::mutate(comments = "Initial run March - April 2024 without rev deps", 
+#                  .before = has_bug_reports_url)
+  
+  # write data to csv
+#  sanofi.risk.metric::write_data_csv(results, 
+#                                     riskscore_data_path, 
+#                                     riskscore_data_exists)
+  
 }
