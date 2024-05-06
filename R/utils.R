@@ -278,14 +278,17 @@ recalc_risk_scores <- function(comments) {
   
   # calculate risk score with user defined metrics
     results$overall_risk_score <- results |>
-    split(1:nrow(results)) %>%
-    purrr::map(sanofi.risk.metric::calc_overall_risk_score) %>%
+    split(1:nrow(results)) |> 
+    purrr::map(sanofi.risk.metric::calc_overall_risk_score) |> 
     unlist()
   
   
   # calculate risk profile with user defined thresholds
- # results$risk_profile <- 
- #    sanofi.risk.metric::calc_risk_profile(results$overall_risk_score)
+ results$risk_profile <- results |>
+   dplyr::select(overall_risk_score) |> 
+   split(1:nrow(results)) |>
+   purrr::map(sanofi.risk.metric::calc_risk_profile) |> 
+   unlist()
   
 #  results <- results |> 
 #    dplyr::mutate(comments = "Initial run March - April 2024 without rev deps", 
