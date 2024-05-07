@@ -29,3 +29,22 @@ test_that("test user defined metrics ", {
                          0.3508283, 
                          tolerance = 0.00001)
 }) 
+
+
+test_that("test risk profile with user defined weights", {
+  high_level <- 
+    sanofi.risk.metric::calc_risk_profile(high_overall_risk_score)
+  expect_equal(high_level, "High")
+})
+
+test_that("test risk profile with Medium overall risk score", {
+  medium_level <- 
+    sanofi.risk.metric::calc_risk_profile(medium_overall_risk_score)
+  expect_equal(medium_level, "Medium")
+}) 
+
+test_that("test risk profile with Low overall risk score", {
+  low_level <- 
+    sanofi.risk.metric::calc_risk_profile(low_overall_risk_score)
+  expect_equal(low_level, "Low")
+})

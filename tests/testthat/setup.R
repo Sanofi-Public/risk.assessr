@@ -33,3 +33,8 @@ risk_results_1 <- list(
   dep_score = .9706878,
   revdep_score = .1260338
 )
+
+# create overall risk scores to test risk profiles
+high_overall_risk_score <- .57
+medium_overall_risk_score <- .33
+low_overall_risk_score <- .24
