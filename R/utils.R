@@ -290,13 +290,14 @@ recalc_risk_scores <- function(comments) {
    purrr::map(sanofi.risk.metric::calc_risk_profile) |> 
    unlist()
   
-#  results <- results |> 
-#    dplyr::mutate(comments = "Initial run March - April 2024 without rev deps", 
-#                  .before = has_bug_reports_url)
+ results <- results |> 
+    dplyr::mutate(comments, 
+                  .before = has_bug_reports_url)
   
   # write data to csv
-#  sanofi.risk.metric::write_data_csv(results, 
-#                                     riskscore_data_path, 
-#                                     riskscore_data_exists)
+  sanofi.risk.metric::write_data_csv(results, 
+                                     riskscore_data_path, 
+                                     riskscore_data_exists)
   
 }
+
