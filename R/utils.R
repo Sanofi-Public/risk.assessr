@@ -267,7 +267,7 @@ check_riskscore_data_internal <- function() {
 #' @export
 #'
 recalc_risk_scores <- function(update_comments) {
-  browser()
+  
   # check if risk score data exists and set up path to risk score data
   riskscore_data_list <- 
     sanofi.risk.metric::check_riskscore_data_internal()
@@ -282,19 +282,23 @@ recalc_risk_scores <- function(update_comments) {
   results <- read.csv(file.path(riskscore_data_path))
   
   # remove column with row numbers
-  exclude_vector <- "X"
-  results <- results |> 
-    dplyr::select(-dplyr::all_of(exclude_vector))
+  # exclude_vector <- "X"
+  # results <- results |> 
+  #  dplyr::select(-dplyr::all_of(exclude_vector))
   
-  # save exisitng data
-  results_old <- results
+  # save existing data 
+  results_old <- results 
+  
+  # filter existing data from initial run
+  results <- results |> 
+    dplyr::filter(grepl("\\Initial", comments, ignore.case = FALSE))
   
   # convert NAs and NANs to zero
   results <- rapply( results, f=function(x) ifelse(is.nan(x),0,x), how="replace" )	  
   results <- rapply( results, f=function(x) ifelse(is.na(x),0,x), how="replace" )
   
   # calculate risk score with user defined metrics
-    results$overall_risk_score <- results |>
+  results$overall_risk_score <- results |>
     split(1:nrow(results)) |> 
     purrr::map(sanofi.risk.metric::calc_overall_risk_score) |> 
     unlist()
