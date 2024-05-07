@@ -23,8 +23,8 @@ create_weights_profile <- function() {
     export_calc = .2,
     check = .75,
     covr = .6,
-    dep_score = .5
-    # revdep_score = .1
+    dep_score = .5,
+    revdep_score = .1
   )
   return(weights)
 }
