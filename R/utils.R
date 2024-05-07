@@ -262,12 +262,12 @@ check_riskscore_data_internal <- function() {
 #' without running the whole risk assessment process again}
 #' 
 #'
-#' @param comments notes explaining why score recalculated
+#' @param update_comments notes explaining why score recalculated
 #' 
 #' @export
 #'
-recalc_risk_scores <- function(comments) {
-  
+recalc_risk_scores <- function(update_comments) {
+  browser()
   # check if risk score data exists and set up path to risk score data
   riskscore_data_list <- 
     sanofi.risk.metric::check_riskscore_data_internal()
@@ -278,11 +278,16 @@ recalc_risk_scores <- function(comments) {
   
   riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
   
+  # read in the results
   results <- read.csv(file.path(riskscore_data_path))
   
+  # remove column with row numbers
   exclude_vector <- "X"
   results <- results |> 
-    dplyr::select(-dplyr::all_of(exclude_vector)) 
+    dplyr::select(-dplyr::all_of(exclude_vector))
+  
+  # save exisitng data
+  results_old <- results
   
   # convert NAs and NANs to zero
   results <- rapply( results, f=function(x) ifelse(is.nan(x),0,x), how="replace" )	  
@@ -302,10 +307,16 @@ recalc_risk_scores <- function(comments) {
    purrr::map(sanofi.risk.metric::calc_risk_profile) |> 
    unlist()
   
+ # add comments
  results <- results |> 
-    dplyr::mutate(comments, 
-                  .before = has_bug_reports_url)
-  
+    dplyr::mutate(comments = update_comments)
+
+ # append new data to old data  
+ results <- rbind(results_old, results)
+ 
+ # set flag to ensure old data overwritten
+ riskscore_data_exists <- FALSE
+ 
   # write data to csv
   sanofi.risk.metric::write_data_csv(results, 
                                      riskscore_data_path, 

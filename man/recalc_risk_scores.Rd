@@ -4,10 +4,10 @@
 \alias{recalc_risk_scores}
 \title{Re-calculate package risk scores}
 \usage{
-recalc_risk_scores(comments)
+recalc_risk_scores(update_comments)
 }
 \arguments{
-\item{comments}{notes explaining why score recalculated}
+\item{update_comments}{notes explaining why score recalculated}
 }
 \description{
 $ {Use this function to re-calculate risk scores and risk profile}
