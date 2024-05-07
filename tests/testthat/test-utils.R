@@ -31,7 +31,7 @@ test_that("test user defined metrics ", {
 }) 
 
 
-test_that("test risk profile with user defined weights", {
+test_that("test risk profile with High overall risk score", {
   high_level <- 
     sanofi.risk.metric::calc_risk_profile(high_overall_risk_score)
   expect_equal(high_level, "High")
