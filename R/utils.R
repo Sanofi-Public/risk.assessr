@@ -280,8 +280,9 @@ recalc_risk_scores <- function(comments) {
   
   results <- read.csv(file.path(riskscore_data_path))
   
+  exclude_vector <- "X"
   results <- results |> 
-    dplyr::select(-X) 
+    dplyr::select(-dplyr::all_of(exclude_vector)) 
   
   # convert NAs and NANs to zero
   results <- rapply( results, f=function(x) ifelse(is.nan(x),0,x), how="replace" )	  
