@@ -5,9 +5,9 @@ test_that("test weights profile", {
   expect_vector(weights)
   
   pluck_names <-
-  weights |> 
-  attributes() |>
-    purrr::pluck("names")
+   weights |> 
+   attributes() |>
+   purrr::pluck("names")
   
   expect_identical(length(pluck_names), 16L)
 })
