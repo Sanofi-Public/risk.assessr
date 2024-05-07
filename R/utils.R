@@ -253,9 +253,20 @@ check_riskscore_data_internal <- function() {
   return(riskscore_data_list)
 }
 
+#' Re-calculate package risk scores
+#' 
+#' @description$ {Use this function to re-calculate risk scores and risk profile}
+#' @details$ {Use cases: if the weighting profile and/or risk profile thresholds
+#' have changed and the risk metrics have not changed, then
+#' use this function to re-calculate the risk scores and profile
+#' without running the whole risk assessment process again}
+#' 
+#'
+#' @param comments notes explaining why score recalculated
+#' 
+#' @export
+#'
 recalc_risk_scores <- function(comments) {
-  
- #  current_package <- "sanofi.risk.metric"
   
   # check if risk score data exists and set up path to risk score data
   riskscore_data_list <- 
