@@ -82,17 +82,7 @@ assess_pkg <- function(
   
   pscore <- sanofi.risk.metric::pkg_riskmetric(pkg_source_path)
   
-  results$has_bug_reports_url <- pscore$has_bug_reports_url
-  results$license <- pscore$license
-  results$has_examples <- pscore$has_examples
-  results$has_maintainer <- pscore$has_maintainer
-  results$size_codebase <- pscore$size_codebase 
-  results$has_news <- pscore$has_news
-  results$has_source_control <- pscore$has_source_control
-  results$has_vignettes <- pscore$has_vignettes
-  results$has_website <- pscore$has_website
-  results$news_current <- pscore$news_current
-  results$export_help <- pscore$export_help 
+  results <- sanofi.risk.metric::update_pscore_results(results, pscore)
   
   # run R code coverage
   results$covr <- add_coverage(
