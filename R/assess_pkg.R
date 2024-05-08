@@ -85,7 +85,7 @@ assess_pkg <- function(
   results <- sanofi.risk.metric::update_pscore_results(results, pscore)
   
   # run R code coverage
-  results$covr <- add_coverage(
+  results$covr <- run_coverage(
     pkg_source_path,  # must use untarred package dir
     out_dir,
     covr_timeout

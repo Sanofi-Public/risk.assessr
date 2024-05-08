@@ -67,7 +67,7 @@ add_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
 #'
 #' @export
 #' 
-add_coverage <- function(pkg_source_path, out_dir, timeout = Inf) {
+run_coverage <- function(pkg_source_path, out_dir, timeout = Inf) {
   
   pkg_name <- basename(pkg_source_path)
   
