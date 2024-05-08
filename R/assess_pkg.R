@@ -73,34 +73,12 @@ assess_pkg <- function(
   
   metadata <- sanofi.risk.metric::get_risk_metadata()
   
-  results <- list(
-    pkg_name = pkg_name,
-    pkg_version = pkg_ver,
-    pkg_source_path = pkg_source_path,
-    date_time = metadata$datetime,
-    executor = metadata$executor,
-    sysname = metadata$info$sys$sysname,
-    version = metadata$info$sys$version,
-    release = metadata$info$sys$release,
-    machine = metadata$info$sys$machine,
-    has_bug_reports_url = "",
-    license = "",
-    has_examples = "",
-    has_maintainer = "",
-    size_codebase = "",
-    has_news = "",
-    has_source_control= "",
-    has_vignettes = "",
-    has_website = "",
-    news_current = "",
-    export_help = "",
-    export_calc = "",
-    check = "",
-    covr = "",
-    dependencies = "",
-    dep_score = "",
-    revdep_score = ""
-  )
+  results <- sanofi.risk.metric::create_empty_results(pkg_name,
+                                                      pkg_ver,
+                                                      pkg_source_path,
+                                                      metadata)
+  
+  browser()
   
   pscore <- sanofi.risk.metric::pkg_riskmetric(pkg_source_path)
   
