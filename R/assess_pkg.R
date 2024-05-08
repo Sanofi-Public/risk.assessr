@@ -9,7 +9,7 @@
 #' @param riskscore_data_path data path of current risk assessment package
 #' @param riskscore_data_exists logical with T/F if risk score data exists
 #' @param overwrite Logical (T/F). Whether or not to overwrite existing risk metric results
-#' @param rcmdcheck_args - arguments for R Cmd check
+#' @param rcmdcheck_args - arguments for R Cmd check - these come from setup_rcmdcheck_args
 #' @param covr_timeout - setting for covr time out
 #'
 #' @return results - list containing metrics
@@ -23,20 +23,12 @@ assess_pkg <- function(
     riskscore_data_path,
     riskscore_data_exists,
     overwrite = TRUE,
-    rcmdcheck_args = list(
-      timeout = Inf,
-      args = c("--ignore-vignettes", 
-               "--no-vignettes", 
-               "--as-cran",
-               "--no-manual"),
-      build_args = "--no-build-vignettes",
-      env = c(`_R_CHECK_FORCE_SUGGESTS_` = "FALSE"),
-      quiet = FALSE
-    ),
+    rcmdcheck_args,
     covr_timeout = Inf
 ) {
   # record covr tests
   options(covr.record_tests = TRUE)
+  browser()
   
   # Input checking
   checkmate::assert_string(pkg)
@@ -55,7 +47,7 @@ assess_pkg <- function(
   checkmate::check_character(rcmdcheck_args$args, pattern = "--ignore-vignettes")
   checkmate::check_character(rcmdcheck_args$args, pattern = "--no-vignettes")
   checkmate::check_character(rcmdcheck_args$args, pattern = "--as-cran")
-  checkmate::check_character(rcmdcheck_args$build_args, pattern = "--no-build-vignettes")
+  checkmate::check_character(rcmdcheck_args$build_args, pattern = "--no-build-vignettes|NULL")
   checkmate::assert_string(rcmdcheck_args$env)
   checkmate::check_logical(rcmdcheck_args$quiet)
   

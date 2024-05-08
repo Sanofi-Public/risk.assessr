@@ -105,15 +105,21 @@ bg_proc_tar <- function(tar_file) {
     
     message("data path exists ", riskscore_data_exists)
     
+    browser()
+    build_vignettes <- TRUE
+    
+    rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
+    
     # assess package for risk
     assess_package <- 
       sanofi.risk.metric::assess_pkg(pkg,
                                      dp,
                                      pkg_source_path,
                                      out_dir,
-                                     overwrite = TRUE,
                                      riskscore_data_path,
-                                     riskscore_data_exists
+                                     riskscore_data_exists,
+                                     overwrite = TRUE,
+                                     rcmdcheck_args
       ) 
     
     # calculate elapsed time
