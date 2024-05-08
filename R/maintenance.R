@@ -14,7 +14,7 @@
 #'
 #' @export
 #' 
-add_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
+run_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
   
   # We never want the rcmdcheck to fail
   rcmdcheck_args$error_on <- "never"

@@ -93,7 +93,7 @@ assess_pkg <- function(
   
   # run R Cmd check
   rcmdcheck_args$path <- pkg_source_path
-  results$check <- add_rcmdcheck(pkg_source_path, out_dir, rcmdcheck_args) # use tarball
+  results$check <- run_rcmdcheck(pkg_source_path, out_dir, rcmdcheck_args) # use tarball
   
   deps_list <- sanofi.risk.metric::calc_dependencies(pkg_source_path)
   
