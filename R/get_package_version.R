@@ -38,7 +38,7 @@ get_package_version <- function(package_name, last_num = 10) {
   url <- "https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/2bb1fda0-b2fb-4686-b613-310d5a74e453/get_all_package_version/"
   body <- list(package = package_name)
   
-  response <- request(url) %>%
+  base_response <- request(url) %>%
     req_body_json(body) %>%
     req_headers(
       accept = "application/json",
@@ -46,19 +46,16 @@ get_package_version <- function(package_name, last_num = 10) {
     ) %>%
     req_perform() %>%
     resp_body_json()
+
+  if (!"version" %in% names(base_response) || length(base_response$version) == 0) {
+    return(NULL)
+  }
   
-  if ("version" %in% names(response)) {
-    response <- dplyr::bind_rows(response$version)
+  if ("version" %in% names(base_response)) {
+    response <- dplyr::bind_rows(base_response$version)
     response$date <- lubridate::ymd_hm(response$date)
     response <- arrange(response, desc(date)) %>% 
       slice_head(n = last_num)
   } 
   return(response)
 }
-
-
-# dplyr_version_info <- get_package_version("dplyr")
-# print(dplyr_version_info)
-# 
-
-
