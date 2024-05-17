@@ -7,8 +7,6 @@ on:
     types: [published]
   workflow_dispatch:
 
-name: pkgdown
-
 name: "Deploy pkgdown site to Posit Connect"
 
 jobs:
