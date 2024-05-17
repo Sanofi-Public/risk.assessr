@@ -11,7 +11,7 @@ permissions: read-all
 
 jobs:
   R-CMD-check:
-    runs-on: atmos-aws-arc-runner-set
+    runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
