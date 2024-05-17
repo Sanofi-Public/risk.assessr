@@ -38,24 +38,40 @@ get_package_version <- function(package_name, last_num = 10) {
   url <- "https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/2bb1fda0-b2fb-4686-b613-310d5a74e453/get_all_package_version/"
   body <- list(package = package_name)
   
-  base_response <- request(url) %>%
+  # Perform the request
+  response <- request(url) %>%
     req_body_json(body) %>%
     req_headers(
       accept = "application/json",
       `Content-Type` = "application/json"
-    ) %>%
-    req_perform() %>%
-    resp_body_json()
-
+    ) %>% 
+    req_perform()
+  
+  # print("response")
+  # print(response)
+  
+  
+  # Check for a successful status code and print a success message
+  if (resp_status(response) != 200) {
+    stop("API request failed with status code: ", resp_status(response))
+  }
+  
+  # Parse the JSON content of the response
+  base_response <- resp_body_json(response)
+  
+  # Check if the response contains versions
   if (!"version" %in% names(base_response) || length(base_response$version) == 0) {
     return(NULL)
   }
   
+  # Process the response if it contains versions
   if ("version" %in% names(base_response)) {
-    response <- dplyr::bind_rows(base_response$version)
-    response$date <- lubridate::ymd_hm(response$date)
-    response <- arrange(response, desc(date)) %>% 
-      slice_head(n = last_num)
+    response_df <- dplyr::bind_rows(base_response$version)
+    response_df$date <- lubridate::ymd_hm(response_df$date)
+    response_df <- dplyr::arrange(response_df, dplyr::desc(date)) %>% 
+      dplyr::slice_head(n = last_num)
   } 
-  return(response)
+  
+  return(response_df)
 }
+
