@@ -28,7 +28,6 @@ assess_pkg <- function(
 ) {
   # record covr tests
   options(covr.record_tests = TRUE)
-  browser()
   
   # Input checking
   checkmate::assert_string(pkg)
@@ -69,8 +68,6 @@ assess_pkg <- function(
                                                       pkg_ver,
                                                       pkg_source_path,
                                                       metadata)
-  
-  browser()
   
   pscore <- sanofi.risk.metric::pkg_riskmetric(pkg_source_path)
   
