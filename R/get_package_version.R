@@ -47,10 +47,6 @@ get_package_version <- function(package_name, last_num = 10) {
     ) %>% 
     req_perform()
   
-  # print("response")
-  # print(response)
-  
-  
   # Check for a successful status code and print a success message
   if (resp_status(response) != 200) {
     stop("API request failed with status code: ", resp_status(response))
