@@ -6,6 +6,7 @@
 #' @param pkg_name package name
 #' @param pkg_ver package version
 #' @param pkg_source_path package source path
+#' @param metadata list with metadata
 #' 
 #' @return - list with empty risk profile values
 #' 

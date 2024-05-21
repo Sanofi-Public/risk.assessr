@@ -12,6 +12,8 @@ create_empty_results(pkg_name, pkg_ver, pkg_source_path, metadata)
 \item{pkg_ver}{package version}
 
 \item{pkg_source_path}{package source path}
+
+\item{metadata}{list with metadata}
 }
 \value{
 - list with empty risk profile values
