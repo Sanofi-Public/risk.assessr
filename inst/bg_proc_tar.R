@@ -48,7 +48,7 @@ library(sanofi.risk.metric)
 # set working directory to project root folder e.g. sanofi.risk.metric not inst
 # set copy job results to 'To results object in global environment' to have audit of job execution
 
-bg_proc_tar <- function(tar_file) {
+bg_proc_tar <- function(tar_file, build_vignettes) {
   
   file_path <- paste0("/home/u1004798/github-helper-repos/data/input_bg_data/", {{tar_file}})
   
@@ -105,15 +105,18 @@ bg_proc_tar <- function(tar_file) {
     
     message("data path exists ", riskscore_data_exists)
     
+    rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
+    
     # assess package for risk
     assess_package <- 
       sanofi.risk.metric::assess_pkg(pkg,
                                      dp,
                                      pkg_source_path,
                                      out_dir,
-                                     overwrite = TRUE,
                                      riskscore_data_path,
-                                     riskscore_data_exists
+                                     riskscore_data_exists,
+                                     overwrite = TRUE,
+                                     rcmdcheck_args
       ) 
     
     # calculate elapsed time
@@ -138,10 +141,12 @@ input_tar_path <- file.path("/home/u1004798/github-helper-repos/data/input_bg_da
 # create list of tar files 
 input_tar_list <- list.files(path = input_tar_path, pattern = "*.tar.gz$", full.names = FALSE)
 
+# set build vignettes parameter
+build_vignettes <- TRUE
 
 # create list with 1 tar file
 # input_tar_list <- list.files(path = input_tar_path, pattern = "dplyr_1.0.1.tar.gz$", full.names = FALSE)
 
 # apply list vector to function
-purrr::map(input_tar_list, bg_proc_tar)
+purrr::map2(input_tar_list, build_vignettes, bg_proc_tar)
 

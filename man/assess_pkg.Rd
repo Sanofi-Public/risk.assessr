@@ -12,9 +12,7 @@ assess_pkg(
   riskscore_data_path,
   riskscore_data_exists,
   overwrite = TRUE,
-  rcmdcheck_args = list(timeout = Inf, args = c("--ignore-vignettes", "--no-vignettes",
-    "--as-cran", "--no-manual"), build_args = "--no-build-vignettes", env =
-    c(`_R_CHECK_FORCE_SUGGESTS_` = "FALSE"), quiet = FALSE),
+  rcmdcheck_args,
   covr_timeout = Inf
 )
 }
@@ -33,7 +31,7 @@ assess_pkg(
 
 \item{overwrite}{Logical (T/F). Whether or not to overwrite existing risk metric results}
 
-\item{rcmdcheck_args}{- arguments for R Cmd check}
+\item{rcmdcheck_args}{- arguments for R Cmd check - these come from setup_rcmdcheck_args}
 
 \item{covr_timeout}{- setting for covr time out}
 }
