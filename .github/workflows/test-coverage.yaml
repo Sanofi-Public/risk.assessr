@@ -59,7 +59,7 @@ jobs:
             <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="110">
               <text x="315" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="510">coverage</text>
               <text x="315" y="140" transform="scale(.1)" textLength="510">coverage</text>
-              <text x="795" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="270">${coverage}%</text>
+              <text x="795" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="270"></text>
               <text x="795" y="140" transform="scale(.1)" textLength="270">${coverage}%</text>
             </g>
           </svg>
