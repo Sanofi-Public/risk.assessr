@@ -146,3 +146,69 @@ calc_reverse_dependencies <- function(pkg_source_path) {
   return(revdep_score)
 }
 
+assess_dep_for_sigmoid <- function() {
+  
+  # check if risk score data exists and set up path to risk score data
+  riskscore_data_list <- 
+    sanofi.risk.metric::check_riskscore_data_internal()
+  
+  riskscore_data_path <- riskscore_data_list$riskscore_data_path
+  
+  message("data path is ", riskscore_data_path)
+  
+  riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
+  
+  # read in the results
+  results <- read.csv(file.path(riskscore_data_path))
+  
+  # filter existing data from initial run
+  results <- results |> 
+    dplyr::filter(grepl("\\Initial", comments, ignore.case = FALSE))
+  
+  # convert NAs and NANs to zero
+  results <- rapply( results, f=function(x) ifelse(is.nan(x),0,x), how="replace" )	  
+  results <- rapply( results, f=function(x) ifelse(is.na(x),0,x), how="replace" )
+  
+  results <- results |> dplyr::select(pkg_name,
+                                      pkg_version,
+                                      dependencies
+                                      )
+  
+  results_1 <- results |> dplyr::select(pkg_name,
+                                      pkg_version
+  )
+  
+  # both imp_count and mean produce same result
+  results$imp_count <- stringr::str_count(results$dependencies, '#Imports')
+  
+  results$link_count <- stringr::str_count(results$dependencies, '#LinkingTo')
+  
+  results$sug_count <- stringr::str_count(results$dependencies, '#Suggests')
+  
+  imp_link_count_mean <- 
+    results %>%
+      dplyr::summarize(dplyr::across(imp_count:link_count, 
+                                     mean, 
+                                     na.rm= TRUE))
+  
+  imp_link_count_mean <- 
+    imp_link_count_mean |> dplyr::mutate(
+      mean_total = imp_count + link_count
+    )  
+  
+  all_count_mean <- results %>%
+    dplyr::summarize(dplyr::across(imp_count:sug_count, mean, na.rm= TRUE))
+  
+  all_count_mean <- 
+    all_count_mean |> dplyr::mutate(
+      mean_total = imp_count + link_count + sug_count
+    )
+  
+  results_list <- list(
+    results = results,
+    imp_link_count_mean = imp_link_count_mean,
+    all_count_mean = all_count_mean
+  )
+  
+  return(results_list)
+}  
