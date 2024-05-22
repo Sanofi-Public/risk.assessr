@@ -49,3 +49,10 @@ jobs:
           name: coverage-badge
           path: coverage-badge.svg
 
+      - name: Commit coverage badge
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add coverage-badge.svg
+          git commit -m 'Add coverage badge'
+          git push
