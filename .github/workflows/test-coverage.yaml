@@ -4,7 +4,6 @@ on:
   push:
     branches: [48-pkgdown-website]
 
-    
 name: test-coverage
 
 permissions: read-all
@@ -25,7 +24,6 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::covr, any::xml2
-          needs: coverage
 
       - name: Test coverage
         run: |
@@ -34,27 +32,20 @@ jobs:
             clean = FALSE,
             install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
           )
-          covr::to_cobertura(cov)
+          covr::to_cobertura(cov, file = "coverage.xml")
+          coverage_percentage <- covr::percent_coverage(cov)
+          writeLines(as.character(coverage_percentage), "coverage.txt")
         shell: Rscript {0}
 
-      - uses: codecov/codecov-action@v4
-        with:
-          fail_ci_if_error: ${{ github.event_name != 'pull_request' && true || false }}
-          file: ./cobertura.xml
-          plugin: noop
-          disable_search: true
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Show testthat output
-        if: always()
+      - name: Create coverage badge
+        id: create_badge
         run: |
-          ## --------------------------------------------------------------------
-          find '${{ runner.temp }}/package' -name 'testthat.Rout*' -exec cat '{}' \; || true
-        shell: bash
+          coverage=$(cat coverage.txt)
+          curl -s "https://img.shields.io/badge/coverage-${coverage}%25-brightgreen" -o coverage-badge.svg
 
-      - name: Upload test results
-        if: failure()
-        uses: actions/upload-artifact@v4
+      - name: Upload coverage badge
+        uses: actions/upload-artifact@v3
         with:
-          name: coverage-test-failures
-          path: ${{ runner.temp }}/package
+          name: coverage-badge
+          path: coverage-badge.svg
+
