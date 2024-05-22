@@ -5,6 +5,7 @@
 
 
 ![Coverage](./coverage-badge.svg)
+![Coverage](coverage-badge.svg)
 
 <!-- badges: end -->
 
