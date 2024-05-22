@@ -39,43 +39,6 @@ jobs:
           writeLines(as.character(coverage_percentage), "coverage.txt")
         shell: Rscript {0}
 
-      - name: Create coverage badge
-        run: |
-          coverage=$(cat coverage.txt)
-          cat << EOF > coverage-badge.svg
-          <svg xmlns="http://www.w3.org/2000/svg" width="98" height="20">
-            <linearGradient id="b" x2="0" y2="100%">
-              <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
-              <stop offset="1" stop-opacity=".1"/>
-            </linearGradient>
-            <mask id="a">
-              <rect width="98" height="20" rx="3" fill="#fff"/>
-            </mask>
-            <g mask="url(#a)">
-              <path fill="#555" d="M0 0h61v20H0z"/>
-              <path fill="#4c1" d="M61 0h37v20H61z"/>
-              <path fill="url(#b)" d="M0 0h98v20H0z"/>
-            </g>
-            <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="110">
-              <text x="315" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="510">coverage</text>
-              <text x="315" y="140" transform="scale(.1)" textLength="510">coverage</text>
-              <text x="795" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="270">${coverage}%</text>
-              <text x="795" y="140" transform="scale(.1)" textLength="270">${coverage}%</text>
-            </g>
-          </svg>
-          EOF
-
-      - name: Force add and commit coverage badge
-        run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git add -f coverage-badge.svg
-          git commit -m 'Update coverage badge' || echo "No changes to commit"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-          
       - name: Create Shields.io badge URL
         id: create_badge
         run: |
