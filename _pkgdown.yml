@@ -1,0 +1,37 @@
+pkgdown:
+  as_is: true
+
+destination: docs
+
+template:
+  bootstrap: 5
+  bootswatch: cosmo
+
+navbar:
+  structure:
+    left:
+      - text: "Home"
+        href: index.html
+      - text: "Reference"
+        href: reference/index.html
+    right:
+      - icon: fa-github
+        href: https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric
+
+sidebar:
+  structure:
+    - text: "Articles"
+      href: articles/index.html
+    - text: "Reference"
+      href: reference/index.html
+
+articles:
+  - title: "Getting Started"
+    contents:
+      - intro
+      - usage
+
+reference:
+  - title: "Functions"
+    contents:
+      - starts_with("fun")
