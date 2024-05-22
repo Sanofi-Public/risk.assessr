@@ -60,8 +60,35 @@ test_that("test unsuccessful response", {
 })
 
 
-
-
-
-
-
+test_that("test version not found", {
+  # Mock function to simulate `req_perform`
+  mock_req_perform <- function(request) {
+    # Define the response body as a list
+    response_body = structure(
+      list(
+        message = "Package name or version not found for ggplot2 package version 3.3.eeeeeeeee5."
+      )
+    )
+    
+    # Convert the list to a JSON string
+    response_json <- toJSON(response_body, auto_unbox = TRUE)
+    
+    # Create the response object using httr2
+    base_response <- httr2::response(
+      status_code = 200,
+      url = "http://example.com",
+      headers = list("Content-Type" = "application/json"),
+      body = charToRaw(response_json)
+    )
+    
+    # Return the response object
+    return(base_response)
+  }
+  
+  # Mock the bindings
+  local_mocked_bindings(req_perform = mock_req_perform)
+  result <- get_tar_package("ggplot2", "3.3.eeeeeeeee5")
+  # Test the result for an unsuccessful response
+  expect_equal(result$message, "Package name or version not found for ggplot2 package version 3.3.eeeeeeeee5.")
+  
+})
