@@ -35,7 +35,7 @@ jobs:
             install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
           )
           covr::to_cobertura(cov, file = "coverage.xml")
-          coverage_percentage <- covr::percent_coverage(cov)
+          coverage_percentage <- round(covr::percent_coverage(cov), 2)
           writeLines(as.character(coverage_percentage), "coverage.txt")
         shell: Rscript {0}
 
@@ -59,7 +59,7 @@ jobs:
             <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="110">
               <text x="315" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="510">coverage</text>
               <text x="315" y="140" transform="scale(.1)" textLength="510">coverage</text>
-              <text x="795" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="270"></text>
+              <text x="795" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="270">${coverage}%</text>
               <text x="795" y="140" transform="scale(.1)" textLength="270">${coverage}%</text>
             </g>
           </svg>
