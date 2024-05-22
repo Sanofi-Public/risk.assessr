@@ -35,7 +35,7 @@ jobs:
             install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
           )
           covr::to_cobertura(cov, file = "coverage.xml")
-          coverage_percentage <- round(covr::percent_coverage(cov), 2)
+          coverage_percentage <- round(covr::percent_coverage(cov), 1)
           writeLines(as.character(coverage_percentage), "coverage.txt")
         shell: Rscript {0}
 
