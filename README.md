@@ -4,7 +4,6 @@
 [![test-coverage](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/test-coverage.yaml)
 
 
-![Coverage](./coverage-badge.svg)
 ![Coverage](coverage-badge.svg)
 
 <!-- badges: end -->
