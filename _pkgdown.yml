@@ -3,6 +3,8 @@ pkgdown:
 
 destination: docs
 
+url: https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/c49e5aac-94da-42a9-8223-516fca640d8f/
+
 template:
   bootstrap: 5
   bootswatch: cosmo
@@ -14,9 +16,7 @@ navbar:
         href: index.html
       - text: "Reference"
         href: reference/index.html
-    right:
-      - icon: fa-github
-        href: https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric
+    right: https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric
 
 sidebar:
   structure:
