@@ -1,37 +1,4 @@
-pkgdown:
-  as_is: true
-
-destination: docs
-
-url: https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/c49e5aac-94da-42a9-8223-516fca640d8f/
-
+url: ~
 template:
   bootstrap: 5
-  bootswatch: cosmo
 
-navbar:
-  structure:
-    left:
-      - text: "Home"
-        href: index.html
-      - text: "Reference"
-        href: reference/index.html
-    right: https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric
-
-sidebar:
-  structure:
-    - text: "Articles"
-      href: articles/index.html
-    - text: "Reference"
-      href: reference/index.html
-
-articles:
-  - title: "Getting Started"
-    contents:
-      - intro
-      - usage
-
-reference:
-  - title: "Functions"
-    contents:
-      - starts_with("fun")
