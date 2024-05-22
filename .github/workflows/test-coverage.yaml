@@ -74,3 +74,42 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+     - name: Test coverage
+        run: |
+          cov <- covr::package_coverage(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
+          )
+          covr::to_cobertura(cov, file = "coverage.xml")
+          coverage_percentage <- round(covr::percent_coverage(cov), 2)
+          writeLines(as.character(coverage_percentage), "coverage.txt")
+        shell: Rscript {0}
+
+      - name: Create Shields.io badge URL
+        id: create_badge
+        run: |
+          coverage=$(cat coverage.txt)
+          if (( $(echo "${coverage} < 50" | bc -l) )); then
+            color="red"
+          elif (( $(echo "${coverage} < 80" | bc -l) )); then
+            color="orange"
+          else
+            color="brightgreen"
+          fi
+          badge_url="https://img.shields.io/badge/coverage-${coverage}%25-${color}.svg"
+          echo "badge_url=${badge_url}" >> $GITHUB_ENV
+
+      - name: Update README with coverage badge
+        run: |
+          sed -i 's|!\[Coverage\](.*)|![Coverage]('"${{ env.badge_url }}"')|g' README.md
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add README.md
+          git commit -m 'Update coverage badge'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
