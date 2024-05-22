@@ -74,19 +74,8 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-     - name: Test coverage
-        run: |
-          cov <- covr::package_coverage(
-            quiet = FALSE,
-            clean = FALSE,
-            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
-          )
-          covr::to_cobertura(cov, file = "coverage.xml")
-          coverage_percentage <- round(covr::percent_coverage(cov), 2)
-          writeLines(as.character(coverage_percentage), "coverage.txt")
-        shell: Rscript {0}
-
+          
+          
       - name: Create Shields.io badge URL
         id: create_badge
         run: |
@@ -110,6 +99,14 @@ jobs:
           git commit -m 'Update coverage badge'
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
