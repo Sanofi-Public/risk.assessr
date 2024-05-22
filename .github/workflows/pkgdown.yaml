@@ -11,7 +11,7 @@ name: "Deploy pkgdown site to Posit Connect"
 
 jobs:
   build-site:
-    runs-on: ubuntu-latest
+    runs-on: atmos-aws-arc-runner-set
     steps:
       - name: Setup apt
         uses: Sanofi-GitHub/sih-github-actions/setup-apt@main
