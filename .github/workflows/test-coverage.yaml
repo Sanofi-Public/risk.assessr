@@ -65,12 +65,12 @@ jobs:
           </svg>
           EOF
 
-      - name: Commit coverage badge
+      - name: Force add and commit coverage badge
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git add coverage-badge.svg
-          git commit -m 'Update coverage badge'
+          git add -f coverage-badge.svg
+          git commit -m 'Update coverage badge' || echo "No changes to commit"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -101,7 +101,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
           
-          
+ 
           
           
           
