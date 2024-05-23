@@ -146,6 +146,16 @@ calc_reverse_dependencies <- function(pkg_source_path) {
   return(revdep_score)
 }
 
+#' Assess dependencies for sigmoid point
+#' 
+#' @description This function calculates average number of dependencies to 
+#' determine the dependency sigmoid point
+#'
+#' @return nested list with dependencies, Import count mean, 
+#' and all dependency count and mean  
+#' @export
+#'
+
 assess_dep_for_sigmoid <- function() {
   
   # check if risk score data exists and set up path to risk score data
@@ -173,10 +183,6 @@ assess_dep_for_sigmoid <- function() {
                                       pkg_version,
                                       dependencies
                                       )
-  
-  results_1 <- results |> dplyr::select(pkg_name,
-                                      pkg_version
-  )
   
   # both imp_count and mean produce same result
   results$imp_count <- stringr::str_count(results$dependencies, '#Imports')

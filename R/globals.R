@@ -1,3 +1,10 @@
 globalVariables(c("comments",
+                  "dependencies",  
                   "has_bug_reports_url",
-                  "overall_risk_score"))
+                  "imp_count", 
+                  "link_count",
+                  "overall_risk_score",
+                  "pkg_name",
+                  "pkg_version", 
+                  "sug_count"
+                  ))
