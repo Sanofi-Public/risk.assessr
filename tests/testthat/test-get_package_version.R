@@ -30,7 +30,7 @@ test_that("test on correct result", {
     }
   
   # Mock the bindings
-  local_mocked_bindings(req_perform = mock_req_perform)
+  testthat::local_mocked_bindings(req_perform = mock_req_perform)
   
   # Test the result
   result <- get_package_version("dummy_package")
@@ -76,7 +76,7 @@ test_that("test on correct result over 10 versions", {
     return(base_response)
   }
 
-  local_mocked_bindings(req_perform = mock_req_perform)
+  testthat::local_mocked_bindings(req_perform = mock_req_perform)
 
   # Test the result for top 10 versions
   result_top_ten <- get_package_version("dummy_package")
@@ -109,7 +109,7 @@ test_that("test empty list response", {
   }
   
   # Mock the bindings
-  local_mocked_bindings(req_perform = mock_req_perform)
+  testthat::local_mocked_bindings(req_perform = mock_req_perform)
   
   # Test the result for an empty list response
   result <- get_package_version("dummy_package")
@@ -133,7 +133,7 @@ test_that("test unsuccessful response", {
   }
 
   # Mock the bindings
-  local_mocked_bindings(req_perform = mock_req_perform)
+  testthat::local_mocked_bindings(req_perform = mock_req_perform)
 
   # Test the result for an unsuccessful response
   expect_error(get_package_version("dummy_package"),
