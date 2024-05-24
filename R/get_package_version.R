@@ -23,7 +23,7 @@ library(lubridate)
 #' @examples
 #' # Example usage:
 #' # Assuming the function and the API endpoint are properly set up and accessible:
-#' get_package_version("dplyr")
+#' # sanofi.risk.metric(get_package_version("ggplot2"))
 #' # Expected result:
 #' # A tibble: 44 × 5
 #' #   package_name    package_version link                 date             size 
