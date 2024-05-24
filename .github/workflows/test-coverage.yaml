@@ -55,6 +55,7 @@ jobs:
 
       - name: Update README with coverage badge
         run: |
+          git pull origin main
           sed -i 's|!\[Coverage\](.*)|![Coverage]('"${{ env.badge_url }}"')|g' README.md
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
