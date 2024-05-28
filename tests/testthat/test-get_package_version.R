@@ -15,7 +15,7 @@ test_that("test on correct result", {
       )
 
       # Convert the list to a JSON string
-      response_json <- toJSON(response_body, auto_unbox = TRUE)
+      response_json <- jsonlite::toJSON(response_body, auto_unbox = TRUE)
 
       # Create the response object using httr2
       base_response <- httr2::response(
@@ -62,7 +62,7 @@ test_that("test on correct result over 10 versions", {
     )
 
     # Convert the list to a JSON string
-    response_json <- toJSON(response_body, auto_unbox = TRUE)
+    response_json <- jsonlite::toJSON(response_body, auto_unbox = TRUE)
 
     # Create the response object using httr2
     base_response <- httr2::response(

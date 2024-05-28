@@ -18,12 +18,12 @@ library(lubridate)
 #' API call fails, the function may return NULL or an error message, depending on the API's response.
 #'
 #' @importFrom dplyr bind_rows arrange slice_head
-#' @importFrom httr2 request req_body_json req_headers req_perform resp_body_json
+#' @importFrom httr2 request req_body_json req_headers req_perform resp_body_json resp_status
 #' @importFrom lubridate ymd_hm
 #' @examples
 #' # Example usage:
 #' # Assuming the function and the API endpoint are properly set up and accessible:
-#' # sanofi.risk.metric(get_package_version("dplyr"))
+#' sanofi.risk.metric::get_package_version("dplyr")
 #' # Expected result:
 #' # A tibble: 44 × 5
 #' #   package_name    package_version link                 date             size 
