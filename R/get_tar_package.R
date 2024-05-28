@@ -1,7 +1,6 @@
 library(testthat)
 library(httr2)
 library(dplyr)
-library(mockery)
 library(jsonlite)
 #' Get TAR Package URL
 #'
