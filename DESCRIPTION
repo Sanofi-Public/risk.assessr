@@ -24,6 +24,8 @@ Imports:
   purrr,
   rcmdcheck,
   readr,
+  httr2,
+  jsonlite,
   remotes,
   riskmetric,
   rlang,
@@ -38,6 +40,6 @@ Suggests:
   withr
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1
+RoxygenNote: 7.2.3
 Config/testthat/edition: 3
 Config/build/clean-inst-doc: FALSE
