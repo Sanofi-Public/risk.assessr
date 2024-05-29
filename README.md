@@ -67,12 +67,21 @@ This package fixes a number of errors in `pharmaR/riskmetric`
 5.  `assess_dependencies` has value range changed to fit in with other
     scoring metrics
 
-# Future directions
+# Current/Future directions
 
-- user defined weights
-- check package versions with **verdepcheck**
+- overall risk profile - `DONE`
+- background/batch processor to create risk metrics for a larger number
+  of packages  
 - write data to SQLite DB
 - traceability matrix – matching the function / test descriptions to
   tests and match to test pass/fail
+- check package versions with **verdepcheck**
+
+# Acknowledgements
+
+The project is inspired by the
+[`riskmetric`](https://github.com/pharmaR/riskmetric) package and the
+[`mpn.scorecard`](https://github.com/metrumresearchgroup/mpn.scorecard)
+package and draws on some of their ideas and functions.
 
 # Installation
