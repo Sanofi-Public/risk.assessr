@@ -15,7 +15,6 @@ Imports:
   devtools,
   dplyr,
   forcats,
-  httr2, 
   lubridate,
   fs,
   ggplot2,
@@ -39,7 +38,6 @@ Suggests:
   pkgload,
   testthat (>= 3.0.0),
   utils,
-  jsonlite,
   withr
 Encoding: UTF-8
 LazyData: true

@@ -31,22 +31,16 @@ export(setup_rcmdcheck_args)
 export(update_pscore_results)
 export(write_data_csv)
 import(purrr)
-<<<<<<< HEAD
 importFrom(dplyr,arrange)
 importFrom(dplyr,bind_rows)
 importFrom(dplyr,slice_head)
-=======
->>>>>>> origin/main
 importFrom(httr2,req_body_json)
 importFrom(httr2,req_headers)
 importFrom(httr2,req_perform)
 importFrom(httr2,request)
 importFrom(httr2,resp_body_json)
 importFrom(httr2,resp_status)
-<<<<<<< HEAD
-importFrom(lubridate,ymd_hm)
-=======
 importFrom(jsonlite,fromJSON)
->>>>>>> origin/main
+importFrom(lubridate,ymd_hm)
 importFrom(rlang,"%||%")
 importFrom(utils,read.csv)
