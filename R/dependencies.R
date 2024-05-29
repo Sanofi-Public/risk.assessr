@@ -152,7 +152,8 @@ calc_reverse_dependencies <- function(pkg_source_path) {
 #' determine the dependency sigmoid point
 #'
 #' @return nested list with dependencies, Import count mean, 
-#' and all dependency count and mean  
+#' and all dependency count and mean
+#'   
 #' @export
 #'
 
@@ -192,7 +193,7 @@ assess_dep_for_sigmoid <- function() {
   results$sug_count <- stringr::str_count(results$dependencies, '#Suggests')
   
   imp_link_count_mean <- 
-    results %>%
+    results |> 
       dplyr::summarize(dplyr::across(imp_count:link_count, 
                                      mean, 
                                      na.rm= TRUE))
@@ -202,7 +203,7 @@ assess_dep_for_sigmoid <- function() {
       mean_total = imp_count + link_count
     )  
   
-  all_count_mean <- results %>%
+  all_count_mean <- results |> 
     dplyr::summarize(dplyr::across(imp_count:sug_count, mean, na.rm= TRUE))
   
   all_count_mean <- 
