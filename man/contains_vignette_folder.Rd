@@ -10,11 +10,11 @@ contains_vignette_folder(tar_file)
 \item{tar_file}{A character string specifying the path to the .tar file to be checked.}
 }
 \value{
-A logical value: \code{TRUE} if the 'vignette' folder exists and contains at least one .Rmd file,
+A logical value: \code{TRUE} if the 'vignettes' folder exists and contains at least one .Rmd file,
 \code{FALSE} otherwise.
 }
 \description{
-This function checks if a given .tar file contains a 'vignette' folder
+This function checks if a given .tar file contains a 'vignettes' folder
 and if there is at least one .Rmd file within that folder.
 }
 \examples{
