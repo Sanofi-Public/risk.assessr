@@ -2,43 +2,39 @@ library(testthat)
 library(withr)
 
 
-test_that("Non-tar file throws an error", {
-  # Create a temporary file with a .zip extension
-  temp_zip_file <- tempfile(fileext = ".zip")
-  
-  # Expect the function to throw an error when provided with a non-tar file
-  expect_error(contains_vignette_folder(temp_zip_file), "Unsupported file type. Please provide a .tar file.")
+test_that("contains_vignette_folder handles non-existent file", {
+  expect_error(contains_vignette_folder("nonexistent_file.tar.gz"), "File does not exist")
 })
 
 test_that("correct repo with Non-tar file throws an error", {
-  
+
   # Temporary directory for testing
   temp_dir <- tempdir()
-  
+
   # Define the folder structure using the temporary directory
   main_dir <- file.path(temp_dir, "got_vignette")
   sub_dir <- file.path(main_dir, "vignettes")
-  
+
   # Step 1: Create the Folder Structure and Multiple .Rmd Files
   dir.create(main_dir, showWarnings = FALSE)
   dir.create(sub_dir, showWarnings = FALSE)
-  
+
   for (i in 1:5) {
     rmd_file <- file.path(sub_dir, paste0("sample_", i, ".Rmd"))
     writeLines(c(paste0("# Sample R Markdown ", i), "", "This is a sample R Markdown file."), rmd_file)
   }
-  
+
   # Step 2: Create the .tar Archive
   tar_file <- file.path(temp_dir, "got_vignette.teeeeeeear")
   tar(tar_file, files = main_dir)
-  
+
   # Ensure cleanup happens even if the test fails
   defer(unlink(main_dir, recursive = TRUE))
   defer(unlink(tar_file))
-  
+
   # Check that the tar file contains .Rmd files
   expect_error(contains_vignette_folder(tar_file), "Unsupported file type. Please provide a .tar file.")
-  
+
 })
 
 
@@ -220,14 +216,6 @@ test_that("empty folder", {
   # Check that the tar file contains .Rmd files
   expect_false(contains_vignette_folder(tar_file))
 })
-# 
-
-
-
-
-
-
-
 
 
 

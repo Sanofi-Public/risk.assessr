@@ -19,6 +19,10 @@ library(utils)
 #' @export
 contains_vignette_folder <- function(tar_file) {
   
+  if (!file.exists(tar_file)) {
+    stop("File does not exist. Please provide a valid .tar file.")
+  }
+
   # Check if the file has a .tar extension
   if (!grepl("\\.tar$", tar_file) && !grepl("\\.tar\\.gz$", tar_file) && !grepl("\\.tgz$", tar_file) &&
       !grepl("\\.tar\\.bz2$", tar_file) && !grepl("\\.tbz2$", tar_file)) {
