@@ -255,8 +255,8 @@ check_riskscore_data_internal <- function() {
 
 #' Re-calculate package risk scores
 #' 
-#' @description$ {Use this function to re-calculate risk scores and risk profile}
-#' @details$ {Use cases: if the weighting profile and/or risk profile thresholds
+#' @description {Use this function to re-calculate risk scores and risk profile}
+#' @details {Use cases: if the weighting profile and/or risk profile thresholds
 #' have changed and the risk metrics have not changed, then
 #' use this function to re-calculate the risk scores and profile
 #' without running the whole risk assessment process again}
@@ -280,11 +280,6 @@ recalc_risk_scores <- function(update_comments) {
   
   # read in the results
   results <- read.csv(file.path(riskscore_data_path))
-  
-  # remove column with row numbers
-  # exclude_vector <- "X"
-  # results <- results |> 
-  #  dplyr::select(-dplyr::all_of(exclude_vector))
   
   # save existing data 
   results_old <- results 

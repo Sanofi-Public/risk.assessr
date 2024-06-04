@@ -10,10 +10,10 @@ recalc_risk_scores(update_comments)
 \item{update_comments}{notes explaining why score recalculated}
 }
 \description{
-$ {Use this function to re-calculate risk scores and risk profile}
+{Use this function to re-calculate risk scores and risk profile}
 }
 \details{
-$ {Use cases: if the weighting profile and/or risk profile thresholds
+{Use cases: if the weighting profile and/or risk profile thresholds
 have changed and the risk metrics have not changed, then
 use this function to re-calculate the risk scores and profile
 without running the whole risk assessment process again}
