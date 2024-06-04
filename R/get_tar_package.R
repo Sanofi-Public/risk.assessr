@@ -21,8 +21,8 @@ library(jsonlite)
 #'
 #' @examples
 #' 
-#' result <- get_tar_package("dplyr", "1.0.0")
-#' print(result)
+#' # result <- get_tar_package("dplyr", "1.0.0")
+#' # print(result)
 #' # Expected output:
 #' # $url
 #' # [1] "https://cran.r-project.org/src/contrib/Archive/dplyr/dplyr_1.0.0.tar.gz"
