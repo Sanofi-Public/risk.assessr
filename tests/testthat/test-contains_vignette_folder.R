@@ -58,7 +58,7 @@ test_that("test on package with vignette folder", {
   }
 
   # Step 2: Create the .tar Archive
-  tar_file <- file.path(temp_dir, "got_vignette.tar")
+  tar_file <- file.path(temp_dir, "got_vignette.tar.gz")
   tar(tar_file, files = main_dir)
 
   # Ensure cleanup happens even if the test fails
@@ -93,7 +93,7 @@ test_that("test on package without vignette folder", {
   }
 
   # Step 2: Create the .tar Archive
-  tar_file <- file.path(temp_dir, "got_vignette.tar")
+  tar_file <- file.path(temp_dir, "got_vignette.tar.gz")
   tar(tar_file, files = main_dir)
 
   # Ensure cleanup happens even if the test fails
@@ -119,7 +119,7 @@ test_that("test on package with vignette folder but no .rmd file", {
   dir.create(sub_dir, showWarnings = FALSE)
 
   # Step 2: Create the .tar Archive
-  tar_file <- file.path(temp_dir, "got_vignette.tar")
+  tar_file <- file.path(temp_dir, "got_vignette.tar.gz")
   tar(tar_file, files = main_dir)
 
   # Ensure cleanup happens even if the test fails
@@ -153,7 +153,7 @@ test_that("test on package with inst/doc and .Rmd", {
   }
 
   # Step 2: Create the .tar Archive
-  tar_file <- file.path(temp_dir, "old_structure.tar")
+  tar_file <- file.path(temp_dir, "old_structure.tar.gz")
   tar(tar_file, files = main_dir)
 
   # Ensure cleanup happens even if the test fails
@@ -182,7 +182,7 @@ test_that("test on package with inst/doc and no .Rmd", {
   dir.create(subsub_dir, showWarnings = FALSE)
 
   # Step 2: Create the .tar Archive
-  tar_file <- file.path(temp_dir, "old_structure.tar")
+  tar_file <- file.path(temp_dir, "old_structure.tar.gz")
   tar(tar_file, files = main_dir)
 
   # Ensure cleanup happens even if the test fails
@@ -206,7 +206,7 @@ test_that("empty folder", {
   dir.create(main_dir, showWarnings = FALSE)
 
   # Step 2: Create the .tar Archive
-  tar_file <- file.path(temp_dir, "old_structure.tar")
+  tar_file <- file.path(temp_dir, "old_structure.tar.gz")
   tar(tar_file, files = main_dir)
 
   # Ensure cleanup happens even if the test fails
