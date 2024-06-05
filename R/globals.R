@@ -1,4 +1,8 @@
-globalVariables(c("comments",
+globalVariables(c(
+                  ".data",
+                  "Freq",
+                  "Var1",
+                  "comments",
                   "dependencies",  
                   "has_bug_reports_url",
                   "imp_count", 

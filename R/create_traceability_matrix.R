@@ -5,6 +5,7 @@
 #'
 #' @param pkg_source_path path to a source package
 #' @param func_covr function coverage
+#' @param results_dir where matrix will be written
 #' @param verbose Logical (`TRUE`/`FALSE`). If `TRUE`, show any warnings/messages per function.
 #'
 #' @returns a tibble

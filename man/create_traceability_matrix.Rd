@@ -16,6 +16,8 @@ create_traceability_matrix(
 
 \item{func_covr}{function coverage}
 
+\item{results_dir}{where matrix will be written}
+
 \item{verbose}{Logical (`TRUE`/`FALSE`). If `TRUE`, show any warnings/messages per function.}
 }
 \value{
