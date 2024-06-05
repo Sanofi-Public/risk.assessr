@@ -20,12 +20,13 @@ library(jsonlite)
 #' @export
 #'
 #' @examples
-#' 
-#' # result <- get_tar_package("dplyr", "1.0.0")
-#' # print(result)
+#' \dontrun{
+#' result <- get_tar_package("dplyr", "1.0.0")
+#' print(result)
 #' # Expected output:
 #' # $url
 #' # [1] "https://cran.r-project.org/src/contrib/Archive/dplyr/dplyr_1.0.0.tar.gz"
+#' }
 get_tar_package <- function(package_name, version) {
   url <- "https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/2bb1fda0-b2fb-4686-b613-310d5a74e453/get_tar_link/"
   body <- list(

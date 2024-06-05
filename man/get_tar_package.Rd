@@ -23,10 +23,11 @@ If the request is successful, the function returns the response from the API, wh
 If the request fails, the function stops and returns an error message with the status code.
 }
 \examples{
-
-# result <- get_tar_package("dplyr", "1.0.0")
-# print(result)
+\dontrun{
+result <- get_tar_package("dplyr", "1.0.0")
+print(result)
 # Expected output:
 # $url
 # [1] "https://cran.r-project.org/src/contrib/Archive/dplyr/dplyr_1.0.0.tar.gz"
+}
 }
