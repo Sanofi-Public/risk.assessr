@@ -40,6 +40,14 @@ create_traceability_matrix <- function(pkg_source_path,
   
   tm <- dplyr::left_join(exports_df, func_coverage, by = "code_script")
   
+  # write results to RDS
+  if(!is.null(results_dir)){
+    saveRDS(
+      tm,
+      get_result_path(results_dir, "tm_doc.rds")
+    )
+  }
+  
   message(glue::glue("traceability matrix for {pkg_disp} successful"))
   
   
