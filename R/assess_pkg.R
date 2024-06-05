@@ -74,11 +74,17 @@ assess_pkg <- function(
   results <- sanofi.risk.metric::update_pscore_results(results, pscore)
   
   # run R code coverage
-  results$covr <- run_coverage(
+  covr_list <- run_coverage(
     pkg_source_path,  # must use untarred package dir
     out_dir,
     covr_timeout
   )
+  
+  # add total coverage to results
+  results$covr <- covr_list$total_cov
+  
+  # create traceability matrix
+  create_traceability_matrix(pkg_source_path, covr_list$res_cov) 
   
   # run R Cmd check
   rcmdcheck_args$path <- pkg_source_path
