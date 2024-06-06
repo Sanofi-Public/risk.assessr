@@ -6,6 +6,11 @@ test_that("contains_vignette_folder handles non-existent file", {
   expect_error(contains_vignette_folder("nonexistent_file.tar.gz"), "File does not exist")
 })
 
+test_that("contains_vignette_folder handles non-existent file", {
+  expect_error(contains_vignette_folder("eezrfrfrr"), "File does not exist")
+})
+
+
 test_that("correct repo with Non-tar file throws an error", {
 
   # Temporary directory for testing
@@ -67,11 +72,7 @@ test_that("test on package with vignette folder", {
   # Check that the tar file contains .Rmd files
   expect_true(contains_vignette_folder(tar_file))
   expect_warning(contains_vignette_folder(tar_file), NA)
-  
 })
-
-
-
 
 
 test_that("test on package without vignette folder", {
@@ -165,7 +166,6 @@ test_that("test on package with inst/doc and .Rmd", {
   # Check that the tar file contains .Rmd files
   expect_false(contains_vignette_folder(tar_file))
   expect_warning(contains_vignette_folder(tar_file), NA)
-  
 })
 
 
@@ -196,9 +196,7 @@ test_that("test on package with inst/doc and no .Rmd", {
   # Check that the tar file contains .Rmd files
   expect_false(contains_vignette_folder(tar_file))
   expect_warning(contains_vignette_folder(tar_file), NA)
-  
 })
-
 
 test_that("empty folder", {
 
@@ -221,9 +219,18 @@ test_that("empty folder", {
 
   # Check that the tar file contains .Rmd files
   expect_false(contains_vignette_folder(tar_file))
-  expect_warning(contains_vignette_folder(tar_file), NA)
+  # Test handling of an invalid tar file
   
+  expect_warning(
+    result <- contains_vignette_folder(tar_file),
+    "Warning in untar"
+  )
 })
+
+
+
+
+
 
 
 

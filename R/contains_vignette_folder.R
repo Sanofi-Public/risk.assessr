@@ -29,8 +29,19 @@ contains_vignette_folder <- function(tar_file) {
     stop("Unsupported file type. Please provide a .tar file.")
   }
   
-  # List the contents of the .tar file
-  file_list <- utils::untar(tar_file, list = TRUE)
+  # Try to list the contents of the .tar file, handling any errors or warnings
+  file_list <- tryCatch(
+    {
+      utils::untar(tar_file, list = TRUE)
+    },
+    warning = function(w) {
+      warning("Warning in untar: ", conditionMessage(w))
+      return(character(0))
+    },
+    error = function(e) {
+      stop("Error in untar: ", conditionMessage(e))
+    }
+  )  
   
   # Normalize file paths to use forward slashes for consistency
   normalized_paths <- gsub("\\\\", "/", file_list)
