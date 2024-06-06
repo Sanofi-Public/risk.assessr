@@ -4,7 +4,10 @@
 \alias{get_result_path}
 \title{Assign output file path for various outputs during scorecard rendering}
 \usage{
-get_result_path(out_dir, ext = c("check.rds", "covr.rds", "tm_doc.rds"))
+get_result_path(
+  out_dir,
+  ext = c("check.rds", "covr.rds", "tm_doc.rds", "tm_doc.xlsx")
+)
 }
 \arguments{
 \item{out_dir}{output directory for saving results}

@@ -84,7 +84,7 @@ assess_pkg <- function(
   results$covr <- covr_list$total_cov
   
   # create traceability matrix
-  create_traceability_matrix(pkg_source_path, covr_list$res_cov, out_dir) 
+  create_traceability_matrix(pkg_name, pkg_source_path, covr_list$res_cov, out_dir) 
   
   # run R Cmd check
   rcmdcheck_args$path <- pkg_source_path

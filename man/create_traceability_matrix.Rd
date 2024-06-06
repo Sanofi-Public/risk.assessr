@@ -5,6 +5,7 @@
 \title{Create a Traceability Matrix}
 \usage{
 create_traceability_matrix(
+  pkg_name,
   pkg_source_path,
   func_covr,
   results_dir = NULL,
@@ -12,6 +13,8 @@ create_traceability_matrix(
 )
 }
 \arguments{
+\item{pkg_name}{name of package}
+
 \item{pkg_source_path}{path to a source package}
 
 \item{func_covr}{function coverage}

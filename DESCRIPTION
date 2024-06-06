@@ -27,6 +27,7 @@ Suggests:
   fs,
   glue,
   magrittr,
+  openxlsx,
   remotes,
   readr,
   pkgload,

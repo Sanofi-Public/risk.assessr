@@ -2,7 +2,8 @@
 #'
 #' Returns a table that links all exported functions and their aliases to their documentation (`man` files),
 #' the R scripts containing them, and the test scripts that reference them.
-#'
+#' 
+#' @param pkg_name name of package
 #' @param pkg_source_path path to a source package
 #' @param func_covr function coverage
 #' @param results_dir where matrix will be written
@@ -11,15 +12,12 @@
 #' @returns a tibble
 #'
 #' @export
-create_traceability_matrix <- function(pkg_source_path, 
+create_traceability_matrix <- function(pkg_name, 
+                                       pkg_source_path, 
                                        func_covr,
                                        results_dir = NULL, verbose = FALSE){
   
-  pkg_name <- basename(pkg_source_path)
-  
-  pkg_disp <- stringr::str_extract(pkg_name, "[^_]+")
-  
-  message(glue::glue("creating traceability matrix for {pkg_disp}"))
+  message(glue::glue("creating traceability matrix for {pkg_name}"))
   
   # Check that package is valid
   check_tm_possible(pkg_source_path)
@@ -39,7 +37,19 @@ create_traceability_matrix <- function(pkg_source_path,
   func_coverage <- func_coverage |> dplyr::rename(code_script = Var1, 
                                                   coverage_percent = Freq)
   
-  tm <- dplyr::left_join(exports_df, func_coverage, by = "code_script")
+  # create traceability matrix
+  tm <- dplyr::left_join(exports_df, func_coverage, by = "code_script") |> 
+    dplyr::mutate(date_time = "") |> 
+    dplyr::mutate(Signature = "") |> 
+    # set up first row
+    tibble::add_row(exported_function = pkg_name, 
+                    code_script = "",
+                    documentation = "",
+                    coverage_percent = 0,
+                    date_time = as.character(Sys.time()),
+                    Signature = "",
+                    .before = 1) |> 
+    dplyr::rename(package_function = exported_function)
   
   # write results to RDS
   if(!is.null(results_dir)){
@@ -49,11 +59,42 @@ create_traceability_matrix <- function(pkg_source_path,
     )
   }
   
-  message(glue::glue("traceability matrix for {pkg_disp} successful"))
+  # write data to Excel file
+  wb <- openxlsx::createWorkbook()
+  
+  ## Add worksheets
+  openxlsx::addWorksheet(wb, "trace-matrix")
+  
+  ## Header Styles
+  hs1 <- openxlsx::createStyle(fgFill = "#800080", halign = "CENTER", textDecoration = "italic",
+                               border = "Bottom")
+  
+  # set sheet name as parameter
+  sheetName <- "trace-matrix"
+  
+  # function to adjust column widths
+  width_adjust_func(wb, tm, sheetName)
+  
+  # write data to worksheet
+  openxlsx::writeData(wb,
+                      sheet = "trace-matrix", x = tm,
+                      startCol = 1, startRow = 1, 
+                      colNames = TRUE, 
+                      headerStyle = hs1,
+                      withFilter = FALSE
+  )
+  
+  # set up file path
+  write_file_path <- get_result_path(results_dir, "tm_doc.xlsx")
+  
+  # write workbook
+  if(!is.null(results_dir)){
+    openxlsx::saveWorkbook(wb, write_file_path, overwrite = TRUE)
+  }
   
   
+  message(glue::glue("traceability matrix for {pkg_name} successful"))
   
-  # return(tm)
 }
 
 check_tm_possible <- function(pkg_source_path){
@@ -260,3 +301,18 @@ map_functions_to_docs <- function(exports_df, pkg_source_path, verbose) {
   
   return(exports_df)
 }
+
+width_adjust_func <- function(wb, DF, sheetName) {
+  # set to 2 to handle bold font
+  width_adjuster <- 2
+  # column widths based on values in the dataframe
+  width_vec <-apply(DF, 2, function(x) max(nchar(as.character(x)) + width_adjuster, na.rm = TRUE))
+  # width_vec <-apply(DF, 2, function(x) max(stringr::str_length(x)) + width_adjuster)
+  
+  # column widths based on the column header widths
+  width_vec_header <- nchar(colnames(DF))  + width_adjuster
+  # now use parallel max (like vectorized max) to capture the lengthiest value per column
+  width_vec_max <- pmax(width_vec, width_vec_header)
+  openxlsx::setColWidths(wb, sheet = sheetName, cols = 1:ncol(DF), widths = width_vec_max)
+}
+
