@@ -8,8 +8,10 @@ globalVariables(c(
                   "has_bug_reports_url",
                   "imp_count", 
                   "link_count",
+                  "name",
                   "overall_risk_score",
                   "pkg_name",
                   "pkg_version", 
-                  "sug_count"
+                  "sug_count",
+                  "value"
                   ))

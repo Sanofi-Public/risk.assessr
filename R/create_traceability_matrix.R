@@ -31,6 +31,17 @@ create_traceability_matrix <- function(pkg_name,
   # Map all Rd files to functions, then join back to exports
   exports_df <- map_functions_to_docs(exports_df, pkg_source_path, verbose)
   
+  descrip <- get_func_descriptions(pkg_name)
+  descript_df <- tibble::enframe(descrip) |> 
+    dplyr::rename(
+                  c(documentation = name,
+                    description = value)
+                  )
+  
+  exports_df <- dplyr::left_join(exports_df, 
+                                 descript_df, 
+                                 by = "documentation")
+  
   # convert array to df
   func_coverage <- as.data.frame.table(func_covr$coverage$filecoverage)
   
@@ -273,7 +284,7 @@ map_functions_to_docs <- function(exports_df, pkg_source_path, verbose) {
     function_names_lines <- rd_lines[grep("(^\\\\alias)|(^\\\\name)", rd_lines)]
     function_names <- unique(gsub("\\}", "", gsub("((\\\\alias)|(\\\\name))\\{", "", function_names_lines)))
     
-    man_name <- paste0("man/", basename(rd_file.i))
+    man_name <- paste0(basename(rd_file.i))
     
     data.frame(
       pkg_function = function_names,
@@ -314,5 +325,25 @@ width_adjust_func <- function(wb, DF, sheetName) {
   # now use parallel max (like vectorized max) to capture the lengthiest value per column
   width_vec_max <- pmax(width_vec, width_vec_header)
   openxlsx::setColWidths(wb, sheet = sheetName, cols = 1:ncol(DF), widths = width_vec_max)
+}
+
+get_func_descriptions <- function(pkg_name){
+  db <- tools::Rd_db(pkg_name)
+  description <- lapply(db,function(x) {
+    
+    # tags <- tools:::RdTags(x) - replace to pass RCMD check
+    tags <- lapply(x, attr, "Rd_tag")
+    if("\\description" %in% tags){
+      # return a crazy list of results
+      #out <- x[which(tmp=="\\author")]
+      # return something a little cleaner
+      out <- paste(unlist(x[which(tags=="\\description")]),collapse="")
+    }
+    else
+      out <- NULL
+    invisible(out)
+  })
+  
+  gsub("\n","",unlist(description)) # further cleanup
 }
 
