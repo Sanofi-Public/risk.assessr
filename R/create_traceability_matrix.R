@@ -48,9 +48,10 @@ create_traceability_matrix <- function(pkg_name,
   func_coverage <- func_coverage |> dplyr::rename(code_script = Var1, 
                                                   coverage_percent = Freq)
   
-  
   # create traceability matrix
-  tm <- dplyr::left_join(exports_df, func_coverage, by = "code_script")
+  tm <- dplyr::left_join(exports_df, 
+                         func_coverage, 
+                         by = "code_script") 
    
   # write tm to rds
   write_tm_rds(tm, pkg_name, results_dir)
@@ -363,6 +364,9 @@ write_tm_rds <- function(tm, pkg_name, results_dir) {
 #'
 write_tm_excel <- function(tm, pkg_name, results_dir) {
   
+  tm <- tm |> 
+    dplyr::mutate(Signature = "") 
+  
   # write data to Excel file
   wb <- openxlsx::createWorkbook()
   
@@ -370,31 +374,36 @@ write_tm_excel <- function(tm, pkg_name, results_dir) {
   openxlsx::addWorksheet(wb, "trace-matrix")
   
   ## Header Styles
-  hs1 <- openxlsx::createStyle(fgFill = "#800080", halign = "CENTER", textDecoration = "italic",
+  hs1 <- openxlsx::createStyle(fgFill = "#CBC3E3", 
+                               halign = "CENTER", 
+                               textDecoration = c("bold", "italic", "underline"),
                                border = "Bottom")
+  
+  openxlsx::addStyle(wb, 
+                     sheet = "trace-matrix", 
+                     style = hs1,
+                     rows = 1:100000, 
+                     cols = 4,
+                     gridExpand = TRUE)
   
   # set sheet name as parameter
   sheetName <- "trace-matrix"
   
-  title <- "Traceability Matrix"
-  package_descrip <- "Package"
-  package_name <- pkg_name
-  date_time_descrip <- "Date Time"
-  date_time <- as.character(Sys.time())
+  Traceability_Matrix <- " "
+  Package <- pkg_name
+  Date_Time <- as.character(Sys.time())
   
   
-  header_row <- data.frame(title,
-                           package_descrip,
-                           package_name,
-                           date_time_descrip,
-                           date_time)
+  header_row <- data.frame(Traceability_Matrix,
+                           Package,
+                           Date_Time)
   
   # write data to worksheet
   openxlsx::writeData(wb,
                       sheet = "trace-matrix", x = header_row,
                       startCol = 1, startRow = 1, 
-                      colNames = FALSE, 
-                      headerStyle = hs1,
+                      colNames = TRUE, 
+                      headerStyle = hs1, 
                       withFilter = FALSE
   )
   
@@ -402,9 +411,21 @@ write_tm_excel <- function(tm, pkg_name, results_dir) {
   width_adjust_func(wb, tm, sheetName)
   
   # write data to worksheet
+  style1 <- openxlsx::createStyle(wrapText = TRUE)
+  
+  openxlsx::addStyle(wb, 
+                     sheet = "trace-matrix", 
+                     style = style1,
+                     rows = 1:100000, 
+                     cols = 4,
+                     gridExpand = TRUE)
+  
+  openxlsx::setColWidths(wb, sheet = "trace-matrix", 
+                         cols = 4, widths = 40)
+  
   openxlsx::writeData(wb,
                       sheet = "trace-matrix", x = tm,
-                      startCol = 1, startRow = 2, 
+                      startCol = 1, startRow = 3, 
                       colNames = TRUE, 
                       headerStyle = hs1,
                       withFilter = FALSE
