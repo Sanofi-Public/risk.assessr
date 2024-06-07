@@ -55,39 +55,8 @@ create_traceability_matrix <- function(pkg_name,
   # write tm to rds
   write_tm_rds(tm, pkg_name, results_dir)
   
-  # write data to Excel file
-  wb <- openxlsx::createWorkbook()
-  
-  ## Add worksheets
-  openxlsx::addWorksheet(wb, "trace-matrix")
-  
-  ## Header Styles
-  hs1 <- openxlsx::createStyle(fgFill = "#800080", halign = "CENTER", textDecoration = "italic",
-                               border = "Bottom")
-  
-  # set sheet name as parameter
-  sheetName <- "trace-matrix"
-  
-  # function to adjust column widths
-  width_adjust_func(wb, tm, sheetName)
-  
-  # write data to worksheet
-  openxlsx::writeData(wb,
-                      sheet = "trace-matrix", x = tm,
-                      startCol = 1, startRow = 1, 
-                      colNames = TRUE, 
-                      headerStyle = hs1,
-                      withFilter = FALSE
-  )
-  
-  # set up file path
-  write_file_path <- get_result_path(results_dir, "tm_doc.xlsx")
-  
-  # write workbook
-  if(!is.null(results_dir)){
-    openxlsx::saveWorkbook(wb, write_file_path, overwrite = TRUE)
-  }
-  
+  # write tm to excel
+  write_tm_excel(tm, pkg_name, results_dir)
   
   message(glue::glue("traceability matrix for {pkg_name} successful"))
   
@@ -381,3 +350,71 @@ write_tm_rds <- function(tm, pkg_name, results_dir) {
   }
   
 }
+
+#' Write tm to Excel
+#'
+#' @description This function writes the traceability matrix to Excel
+#' 
+#' @param tm - traceability matrix
+#' @param pkg_name - name of the package
+#' @param results_dir - directory where rds is written
+#'
+#' @keywords internal
+#'
+write_tm_excel <- function(tm, pkg_name, results_dir) {
+  
+  # write data to Excel file
+  wb <- openxlsx::createWorkbook()
+  
+  ## Add worksheets
+  openxlsx::addWorksheet(wb, "trace-matrix")
+  
+  ## Header Styles
+  hs1 <- openxlsx::createStyle(fgFill = "#800080", halign = "CENTER", textDecoration = "italic",
+                               border = "Bottom")
+  
+  # set sheet name as parameter
+  sheetName <- "trace-matrix"
+  
+  title <- "Traceability Matrix"
+  package_descrip <- "Package"
+  package_name <- pkg_name
+  date_time_descrip <- "Date Time"
+  date_time <- as.character(Sys.time())
+  
+  
+  header_row <- data.frame(title,
+                           package_descrip,
+                           package_name,
+                           date_time_descrip,
+                           date_time)
+  
+  # write data to worksheet
+  openxlsx::writeData(wb,
+                      sheet = "trace-matrix", x = header_row,
+                      startCol = 1, startRow = 1, 
+                      colNames = FALSE, 
+                      headerStyle = hs1,
+                      withFilter = FALSE
+  )
+  
+  # function to adjust column widths
+  width_adjust_func(wb, tm, sheetName)
+  
+  # write data to worksheet
+  openxlsx::writeData(wb,
+                      sheet = "trace-matrix", x = tm,
+                      startCol = 1, startRow = 2, 
+                      colNames = TRUE, 
+                      headerStyle = hs1,
+                      withFilter = FALSE
+  )
+  
+  # set up file path
+  write_file_path <- get_result_path(results_dir, "tm_doc.xlsx")
+  
+  # write workbook
+  if(!is.null(results_dir)){
+    openxlsx::saveWorkbook(wb, write_file_path, overwrite = TRUE)
+  }
+}  
