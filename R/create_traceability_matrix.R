@@ -48,27 +48,12 @@ create_traceability_matrix <- function(pkg_name,
   func_coverage <- func_coverage |> dplyr::rename(code_script = Var1, 
                                                   coverage_percent = Freq)
   
-  # create traceability matrix
-  tm <- dplyr::left_join(exports_df, func_coverage, by = "code_script") |> 
-    dplyr::mutate(date_time = "") |> 
-    dplyr::mutate(Signature = "") |> 
-    # set up first row
-    tibble::add_row(exported_function = pkg_name, 
-                    code_script = "",
-                    documentation = "",
-                    coverage_percent = 0,
-                    date_time = as.character(Sys.time()),
-                    Signature = "",
-                    .before = 1) |> 
-    dplyr::rename(package_function = exported_function)
   
-  # write results to RDS
-  if(!is.null(results_dir)){
-    saveRDS(
-      tm,
-      get_result_path(results_dir, "tm_doc.rds")
-    )
-  }
+  # create traceability matrix
+  tm <- dplyr::left_join(exports_df, func_coverage, by = "code_script")
+   
+  # write tm to rds
+  write_tm_rds(tm, pkg_name, results_dir)
   
   # write data to Excel file
   wb <- openxlsx::createWorkbook()
@@ -313,13 +298,20 @@ map_functions_to_docs <- function(exports_df, pkg_source_path, verbose) {
   return(exports_df)
 }
 
+#' adjust width of columns
+#'
+#' @description adjust width of columns to either values in df or column headers
+#' 
+#' @param wb - openxlsx workbook
+#' @param DF - dataframe
+#' @param sheetName - name of Excel sheet
+#'
+#' @keywords internal
 width_adjust_func <- function(wb, DF, sheetName) {
   # set to 2 to handle bold font
   width_adjuster <- 2
   # column widths based on values in the dataframe
   width_vec <-apply(DF, 2, function(x) max(nchar(as.character(x)) + width_adjuster, na.rm = TRUE))
-  # width_vec <-apply(DF, 2, function(x) max(stringr::str_length(x)) + width_adjuster)
-  
   # column widths based on the column header widths
   width_vec_header <- nchar(colnames(DF))  + width_adjuster
   # now use parallel max (like vectorized max) to capture the lengthiest value per column
@@ -327,6 +319,13 @@ width_adjust_func <- function(wb, DF, sheetName) {
   openxlsx::setColWidths(wb, sheet = sheetName, cols = 1:ncol(DF), widths = width_vec_max)
 }
 
+#' Get function descriptions
+#'
+#' @description get descriptions of exported functions 
+#' 
+#' @param pkg_name - name of the package
+#'
+#' @keywords internal
 get_func_descriptions <- function(pkg_name){
   db <- tools::Rd_db(pkg_name)
   description <- lapply(db,function(x) {
@@ -347,3 +346,38 @@ get_func_descriptions <- function(pkg_name){
   gsub("\n","",unlist(description)) # further cleanup
 }
 
+#' Write tm to rds
+#'
+#' @description This function writes the traceability matrix to rds
+#' 
+#' @param tm - traceability matrix
+#' @param pkg_name - name of the package
+#' @param results_dir - directory where rds is written
+#'
+#' @keywords internal
+#'
+write_tm_rds <- function(tm, pkg_name, results_dir) {
+  
+  tm <- tm |> 
+    dplyr::mutate(date_time = "") |> 
+    dplyr::mutate(Signature = "") |> 
+    # set up first row
+    tibble::add_row(exported_function = pkg_name, 
+                    code_script = "",
+                    documentation = "",
+                    coverage_percent = 0,
+                    date_time = as.character(Sys.time()),
+                    Signature = "",
+                    .before = 1) |> 
+    dplyr::rename(package_function = exported_function)
+  
+  
+  # write results to RDS
+  if(!is.null(results_dir)){
+    saveRDS(
+      tm,
+      get_result_path(results_dir, "tm_doc.rds")
+    )
+  }
+  
+}
