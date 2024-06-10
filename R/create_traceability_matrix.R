@@ -9,7 +9,7 @@
 #' @param results_dir where matrix will be written
 #' @param verbose Logical (`TRUE`/`FALSE`). If `TRUE`, show any warnings/messages per function.
 #'
-#' @returns a tibble
+#' @returns a tibble with traceability matrix
 #'
 #' @export
 create_traceability_matrix <- function(pkg_name, 
@@ -61,6 +61,7 @@ create_traceability_matrix <- function(pkg_name,
   
   message(glue::glue("traceability matrix for {pkg_name} successful"))
   
+  return(tm)
 }
 
 check_tm_possible <- function(pkg_source_path){

@@ -24,7 +24,7 @@ create_traceability_matrix(
 \item{verbose}{Logical (`TRUE`/`FALSE`). If `TRUE`, show any warnings/messages per function.}
 }
 \value{
-a tibble
+a tibble with traceability matrix
 }
 \description{
 Returns a table that links all exported functions and their aliases to their documentation (`man` files),

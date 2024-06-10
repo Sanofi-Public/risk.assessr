@@ -12,7 +12,7 @@
 #' @param rcmdcheck_args - arguments for R Cmd check - these come from setup_rcmdcheck_args
 #' @param covr_timeout - setting for covr time out
 #'
-#' @return results - list containing metrics
+#' @return list containing results - list containing metrics and tm - trace matrix
 #' @export
 #'
 assess_pkg <- function(
@@ -84,7 +84,7 @@ assess_pkg <- function(
   results$covr <- covr_list$total_cov
   
   # create traceability matrix
-  create_traceability_matrix(pkg_name, pkg_source_path, covr_list$res_cov, out_dir) 
+  tm <- create_traceability_matrix(pkg_name, pkg_source_path, covr_list$res_cov, out_dir) 
   
   # run R Cmd check
   rcmdcheck_args$path <- pkg_source_path
@@ -118,5 +118,6 @@ assess_pkg <- function(
                                      riskscore_data_path, 
                                      riskscore_data_exists)
   
-  return(results)
+  return(list(results = results,
+              tm = tm))
 }
