@@ -50,7 +50,7 @@ get_risk_metadata <- function(executor = NULL) {
 #' 
 get_result_path <- function(
     out_dir,
-    ext = c("check.rds", "covr.rds")
+    ext = c("check.rds", "covr.rds", "tm_doc.rds", "tm_doc.xlsx")
 ){
   
   ext <- match.arg(ext)

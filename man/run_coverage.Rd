@@ -13,6 +13,9 @@ run_coverage(pkg_source_path, out_dir, timeout = Inf)
 
 \item{timeout}{Timeout to pass to [callr::r_safe()] when running covr.}
 }
+\value{
+list with total coverage and function coverage
+}
 \description{
 Run covr and potentially save results to disk
 }
