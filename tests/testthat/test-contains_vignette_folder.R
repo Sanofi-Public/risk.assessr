@@ -195,36 +195,10 @@ test_that("test on package with inst/doc and no .Rmd", {
 })
 
 test_that("empty folder", {
-
-  # Temporary directory for testing
-  temp_dir <- tempdir()
-
-  # Define the folder structure using the temporary directory
-  main_dir <- file.path(temp_dir, "old_structure")
-
-  # Step 1: Create the Folder Structure and Multiple .Rmd Files
-  dir.create(main_dir, showWarnings = FALSE)
-
-  # Step 2: Create the .tar Archive
-  tar_file <- file.path(temp_dir, "old_structure.tar.gz")
-  tar(tar_file, files = main_dir)
-
-  # Ensure cleanup happens even if the test fails
-  defer(unlink(main_dir))
-  defer(unlink(tar_file))
-
-  # Check that the tar file contains .Rmd files
+  
+  tar_file <-"file/old_structure.tar.gz"
   expect_false(contains_vignette_folder(tar_file))
   expect_silent(contains_vignette_folder(tar_file))
-  
 })
-
-
-
-
-
-
-
-
 
 

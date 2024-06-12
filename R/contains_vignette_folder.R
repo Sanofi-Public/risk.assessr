@@ -62,3 +62,5 @@ contains_vignette_folder <- function(tar_file) {
   
   return(has_rmd_in_vignette)
 }
+
+
