@@ -1,7 +1,3 @@
-library(testthat)
-library(withr)
-
-
 test_that("contains_vignette_folder handles non-existent file", {
   expect_error(contains_vignette_folder("nonexistent_file.tar.gz"), "File does not exist")
 })
@@ -214,17 +210,13 @@ test_that("empty folder", {
   tar(tar_file, files = main_dir)
 
   # Ensure cleanup happens even if the test fails
-  defer(unlink(main_dir, recursive = TRUE))
+  defer(unlink(main_dir))
   defer(unlink(tar_file))
 
   # Check that the tar file contains .Rmd files
   expect_false(contains_vignette_folder(tar_file))
-  # Test handling of an invalid tar file
+  expect_silent(contains_vignette_folder(tar_file))
   
-  expect_warning(
-    result <- contains_vignette_folder(tar_file),
-    "Warning in untar"
-  )
 })
 
 

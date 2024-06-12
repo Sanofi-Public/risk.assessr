@@ -1,3 +1,5 @@
+library(withr)
+
 # test weights
 
 sanofi_weights_numeric <- c(
