@@ -17,6 +17,12 @@ A logical value: \code{TRUE} if the 'vignettes' folder exists and contains at le
 This function checks if a given .tar file contains a 'vignettes' folder
 and if there is at least one .Rmd file within that folder.
 }
+\details{
+The function if the specified file exists and has a valid .tar extension.
+It then attempts to list the contents of the .tar file using \code{utils::untar}. If the file is empty or
+any error occurs during the extraction, the function stops and returns an error message. If the 'vignettes'
+folder exists and contains at least one .Rmd file, the function returns \code{TRUE}. Otherwise, it returns \code{FALSE}.
+}
 \examples{
 \dontrun{
   tar_file <- "path/to/your/package.tar.gz"

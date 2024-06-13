@@ -1,4 +1,3 @@
-library(utils)
 #' Check for Vignette Folder and .Rmd Files in a .tar File
 #'
 #' This function checks if a given .tar file contains a 'vignettes' folder
@@ -9,6 +8,11 @@ library(utils)
 #' @return A logical value: \code{TRUE} if the 'vignettes' folder exists and contains at least one .Rmd file,
 #' \code{FALSE} otherwise.
 #'
+#' @details The function if the specified file exists and has a valid .tar extension.
+#' It then attempts to list the contents of the .tar file using \code{utils::untar}. If the file is empty or
+#' any error occurs during the extraction, the function stops and returns an error message. If the 'vignettes'
+#' folder exists and contains at least one .Rmd file, the function returns \code{TRUE}. Otherwise, it returns \code{FALSE}.
+#'
 #' @examples
 #' \dontrun{
 #'   tar_file <- "path/to/your/package.tar.gz"
@@ -16,6 +20,7 @@ library(utils)
 #'   print(result)
 #' }
 #' 
+#' @import utils
 #' @export
 contains_vignette_folder <- function(tar_file) {
   
@@ -29,19 +34,20 @@ contains_vignette_folder <- function(tar_file) {
     stop("Unsupported file type. Please provide a .tar file.")
   }
   
-  # Try to list the contents of the .tar file, handling any errors or warnings
+  # Try to list the contents of the .tar file, handling any errors
   file_list <- tryCatch(
     {
-      utils::untar(tar_file, list = TRUE)
-    },
-    warning = function(w) {
-      warning("Warning in untar: ", conditionMessage(w))
-      return(character(0))
+      suppressWarnings(utils::untar(tar_file, list = TRUE))
     },
     error = function(e) {
       stop("Error in untar: ", conditionMessage(e))
     }
-  )  
+  )
+  
+  # If the tar file is empty, return FALSE
+  if (length(file_list) == 0) {
+    stop("Error in untar: file is empty")
+  }
   
   # Normalize file paths to use forward slashes for consistency
   normalized_paths <- gsub("\\\\", "/", file_list)
@@ -62,5 +68,3 @@ contains_vignette_folder <- function(tar_file) {
   
   return(has_rmd_in_vignette)
 }
-
-
