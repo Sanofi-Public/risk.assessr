@@ -83,9 +83,13 @@ assess_pkg <- function(
   # add total coverage to results
   results$covr <- covr_list$total_cov
   
-  # create traceability matrix
-  tm <- create_traceability_matrix(pkg_name, pkg_source_path, covr_list$res_cov, out_dir) 
-  
+  if (is.na(results$covr)) {
+    #  create empty traceability matrix
+    tm <- sanofi.risk.metric::create_empty_tm(pkg_name)
+  } else {
+    #  create traceability matrix
+    tm <- create_traceability_matrix(pkg_name, pkg_source_path, covr_list$res_cov, out_dir) 
+  }
   # run R Cmd check
   rcmdcheck_args$path <- pkg_source_path
   results$check <- run_rcmdcheck(pkg_source_path, out_dir, rcmdcheck_args) # use tarball
