@@ -1,17 +1,18 @@
 #' Check for Vignette Folder and .Rmd Files in a .tar File
 #'
 #' This function checks if a given .tar file contains a 'vignettes' folder
-#' and if there is at least one .Rmd file within that folder.
+#' and if there is at least one .Rmd file within that folder. If both 'vignettes'
+#' and 'inst/doc' folders exist, the function will return \code{FALSE}.
 #'
 #' @param tar_file A character string specifying the path to the .tar file to be checked.
 #' 
 #' @return A logical value: \code{TRUE} if the 'vignettes' folder exists and contains at least one .Rmd file,
-#' \code{FALSE} otherwise.
+#' and neither 'vignettes' nor 'inst/doc' folders are present, \code{FALSE} otherwise.
 #'
-#' @details The function if the specified file exists and has a valid .tar extension.
-#' It then attempts to list the contents of the .tar file using \code{utils::untar}. If the file is empty or
-#' any error occurs during the extraction, the function stops and returns an error message. If the 'vignettes'
-#' folder exists and contains at least one .Rmd file, the function returns \code{TRUE}. Otherwise, it returns \code{FALSE}.
+#' @details The function checks if the specified file exists and has a valid .tar extension using \code{utils::untar}. If the file is empty or
+#' any error occurs during the extraction, the function stops and returns an error message. If both 'vignettes'
+#' and 'inst/doc' folders exist, the function returns \code{FALSE}. If the 'vignettes' folder exists and contains 
+#' at least one .Rmd file, the function returns \code{TRUE}. Otherwise, it returns \code{FALSE}.
 #'
 #' @examples
 #' \dontrun{
@@ -54,6 +55,14 @@ contains_vignette_folder <- function(tar_file) {
   
   # Extract paths that contain the vignettes folder
   vignette_folder <- grep("/vignettes(/|$)", normalized_paths, value = TRUE)
+  
+  # Extract paths that contain the inst/doc folder
+  inst_doc_folder <- grep("/inst/doc(/|$)", normalized_paths, value = TRUE)
+  
+  # Check if both folders exist
+  if (length(vignette_folder) > 0 && length(inst_doc_folder) > 0) {
+    return(FALSE)
+  }
   
   # Check if the vignettes folder exists
   if (length(vignette_folder) == 0) {
