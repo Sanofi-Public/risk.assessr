@@ -14,7 +14,7 @@
 #'
 #' @export
 #' 
-add_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
+run_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
   
   # We never want the rcmdcheck to fail
   rcmdcheck_args$error_on <- "never"
@@ -65,9 +65,10 @@ add_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
 #' @details
 #' The basename of `out_dir` should be the package name and version pasted together
 #'
+#' @return list with total coverage and function coverage
 #' @export
 #' 
-add_coverage <- function(pkg_source_path, out_dir, timeout = Inf) {
+run_coverage <- function(pkg_source_path, out_dir, timeout = Inf) {
   
   pkg_name <- basename(pkg_source_path)
   
@@ -121,7 +122,11 @@ add_coverage <- function(pkg_source_path, out_dir, timeout = Inf) {
     message(glue::glue("R coverage for {pkg_name} had notes: {res_cov$notes}"))
   }
   
-  return(total_cov)
+  covr_list <- list(
+    total_cov = total_cov,
+    res_cov = res_cov
+  )
+  return(covr_list)
 }
 
 #' Run covr in subprocess with timeout

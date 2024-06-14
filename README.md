@@ -24,6 +24,11 @@ of license
 
 **Dependency Metrics** - package dependencies and reverse dependencies
 
+It also calculates a:
+
+**Traceability matrix** - matching the function / test descriptions to
+tests and match to test pass/fail
+
 # Description
 
 This package has the following steps in the workflow to assess the risk
@@ -48,11 +53,13 @@ This package executes the following tasks:
 
 5.  Save the code coverage results
 
-6.  Run R CMD check
+6.  Run a traceability matrix
 
-7.  Save the R CMD check results
+7.  Run R CMD check
 
-8.  Run risk assessment metrics using default or user defined weighting
+8.  Save the R CMD check results
+
+9.  Run risk assessment metrics using default or user defined weighting
 
 # Notes
 
@@ -67,12 +74,21 @@ This package fixes a number of errors in `pharmaR/riskmetric`
 5.  `assess_dependencies` has value range changed to fit in with other
     scoring metrics
 
-# Future directions
+# Current/Future directions
 
-- user defined weights
-- check package versions with **verdepcheck**
+- overall risk profile - `DONE`
+- traceability matrix - matching the function / test descriptions to
+  tests and match to test pass/fail - `DONE`
+- background/batch processor to create risk metrics for a larger number
+  of packages  
 - write data to SQLite DB
-- traceability matrix – matching the function / test descriptions to
-  tests and match to test pass/fail
+- check package versions with **verdepcheck**
+
+# Acknowledgements
+
+The project is inspired by the
+[`riskmetric`](https://github.com/pharmaR/riskmetric) package and the
+[`mpn.scorecard`](https://github.com/metrumresearchgroup/mpn.scorecard)
+package and draws on some of their ideas and functions.
 
 # Installation

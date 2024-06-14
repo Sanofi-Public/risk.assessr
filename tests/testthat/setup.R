@@ -1,3 +1,6 @@
+# library
+library(withr)
+
 # test weights
 
 sanofi_weights_numeric <- c(
@@ -30,6 +33,11 @@ risk_results_1 <- list(
   export_calc = 0.586281,
   check = .7,
   covr = .1084,
-  dep_score = .9706878
-  # revdep_score = .1260338
+  dep_score = .9706878,
+  revdep_score = .1260338
 )
+
+# create overall risk scores to test risk profiles
+high_overall_risk_score <- .57
+medium_overall_risk_score <- .33
+low_overall_risk_score <- .24

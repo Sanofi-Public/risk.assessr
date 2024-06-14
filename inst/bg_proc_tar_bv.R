@@ -1,4 +1,3 @@
-
 library(here)
 library(rlang)
 library(unix)
@@ -49,13 +48,9 @@ library(sanofi.risk.metric)
 # set working directory to project root folder e.g. sanofi.risk.metric not inst
 # set copy job results to 'To results object in global environment' to have audit of job execution
 
-# background process main function ----
-
-bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
+bg_proc_tar <- function(tar_file, build_vignettes) {
   
-  input_path <- input_tar_path
-  
-  file_path <- paste0(input_path,"/", {{tar_file}})
+  file_path <- paste0("/home/u1004798/github-helper-repos/data/input_bg_data/", {{tar_file}})
   
   
   # get initial working directory
@@ -86,7 +81,7 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
     
     message("home is ", home)
     
-    message("out path is ", out_path)
+    out_path <- paste0("/home/u1004798/github-helper-repos/sanofi.risk.metric")
     
     out_dir <- file.path(out_path, "inst/results")
     
@@ -110,15 +105,18 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
     
     message("data path exists ", riskscore_data_exists)
     
+    rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
+    
     # assess package for risk
     assess_package <- 
       sanofi.risk.metric::assess_pkg(pkg,
                                      dp,
                                      pkg_source_path,
                                      out_dir,
-                                     overwrite = TRUE,
                                      riskscore_data_path,
-                                     riskscore_data_exists
+                                     riskscore_data_exists,
+                                     overwrite = TRUE,
+                                     rcmdcheck_args
       ) 
     
     # calculate elapsed time
@@ -134,105 +132,20 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
   
 }
 
-# check directory ----
+# create path to tar files
+Sys.getenv("R_SESSION_TMPDIR") 
+tempdir()
 
-check_dir <- function(dir_to_check) {
-  # check if the temp directory doesn't exist
-  if (!dir.exists(dir_to_check)) {
-    message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
-    # create directory with all the files 
-    # in the current directory have all permissions type
-    dir.create(dir_to_check, showWarnings = TRUE, recursive = FALSE, mode = "0777")
-    # check directory existence
-  }
-  message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
-}
+input_tar_path <- file.path("/home/u1004798/github-helper-repos/data/input_bg_data")
 
-# setup temp directory for Linux ----
+# create list of tar files 
+input_tar_list <- list.files(path = input_tar_path, pattern = "*.tar.gz$", full.names = FALSE)
 
-set_temp_dir_linux <- function() {
-  # get the user name
-  
-  user <- Sys.info()["user"]
-  
-  # create tmp dir based on user name
-  tmp_dir <- paste0("/home/", user, "/tmp")
-  
-  # normalize the path
-  tmp_dir <- normalizePath(tmp_dir)
-  
-  # check if the temp directory doesn't exist
-  if (!dir.exists(tmp_dir)) {
-    message("temp directory exists: ", dir.exists(tmp_dir))
-    # create directory with all the files 
-    # in the current directory have all permissions type
-    dir.create(tmp_dir, showWarnings = TRUE, recursive = FALSE, mode = "0777")
-  }
-  
-  # check directory existence
-  message("temp directory exists: ", dir.exists(tmp_dir))
-  
-  # set R session temp directory
-  Sys.setenv(R_SESSION_TMPDIR = tmp_dir)
-  message("R_SESSION_TMPDIR is ", Sys.getenv("R_SESSION_TMPDIR"))
-  
-  # set Linux session temp directory
-  unix:::set_tempdir(tmp_dir)
-  message("tempdir is ", tempdir())
-}
-
-# background process setup ----
-
-bg_proc_tar_setup <- function() {
-  
-  # create path to tar files
-  
-  # get the user name
-  user <- Sys.info()["user"]
-  
-  # create input dir based on user name
-  itp <- paste0("/home/", 
-                user, 
-                "/github-helper-repos/data/input_bg_data")
-  
-  input_tar_path <- file.path(itp)
-  
-  
-  # check directory existence
-  check_dir(input_tar_path)
-  
-  # create list of tar files 
-  input_tar_list <- list.files(path = input_tar_path, 
-                               pattern = "*.tar.gz$", 
-                               full.names = FALSE)
-  
-  if (Sys.info()["sysname"] == "Linux") {
-    set_temp_dir_linux()
-  }
-  
-  # create output path for results
-  out_path <- paste0("/home/", 
-                     user, 
-                     "/github-helper-repos/sanofi.risk.metric")
-  
-  # check directory existence
-  check_dir(out_path)
-  
-  bpt_list <- list(
-    input_tar_path = input_tar_path,
-    input_tar_list = input_tar_list,
-    out_path =  out_path 
-  )
-  return(bpt_list)
-}
-
-bpt_list <- bg_proc_tar_setup()
+# set build vignettes parameter
+build_vignettes <- TRUE
 
 # create list with 1 tar file
 # input_tar_list <- list.files(path = input_tar_path, pattern = "dplyr_1.0.1.tar.gz$", full.names = FALSE)
 
 # apply list vector to function
-purrr::pmap(list(bpt_list$input_tar_list, 
-                 bpt_list$input_tar_path, 
-                 bpt_list$out_path), 
-            bg_proc_tar)
+purrr::map2(input_tar_list, build_vignettes, bg_proc_tar)

@@ -8,11 +8,11 @@
 #' @param out_dir path for writing results
 #' @param riskscore_data_path data path of current risk assessment package
 #' @param riskscore_data_exists logical with T/F if risk score data exists
-#' @param overwrite Logical (T/F). Whether or not to overwrite existing scorecard results
-#' @param rcmdcheck_args - arguments for R Cmd check
+#' @param overwrite Logical (T/F). Whether or not to overwrite existing risk metric results
+#' @param rcmdcheck_args - arguments for R Cmd check - these come from setup_rcmdcheck_args
 #' @param covr_timeout - setting for covr time out
 #'
-#' @return results - list containing metrics
+#' @return list containing results - list containing metrics and tm - trace matrix
 #' @export
 #'
 assess_pkg <- function(
@@ -23,16 +23,7 @@ assess_pkg <- function(
     riskscore_data_path,
     riskscore_data_exists,
     overwrite = TRUE,
-    rcmdcheck_args = list(
-      timeout = Inf,
-      args = c("--ignore-vignettes", 
-               "--no-vignettes", 
-               "--as-cran",
-               "--no-manual"),
-      build_args = "--no-build-vignettes",
-      env = c(`_R_CHECK_FORCE_SUGGESTS_` = "FALSE"),
-      quiet = FALSE
-    ),
+    rcmdcheck_args,
     covr_timeout = Inf
 ) {
   # record covr tests
@@ -55,7 +46,7 @@ assess_pkg <- function(
   checkmate::check_character(rcmdcheck_args$args, pattern = "--ignore-vignettes")
   checkmate::check_character(rcmdcheck_args$args, pattern = "--no-vignettes")
   checkmate::check_character(rcmdcheck_args$args, pattern = "--as-cran")
-  checkmate::check_character(rcmdcheck_args$build_args, pattern = "--no-build-vignettes")
+  checkmate::check_character(rcmdcheck_args$build_args, pattern = "--no-build-vignettes|NULL")
   checkmate::assert_string(rcmdcheck_args$env)
   checkmate::check_logical(rcmdcheck_args$quiet)
   
@@ -73,59 +64,35 @@ assess_pkg <- function(
   
   metadata <- sanofi.risk.metric::get_risk_metadata()
   
-  results <- list(
-    pkg_name = pkg_name,
-    pkg_version = pkg_ver,
-    pkg_source_path = pkg_source_path,
-    date_time = metadata$datetime,
-    executor = metadata$executor,
-    sysname = metadata$info$sys$sysname,
-    version = metadata$info$sys$version,
-    release = metadata$info$sys$release,
-    machine = metadata$info$sys$machine,
-    has_bug_reports_url = "",
-    license = "",
-    has_examples = "",
-    has_maintainer = "",
-    size_codebase = "",
-    has_news = "",
-    has_source_control= "",
-    has_vignettes = "",
-    has_website = "",
-    news_current = "",
-    export_help = "",
-    export_calc = "",
-    check = "",
-    covr = "",
-    dependencies = "",
-    dep_score = "",
-    revdep_score = ""
-  )
+  results <- sanofi.risk.metric::create_empty_results(pkg_name,
+                                                      pkg_ver,
+                                                      pkg_source_path,
+                                                      metadata)
   
   pscore <- sanofi.risk.metric::pkg_riskmetric(pkg_source_path)
   
-  results$has_bug_reports_url <- pscore$has_bug_reports_url
-  results$license <- pscore$license
-  results$has_examples <- pscore$has_examples
-  results$has_maintainer <- pscore$has_maintainer
-  results$size_codebase <- pscore$size_codebase 
-  results$has_news <- pscore$has_news
-  results$has_source_control <- pscore$has_source_control
-  results$has_vignettes <- pscore$has_vignettes
-  results$has_website <- pscore$has_website
-  results$news_current <- pscore$news_current
-  results$export_help <- pscore$export_help 
+  results <- sanofi.risk.metric::update_pscore_results(results, pscore)
   
   # run R code coverage
-  results$covr <- add_coverage(
+  covr_list <- run_coverage(
     pkg_source_path,  # must use untarred package dir
     out_dir,
     covr_timeout
   )
   
+  # add total coverage to results
+  results$covr <- covr_list$total_cov
+  
+  if (is.na(results$covr)) {
+    #  create empty traceability matrix
+    tm <- sanofi.risk.metric::create_empty_tm(pkg_name)
+  } else {
+    #  create traceability matrix
+    tm <- create_traceability_matrix(pkg_name, pkg_source_path, covr_list$res_cov, out_dir) 
+  }
   # run R Cmd check
   rcmdcheck_args$path <- pkg_source_path
-  results$check <- add_rcmdcheck(pkg_source_path, out_dir, rcmdcheck_args) # use tarball
+  results$check <- run_rcmdcheck(pkg_source_path, out_dir, rcmdcheck_args) # use tarball
   
   deps_list <- sanofi.risk.metric::calc_dependencies(pkg_source_path)
   
@@ -155,5 +122,6 @@ assess_pkg <- function(
                                      riskscore_data_path, 
                                      riskscore_data_exists)
   
-  return(results)
+  return(list(results = results,
+              tm = tm))
 }

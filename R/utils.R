@@ -50,7 +50,7 @@ get_risk_metadata <- function(executor = NULL) {
 #' 
 get_result_path <- function(
     out_dir,
-    ext = c("check.rds", "covr.rds")
+    ext = c("check.rds", "covr.rds", "tm_doc.rds", "tm_doc.xlsx")
 ){
   
   ext <- match.arg(ext)
@@ -179,8 +179,9 @@ assess_exports <- function(data) {
 #' @export
 #'
 calc_overall_risk_score <- function(data, 
-                                    default_weights = TRUE) {
+                                    default_weights = FALSE) {
   # create weights profile
+  
   if (default_weights == TRUE) {
     weights <- add_default_risk_weights(data) 
     message(glue::glue("Default weights used"))
@@ -251,3 +252,74 @@ check_riskscore_data_internal <- function() {
   )
   return(riskscore_data_list)
 }
+
+#' Re-calculate package risk scores
+#' 
+#' @description {Use this function to re-calculate risk scores and risk profile}
+#' @details {Use cases: if the weighting profile and/or risk profile thresholds
+#' have changed and the risk metrics have not changed, then
+#' use this function to re-calculate the risk scores and profile
+#' without running the whole risk assessment process again}
+#' 
+#'
+#' @param update_comments notes explaining why score recalculated
+#' 
+#' @export
+#'
+recalc_risk_scores <- function(update_comments) {
+  
+  # check if risk score data exists and set up path to risk score data
+  riskscore_data_list <- 
+    sanofi.risk.metric::check_riskscore_data_internal()
+  
+  riskscore_data_path <- riskscore_data_list$riskscore_data_path
+  
+  message("data path is ", riskscore_data_path)
+  
+  riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
+  
+  # read in the results
+  results <- read.csv(file.path(riskscore_data_path))
+  
+  # save existing data 
+  results_old <- results 
+  
+  # filter existing data from initial run
+  results <- results |> 
+    dplyr::filter(grepl("\\Initial", comments, ignore.case = FALSE))
+  
+  # convert NAs and NANs to zero
+  results <- rapply( results, f=function(x) ifelse(is.nan(x),0,x), how="replace" )	  
+  results <- rapply( results, f=function(x) ifelse(is.na(x),0,x), how="replace" )
+  
+  # calculate risk score with user defined metrics
+  results$overall_risk_score <- results |>
+    split(1:nrow(results)) |> 
+    purrr::map(sanofi.risk.metric::calc_overall_risk_score) |> 
+    unlist()
+  
+  
+  # calculate risk profile with user defined thresholds
+ results$risk_profile <- results |>
+   dplyr::select(overall_risk_score) |> 
+   split(1:nrow(results)) |>
+   purrr::map(sanofi.risk.metric::calc_risk_profile) |> 
+   unlist()
+  
+ # add comments
+ results <- results |> 
+    dplyr::mutate(comments = update_comments)
+
+ # append new data to old data  
+ results <- rbind(results_old, results)
+ 
+ # set flag to ensure old data overwritten
+ riskscore_data_exists <- FALSE
+ 
+  # write data to csv
+  sanofi.risk.metric::write_data_csv(results, 
+                                     riskscore_data_path, 
+                                     riskscore_data_exists)
+  
+}
+

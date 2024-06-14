@@ -4,7 +4,7 @@
 \alias{calc_overall_risk_score}
 \title{Calculate overall package risk scores}
 \usage{
-calc_overall_risk_score(data, default_weights = TRUE)
+calc_overall_risk_score(data, default_weights = FALSE)
 }
 \arguments{
 \item{data}{risk metric data}
