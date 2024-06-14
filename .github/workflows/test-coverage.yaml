@@ -39,7 +39,7 @@ jobs:
           writeLines(as.character(coverage_percentage), "coverage.txt")
         shell: Rscript {0}
 
-      - uses: r-lib/actions/codecov/codecov-action@v4
+      - uses: actions/codecov/codecov-action@v4
          with:
           fail_ci_if_error: ${{ github.event_name != 'pull_request' && true || false }}
           file: ./cobertura.xml
