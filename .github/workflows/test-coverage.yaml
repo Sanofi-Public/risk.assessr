@@ -1,5 +1,7 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
     branches: [main]
@@ -39,21 +41,16 @@ jobs:
           writeLines(as.character(coverage_percentage), "coverage.txt")
         shell: Rscript {0}
 
-      - uses: actions/codecov/codecov-action@v4
-         with:
-          fail_ci_if_error: ${{ github.event_name != 'pull_request' && true || false }}
-          file: ./cobertura.xml
-          plugin: noop
-          disable_search: true
-          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Show testthat output
         if: always()
         run: |
-          find '${{ runner.temp }}/package' -name 'testthat.Rout*' -exec cat '{}' \\; || true
+          ## --------------------------------------------------------------------
+          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
         shell: bash
+
       - name: Upload test results
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: coverage-test-failures
           path: ${{ runner.temp }}/package
