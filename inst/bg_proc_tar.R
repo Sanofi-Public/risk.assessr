@@ -69,6 +69,18 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
   # load file path into the data path variable
   dp <- file_path 
   
+  # check where vignettes are in the package
+  bv_result <- sanofi.risk.metric::contains_vignette_folder(dp)
+  
+  #set up build vignettes for R CMD check
+  if (bv_result == FALSE) {
+    build_vignettes <- TRUE
+  } else {
+    build_vignettes <- FALSE
+  }
+  
+  rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
+  
   pkg_disp <- stringr::str_extract(pkg, "[^_]+")
   
   pkg_source_path <- 
@@ -116,9 +128,10 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
                                      dp,
                                      pkg_source_path,
                                      out_dir,
-                                     overwrite = TRUE,
                                      riskscore_data_path,
-                                     riskscore_data_exists
+                                     riskscore_data_exists,
+                                     overwrite = TRUE,
+                                     rcmdcheck_args
       ) 
     
     # calculate elapsed time
