@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -29,14 +30,13 @@ jobs:
 
       - name: Test coverage
         run: |
-          cov <- covr::package_coverage(
+          token <- Sys.getenv("CODECOV_TOKEN", "")
+          covr::codecov(
             quiet = FALSE,
             clean = FALSE,
-            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
+            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package"),
+            token = if (token != "") token
           )
-          covr::to_cobertura(cov, file = "coverage.xml")
-          coverage_percentage <- round(covr::percent_coverage(cov), 0)
-          writeLines(as.character(coverage_percentage), "coverage.txt")
         shell: Rscript {0}
 
       - name: Show testthat output
