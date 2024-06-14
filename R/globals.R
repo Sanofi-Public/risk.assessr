@@ -1,10 +1,17 @@
-globalVariables(c("comments",
-                  "dependencies",  
+globalVariables(c(
+                  ".data",
+                  "Freq",
+                  "Var1",
+                  "comments",
+                  "dependencies",
+                  "exported_function",
                   "has_bug_reports_url",
                   "imp_count", 
                   "link_count",
+                  "name",
                   "overall_risk_score",
                   "pkg_name",
                   "pkg_version", 
-                  "sug_count"
+                  "sug_count",
+                  "value"
                   ))
