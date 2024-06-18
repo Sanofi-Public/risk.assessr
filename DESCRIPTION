@@ -39,7 +39,6 @@ Suggests:
   tidyselect,
   tools,
   rmarkdown,
-  unix,
   utils,
   withr
 Encoding: UTF-8
