@@ -1,0 +1,32 @@
+---
+title: "run_bg_proc_win"
+author: "BP ART Team"
+date: "2024-04-22"
+format:
+  html:
+    code-fold: true
+    toc: TRUE
+    toc-title: "Table of contents"
+    toc-depth: 5
+---
+
+## **Background Processor Overview**
+
+The batch processor allows for the background or foreground processing of multiple source packages in the form of `tar.gz` files to create risk metric data.
+
+The following outlines the steps to set up the `sanofi.risk.metric` package and necessary folders to run this script in Windows.
+
+## **Set up background processor**
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+### Download `sanofi.risk.metric`
+
+::: {#tbl:download-table}
+| Steps       | URL                                                | Comments  |                                               |                                                                                                          
+|------------------|------------------|------------------|
+| go to `Sanofi Github` | \- https://github.com/Sanofi-GitHub <br> - Confidentiality concerns | \- This will change to open source on GitHub <br> - need to follow `OSPO` guidelines  | 
+| get `SSH key` for `sanofi.risk.assessment.tar` | `git@github.com:Sanofi-GitHub/bp-art-sanofi.risk.assessment.tar.git` | \-  The package name will change |  
+:::
+
+  
