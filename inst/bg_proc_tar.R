@@ -209,6 +209,36 @@ setdir_linux <- function() {
   return(input_output_list)
 }
 
+setdir_windows <- function() {
+  
+  #get Windows home directory
+  home_dir <- Sys.getenv()['HOME']
+  
+  # set input tar file path
+  itp <- paste0(home_dir, "/input_bg_data")
+  
+  # convert to file path
+  input_tar_path <- file.path(itp)
+  
+  # check directory exists
+  check_dir(input_tar_path)
+  
+  # set output file path  
+  otp <- paste0(home_dir, "/bp-art-sanofi.risk.metric/inst/results")
+  
+  # convert to file path
+  out_dir <- file.path(otp) 
+  
+  # check directory exists
+  check_dir(out_dir)
+  
+  input_output_list <- list(
+    input_tar_path = input_tar_path,
+    out_dir =  out_dir)
+  
+  return(input_output_list)
+}
+
 # background process setup ----
 
 bg_proc_tar_setup <- function() {
@@ -216,6 +246,8 @@ bg_proc_tar_setup <- function() {
   # create path to tar files
   if (checkmate::check_os("linux") == TRUE) {
     input_output_list <- setdir_linux()
+  }  else if (checkmate::check_os("windows")  == TRUE) {
+    input_output_list <- setdir_windows()
   }
   
   input_tar_path <- input_output_list$input_tar_path
