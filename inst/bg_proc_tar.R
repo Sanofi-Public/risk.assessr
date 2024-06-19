@@ -49,7 +49,7 @@ library(sanofi.risk.metric)
 
 # background process main function ----
 
-bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
+bg_proc_tar <- function(tar_file, input_tar_path, out_dir) {
   
   input_path <- input_tar_path
   
@@ -95,12 +95,6 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_path) {
     home <- setwd(find.package("sanofi.risk.metric"))
     
     message("home is ", home)
-    
-    message("out path is ", out_path)
-    
-    out_dir <- file.path(out_path, "inst/results")
-    
-    message("out_dir is ", out_dir)
     
     # set working directory back to initial directory
     here::here(initial_wd)
@@ -159,12 +153,7 @@ check_dir <- function(dir_to_check) {
   message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
 }
 
-# background process setup ----
-
-bg_proc_tar_setup <- function() {
-  
-  # create path to tar files
-  
+setdir_linux <- function() {
   # get the user name
   user <- Sys.info()["user"]
   
@@ -175,31 +164,76 @@ bg_proc_tar_setup <- function() {
   
   input_tar_path <- file.path(itp)
   
+  # create output path for results
+  out_path <- paste0("/home/", 
+                     user, 
+                     "/github-helper-repos/sanofi.risk.metric")
+  
+  message("out path is ", out_path)
+  
+  out_dir <- file.path(out_path, "inst/results")
+  
+  message("out_dir is ", out_dir)
+  
+  check_dir(out_dir)
+  
+  # create tmp dir based on user name
+  tmp_dir <- paste0("/home/", user, "/tmp")
+  
+  # normalize the path
+  tmp_dir <- normalizePath(tmp_dir)
+  
+  # check if the temp directory doesn't exist
+  if (!dir.exists(tmp_dir)) {
+    message("temp directory exists: ", dir.exists(tmp_dir))
+    # create directory with all the files 
+    # in the current directory have all permissions type
+    dir.create(tmp_dir, showWarnings = TRUE, recursive = FALSE, mode = "0777")
+  }
+  
+  # check directory existence
+  message("temp directory exists: ", dir.exists(tmp_dir))
+  
+  # set R session temp directory
+  Sys.setenv(R_SESSION_TMPDIR = tmp_dir)
+  message("R_SESSION_TMPDIR is ", Sys.getenv("R_SESSION_TMPDIR"))
+  
+  # set Linux session temp directory
+  sanofi.risk.metric::set_tempdir(tmp_dir)
+  message("tempdir is ", tempdir())
+  
+  input_output_list <- list(
+    input_tar_path = input_tar_path,
+    out_dir =  out_dir)
+  
+  return(input_output_list)
+}
+
+# background process setup ----
+
+bg_proc_tar_setup <- function() {
+  
+  # create path to tar files
+  if (checkmate::check_os("linux") == TRUE) {
+    input_output_list <- setdir_linux()
+  }
+  
+  input_tar_path <- input_output_list$input_tar_path
+  out_dir <- input_output_list$out_dir
   
   # check directory existence
   check_dir(input_tar_path)
+  check_dir(out_dir)
   
   # create list of tar files 
   input_tar_list <- list.files(path = input_tar_path, 
                                pattern = "*.tar.gz$", 
                                full.names = FALSE)
   
-  if (checkmate::check_os("linux") == TRUE) {
-    sanofi.risk.metric::set_temp_dir_linux()
-  }
-  
-  # create output path for results
-  out_path <- paste0("/home/", 
-                     user, 
-                     "/github-helper-repos/sanofi.risk.metric")
-  
-  # check directory existence
-  check_dir(out_path)
-  
   bpt_list <- list(
     input_tar_path = input_tar_path,
     input_tar_list = input_tar_list,
-    out_path =  out_path 
+    out_dir =  out_dir 
   )
   return(bpt_list)
 }
@@ -212,5 +246,5 @@ bpt_list <- bg_proc_tar_setup()
 # apply list vector to function
 purrr::pmap(list(bpt_list$input_tar_list, 
                  bpt_list$input_tar_path, 
-                 bpt_list$out_path), 
+                 bpt_list$out_dir), 
             bg_proc_tar)
