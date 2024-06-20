@@ -96,6 +96,25 @@ test_pkg_name <- "there"
 test_pkg_ver <- "1.0.1"
 test_pkg_source_path <- "/tmp/Rtmp0syfE3/temp_file_4644567f965d/there-1.0.1"
 
+# create test data to test score dependencies
+
+package <- c(
+  "rprojroot (>= 2.0.2)", "conflicted",
+  "covr", "fs", "knitr", "palmerpenguins",      
+  "plyr", "readr", "rlang",               
+  "rmarkdown", "testthat", "uuid",                
+  "withr"       
+)
+
+type <- c(
+  "Imports",  "Suggests", "Suggests",
+  "Suggests", "Suggests", "Suggests",
+  "Suggests", "Suggests", "Suggests",
+  "Suggests", "Suggests", "Suggests",
+  "Suggests"
+)
+
+test_deps <- data.frame(package, type)
 
 # create overall risk scores to test risk profiles
 high_overall_risk_score <- .57
