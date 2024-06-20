@@ -23,39 +23,55 @@ When you click the **Render** button a document will be generated that includes 
 ### Download `sanofi.risk.metric`
 
 ::: {#tbl:download-table}
-| Steps       | URL                                                | Comments  |                                               |                                                                                                          
-|------------------|------------------|------------------|
-| go to `Sanofi Github` | \- https://github.com/Sanofi-GitHub <br> - Confidentiality concerns | \- This will change to open source on GitHub <br> - need to follow `OSPO` guidelines  | 
-| get `SSH key` for `sanofi.risk.assessment.tar` | `git@github.com:Sanofi-GitHub/bp-art-sanofi.risk.assessment.tar.git` | \-  The package name will change  <br> - at the moment, this has two utility functions for tar files |  
-| get `SSH key` for `sanofi.risk.metric` | `git@github.com:Sanofi-GitHub/bp-art-sanofi.risk.metric.git` | \-  The package name will change  <br> - at the moment, this has two utility functions for tar files |  
-| go to `RStudio -> New Project -> Version Control -> Git` | | | 
-| copy `SSH key` to `Repository URL` field | | |
-| set up `Create project as subdirectory of` | | \- set up project in the `Documents` folder under your user name <br> - This can be in your `OneDrive` |
-| go to `Build` Tab and run a `Clean and Install` before running `Document` package | | If you run `Document` before `Clean and Install`, it may not work due to permissions problems |
+| Steps                                                                             | URL                                                                  | Comments                                                                                               |
+|------------------------|------------------------|------------------------|
+| go to `Sanofi Github`                                                             | \- https://github.com/Sanofi-GitHub <br> - Confidentiality concerns  | \- This will change to open source on GitHub <br> - need to follow `OSPO` guidelines                   |
+| get `SSH key` for `sanofi.risk.assessment.tar`                                    | `git@github.com:Sanofi-GitHub/bp-art-sanofi.risk.assessment.tar.git` | \- The package name will change <br> - at the moment, this has two utility functions for tar files     |
+| get `SSH key` for `sanofi.risk.metric`                                            | `git@github.com:Sanofi-GitHub/bp-art-sanofi.risk.metric.git`         | \- The package name will change <br> - at the moment, this has two utility functions for tar files     |
+| go to `RStudio -> New Project -> Version Control -> Git`                          |                                                                      |                                                                                                        |
+| copy `SSH key` to `Repository URL` field                                          |                                                                      |                                                                                                        |
+| set up `Create project as subdirectory of`                                        |                                                                      | \- set up project in the `Documents` folder under your user name <br> - This can be in your `OneDrive` |
+| go to `Build` Tab and run a `Clean and Install` before running `Document` package |                                                                      | If you run `Document` before `Clean and Install`, it may not work due to permissions problems          |
 :::
 
 ### `Download` Troubleshooting
 
 ::: {#tbl:download-troubleshoot-table}
-| Steps       | URL                                                | Comments  |                                               |                                                                                                          
-|------------------|------------------|------------------|
-| | | |
+| Steps | URL | Comments |
+|-------|-----|----------|
+| cannot find the package |     | check that the R package is in a folder under `Documents` and has write permissions         |
+:::
+
+### Set up `Batch processing script`
+
+::: {#tbl:set-batch-processor-table}
+| Steps                                                             | Comments                                                                                                                                         |
+|------------------------------------|------------------------------------|
+| go to the `Documents` folder under your user name                 |                                                                                                                                                  |
+| create a folder `input_bg_data`                                   | \- make sure you have permissions to write to this folder                                                                                        |
+| copy `tar.gz` files with R packages to this folder for processing | \- Create these files by: <br> \>    go to the `Build` tab and click `Build Source Package` <br> \>    get `tar.gz` file from `CRAN` or `bioconductor` |
+| open `sanofi.risk.assessment.tar` in `RStudio` |    |
+| `Clean and Install` this package | |
+| `Load All` this package |
+| open `sanofi.risk.metric` in `RStudio` |    |
+| `Clean and Install` this package | |
+| `Load All` this package |
 :::
 
 ### Run `Batch processing script`
 
 ::: {#tbl:run-batch-processor-table}
-| Steps       | Comments  |                                               |                                                                                                        
-|------------------|------------------|  
-| go to the `inst` folder | |
-| open `bg_proc_tar.R` script | |
-| `Source` the script | `Do not` `Source as Background Job` in `Windows` due to permissions issues |
+| Steps                       | Comments                                                                   |
+|------------------------------------|------------------------------------|
+| go to the `inst` folder     |                                                                            |
+| open `bg_proc_tar.R` script |                                                                            |
+| `Source` the script         | `Do not` `Source as Background Job` in `Windows` due to permissions issues |
 :::
 
 ### `Run Batch Processor` Troubleshooting
 
 ::: {#tbl:bgp-troubleshoot-table}
-| Steps       | URL                                                | Comments  |                                               |                                                                                                          
-|------------------|------------------|------------------|
-| | | |
+| Steps | URL | Comments |
+|-------|-----|----------|
+|       |     |          |
 :::
