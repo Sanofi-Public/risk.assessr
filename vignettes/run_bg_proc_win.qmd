@@ -26,7 +26,12 @@ When you click the **Render** button a document will be generated that includes 
 | Steps       | URL                                                | Comments  |                                               |                                                                                                          
 |------------------|------------------|------------------|
 | go to `Sanofi Github` | \- https://github.com/Sanofi-GitHub <br> - Confidentiality concerns | \- This will change to open source on GitHub <br> - need to follow `OSPO` guidelines  | 
-| get `SSH key` for `sanofi.risk.assessment.tar` | `git@github.com:Sanofi-GitHub/bp-art-sanofi.risk.assessment.tar.git` | \-  The package name will change |  
+| get `SSH key` for `sanofi.risk.assessment.tar` | `git@github.com:Sanofi-GitHub/bp-art-sanofi.risk.assessment.tar.git` | \-  The package name will change  <br> - at the moment, this has two utility functions for tar files |  
+| get `SSH key` for `sanofi.risk.metric` | `git@github.com:Sanofi-GitHub/bp-art-sanofi.risk.metric.git` | \-  The package name will change  <br> - at the moment, this has two utility functions for tar files |  
+| go to `RStudio -> New Project -> Version Control -> Git` | | | 
+| copy `SSH key` to `Repository URL` field | | |
+| set up `Create project as subdirectory of` | | \- set up project in the `Documents` folder under your user name <br> - This can be in your `OneDrive` |
+| go to `Build` Tab and run a `Clean and Install` before running `Document` package | | If you run `Document` before `Clean and Install`, it may not work due to permissions problems |
 :::
 
   
