@@ -34,4 +34,12 @@ When you click the **Render** button a document will be generated that includes 
 | go to `Build` Tab and run a `Clean and Install` before running `Document` package | | If you run `Document` before `Clean and Install`, it may not work due to permissions problems |
 :::
 
-  
+### Run `Batch processing script`
+
+::: {#tbl:run-batch-processor-table}
+| Steps       | Comments  |                                               |                                                                                                        
+|------------------|------------------|  
+| go to the `inst` folder | |
+| open `bg_proc_tar.R` script | |
+| `Source` the script | `Do not` `Source as Background Job` in `Windows` due to permissions issues |
+:::
