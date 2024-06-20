@@ -37,9 +37,9 @@ When you click the **Render** button a document will be generated that includes 
 ### `Download` Troubleshooting
 
 ::: {#tbl:download-troubleshoot-table}
-| Steps | URL | Comments |
-|-------|-----|----------|
-| cannot find the package |     | check that the R package is in a folder under `Documents` and has write permissions         |
+| Problem | Comments |
+|-------|----------|
+| cannot find the package |check that the R package is in a folder under `Documents` and has write permissions         |
 :::
 
 ### Set up `Batch processing script`
@@ -71,7 +71,11 @@ When you click the **Render** button a document will be generated that includes 
 ### `Run Batch Processor` Troubleshooting
 
 ::: {#tbl:bgp-troubleshoot-table}
-| Steps | URL | Comments |
-|-------|-----|----------|
-|       |     |          |
+| Problem | Message | Comments |
+|-------|----------| ----------|
+| can't find `input_bg_data` folder| `C:/Users/Username/OneDrive/Documents/` <br> `input_bg_data directory exists:` `FALSE` | \- check folder exists <br> - check if you have write permissions for folder <br> - `Restart R`, <br> -`Clean and Install` package <br> - `Load All` package <br> - run script again |
+| can't find `inst/results` folder | `C:/Users/Username/OneDrive/Documents/` <br> `bp-art-sanofi.risk.metric/inst/results exists:` `FALSE` | as above |
+| can't find `riskdata_results.csv` | data path is `C:/Users/username/OneDrive/` <br> `Documents/bp-art-sanofi.risk.metric/inst/extdata/riskdata_results.csv` <br> data path exists FALSE | as above |
+| Error creating `traceability matrix` | Error in `purrr::pmap()` at bp-art-sanofi.risk.metric/inst/bg_proc_tar.R 279 1  <br> ℹ In index: .<br> Caused by error in `FUN()`: <br> lazy-load database `C:/Users/username/AppData/Local/R/win-library/4.4/waldo/help/waldo.rdb` is corrupt | as above |
+| Question about deletion of `inst/doc` | Building the package will delete... <br> `C:/Users/username/AppData/Local/Temp/` <br> `RtmpuktlPk/temp_file_230431af9da/synapser/inst/doc` Are you sure? | 1 `Yes` |
 :::
