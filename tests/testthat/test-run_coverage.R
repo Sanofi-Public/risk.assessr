@@ -4,7 +4,7 @@ test_that("Unpacking an empty tar file works correctly", {
   dp <- system.file("testdata/diffdf-1.0.4.tar.gz", 
                      package = "sanofi.risk.metric")
   pkg_disp <- stringr::str_extract(dp, "[^-]+")
-   
+  
   build_vignettes <- TRUE
   
   suppressWarnings(pkg_source_path <-  
@@ -23,7 +23,7 @@ test_that("Unpacking an empty tar file works correctly", {
                                         "Version"))
     pkg_name <- pkg_desc$Package
     pkg_ver <- pkg_desc$Version
-    
+   
     out_dir <- "no audit trail"
     
     message("out_dir is ", out_dir)
@@ -35,14 +35,14 @@ test_that("Unpacking an empty tar file works correctly", {
                                                         pkg_source_path,
                                                         metadata)
     
-    rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
-    
-    rcmdcheck_args$path <- pkg_source_path
-    results$check <- run_rcmdcheck(pkg_source_path, out_dir, rcmdcheck_args) # use tarball
+    covr_list <- run_coverage(pkg_source_path, out_dir) 
   
-    expect_true(checkmate::test_numeric(results$check))
+    # add total coverage to results
+    results$covr <- covr_list$total_cov
     
-    testthat::expect_gt(results$check, 0.1) 
+    expect_true(checkmate::test_numeric(results$covr))
+    
+    testthat::expect_gt(results$covr, 0.1) 
       
   }
 })

@@ -109,12 +109,16 @@ run_coverage <- function(pkg_source_path, out_dir, timeout = Inf) {
   
   message(glue::glue("code coverage for {pkg_name} successful"))
   
-  message(glue::glue("writing code coverage results for {pkg_name}"))
+  if (out_dir == "no audit trail") {
+    message(glue::glue("not writing code coverage results for {pkg_name}"))
+  } else {  
   # write results to RDS
-  saveRDS(
-    res_cov,
-    sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
-  )
+    saveRDS(
+      res_cov,
+      sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
+    )
+    message(glue::glue("writing code coverage results for {pkg_name}"))
+  }
   
   # return total coverage as fraction
   total_cov <- as.numeric(res_cov$coverage$totalcoverage/100)
