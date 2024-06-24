@@ -52,6 +52,7 @@ bg_proc_tar <- function(tar_file, build_vignettes) {
   
   file_path <- paste0("/home/u1004798/github-helper-repos/data/input_bg_data/", {{tar_file}})
   
+  build_vignettes <- TRUE
   
   # get initial working directory
   initial_wd <- getwd()
@@ -67,10 +68,10 @@ bg_proc_tar <- function(tar_file, build_vignettes) {
   pkg_disp <- stringr::str_extract(pkg, "[^_]+")
   
   pkg_source_path <- 
-    sanofi.risk.assessment.tar::unpack_tarball(dp, pkg_disp)
+    sanofi.risk.metric::unpack_tarball(dp, pkg_disp)
   
   package_installed <- 
-    sanofi.risk.assessment.tar::install_package_local(pkg_source_path, 
+    sanofi.risk.metric::install_package_local(pkg_source_path, 
                                                       pkg_disp) 
   
   if (package_installed == TRUE ) {	
