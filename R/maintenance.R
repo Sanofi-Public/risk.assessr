@@ -27,12 +27,17 @@ run_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
   res_check <- do.call(rcmdcheck::rcmdcheck, rcmdcheck_args)
   
   # write results to RDS
-  saveRDS(
-    res_check,
-    get_result_path(out_dir, "check.rds")
-  )
+  if (out_dir == "no audit trail") {
+    message(glue::glue("not writing rcmdcheck results for {pkg_name}"))
+  } else {
+    saveRDS(
+      res_check,
+      get_result_path(out_dir, "check.rds")
+    )
+    message(glue::glue("writing rcmdcheck results for {pkg_name}"))
+  }
   
-  message(glue::glue("writing rcmdcheck results for {pkg_name}"))
+  
   
   # Note that res_check$status is the opposite of what we want (1 means failure, 0 means passing)
   
