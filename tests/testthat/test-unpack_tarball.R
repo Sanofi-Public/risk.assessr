@@ -4,7 +4,7 @@ test_that("Unpacking a tar file works correctly", {
   pkg_disp <- "here"
   
   extract_files <-  
-    sanofi.risk.metric::unpack_tarball(pkg, pkg_disp)
+    suppressWarnings(sanofi.risk.metric::unpack_tarball(pkg, pkg_disp))
   
   expect_true(checkmate::checkVector(extract_files))
   
@@ -21,7 +21,7 @@ test_that("Unpacking an empty tar file works correctly", {
   pkg_disp <- "empty"
   
   extract_files <-  
-    sanofi.risk.metric::unpack_tarball(pkg, pkg_disp)
+    suppressWarnings(sanofi.risk.metric::unpack_tarball(pkg, pkg_disp))
   
   expect_true(checkmate::checkVector(extract_files))
   
