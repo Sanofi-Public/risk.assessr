@@ -29,7 +29,7 @@ library(lubridate)
 #' @export
 fetchBioconductorPackageInfo <- function(package_name, version) {
   # Hypothetical URL to fetch package info
-  url <- "http://localhost:8001/get_all_bioconductor_version/"
+  url <- "https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/2bb1fda0-b2fb-4686-b613-310d5a74e453/get_all_bioconductor_version/"
   
   # JSON body for the request
   body <- list(
