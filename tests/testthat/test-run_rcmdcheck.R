@@ -3,16 +3,16 @@ test_that("Unpacking an empty tar file works correctly", {
   
   dp <- system.file("testdata/diffdf-1.0.4.tar.gz", 
                      package = "sanofi.risk.metric")
-  pkg_disp <- stringr::str_extract(dp, "[^-]+")
-   
-  build_vignettes <- TRUE
+  pkg_disp <- stringr::str_extract(dp, "/testdata/[^-]+")
   
-  suppressWarnings(pkg_source_path <-  
-    sanofi.risk.metric::unpack_tarball(dp, pkg_disp))
+  # set up package
+  install_list <- set_up_pkg(dp, pkg_disp)
   
-  package_installed <- 
-    sanofi.risk.metric::install_package_local(pkg_source_path, 
-                                                      pkg_disp) 
+  build_vignettes <- install_list$build_vignettes
+  package_installed <- install_list$package_installed
+  pkg_source_path <- install_list$pkg_source_path
+  out_dir <- install_list$out_dir
+  results <- install_list$results
   
   if (package_installed == TRUE ) {	
     

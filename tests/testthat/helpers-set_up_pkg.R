@@ -15,6 +15,7 @@ set_up_pkg <- function(dp, pkg_disp) {
     results <- ""
     pkg_source_path <- ""
     out_dir <- ""
+    build_vignettes <- ""
   } else { 
     if (fs::file_exists(pkg_source_path)) {
       package_installed <- 
@@ -47,6 +48,7 @@ set_up_pkg <- function(dp, pkg_disp) {
     message(glue::glue("local package install for {pkg_disp} unsuccessful"))
   } 
   install_list <- list(
+    build_vignettes = build_vignettes,
     package_installed = package_installed,
     results = results,
     pkg_source_path = pkg_source_path,
