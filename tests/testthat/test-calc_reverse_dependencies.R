@@ -15,7 +15,7 @@ test_that("parse deps for tar file works correctly", {
   pkg_source_path <- install_list$pkg_source_path
 
   if (package_installed == TRUE ) {	
-    revdep_score <- sanofi.risk.metric::calc_reverse_dependencies(pkg_source_path)
+    revdep_score <- suppressWarnings(sanofi.risk.metric::calc_reverse_dependencies(pkg_source_path))
     
     expect_identical(length(revdep_score), 1L)
     
