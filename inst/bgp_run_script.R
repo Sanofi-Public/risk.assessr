@@ -1,7 +1,6 @@
 library(checkmate)
 library(rstudioapi)
 
-browser()
 # create path to script file ----
 
 # get the user name ----
