@@ -19,8 +19,7 @@ and if there is at least one .Rmd file within that folder. If both 'vignettes'
 and 'inst/doc' folders exist, the function will return \code{FALSE}.
 }
 \details{
-The function checks if the specified file exists and has a valid .tar extension.
-It then attempts to list the contents of the .tar file using \code{utils::untar}. If the file is empty or
+The function checks if the specified file exists and has a valid .tar extension using \code{utils::untar}. If the file is empty or
 any error occurs during the extraction, the function stops and returns an error message. If both 'vignettes'
 and 'inst/doc' folders exist, the function returns \code{FALSE}. If the 'vignettes' folder exists and contains 
 at least one .Rmd file, the function returns \code{TRUE}. Otherwise, it returns \code{FALSE}.
