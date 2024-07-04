@@ -1,5 +1,5 @@
 ---
-title: "run_bg_proc_win"
+title: "Run Batch Processor Windows"
 author: "BP ART Team"
 date: "2024-04-22"
 format:
@@ -64,8 +64,8 @@ When you click the **Render** button a document will be generated that includes 
 | Steps                       | Comments                                                                   |
 |------------------------------------|------------------------------------|
 | go to the `inst` folder     |                                                                            |
-| open `bg_proc_tar.R` script |                                                                            |
-| `Source` the script         | `Do not` `Source as Background Job` in `Windows` due to permissions issues |
+| open `bgp_run_script.R` script |                                                                            |
+| `Source as Background Job` the script         | |
 :::
 
 ### `Run Batch Processor` Troubleshooting

@@ -55,6 +55,9 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_dir) {
   
   file_path <- paste0(input_path,"/", {{tar_file}})
   
+  r = getOption("repos")
+  r["CRAN"] = "http://cran.us.r-project.org"
+  options(repos = r)
   
   # get initial working directory
   initial_wd <- getwd()
@@ -141,17 +144,6 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_dir) {
 
 # check directory ----
 
-check_dir <- function(dir_to_check) {
-  # check if the temp directory doesn't exist
-  if (!dir.exists(dir_to_check)) {
-    message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
-    # create directory with all the files 
-    # in the current directory have all permissions type
-    dir.create(dir_to_check, showWarnings = TRUE, recursive = FALSE, mode = "0777")
-    # check directory existence
-  }
-  message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
-}
 
 setdir_linux <- function() {
   # get the user name
@@ -175,7 +167,7 @@ setdir_linux <- function() {
   
   message("out_dir is ", out_dir)
   
-  check_dir(out_dir)
+  sanofi.risk.metric::check_dir(out_dir)
   
   # create tmp dir based on user name
   tmp_dir <- paste0("/home/", user, "/tmp")
@@ -199,7 +191,7 @@ setdir_linux <- function() {
   message("R_SESSION_TMPDIR is ", Sys.getenv("R_SESSION_TMPDIR"))
   
   # set Linux session temp directory
-  sanofi.risk.metric::set_tempdir(tmp_dir)
+  unix:::set_tempdir(tmp_dir)
   message("tempdir is ", tempdir())
   
   input_output_list <- list(
@@ -221,7 +213,7 @@ setdir_windows <- function() {
   input_tar_path <- file.path(itp)
   
   # check directory exists
-  check_dir(input_tar_path)
+  sanofi.risk.metric::check_dir(input_tar_path)
   
   # set output file path  
   otp <- paste0(home_dir, "/bp-art-sanofi.risk.metric/inst/results")
@@ -230,7 +222,7 @@ setdir_windows <- function() {
   out_dir <- file.path(otp) 
   
   # check directory exists
-  check_dir(out_dir)
+  sanofi.risk.metric::check_dir(out_dir)
   
   input_output_list <- list(
     input_tar_path = input_tar_path,
@@ -254,8 +246,8 @@ bg_proc_tar_setup <- function() {
   out_dir <- input_output_list$out_dir
   
   # check directory existence
-  check_dir(input_tar_path)
-  check_dir(out_dir)
+  sanofi.risk.metric::check_dir(input_tar_path)
+  sanofi.risk.metric::check_dir(out_dir)
   
   # create list of tar files 
   input_tar_list <- list.files(path = input_tar_path, 
