@@ -1,3 +1,0 @@
-# Sample R Markdown 2
-
-This is a sample R Markdown file.
