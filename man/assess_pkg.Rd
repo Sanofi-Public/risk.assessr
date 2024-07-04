@@ -36,7 +36,7 @@ assess_pkg(
 \item{covr_timeout}{- setting for covr time out}
 }
 \value{
-results - list containing metrics
+list containing results - list containing metrics and tm - trace matrix
 }
 \description{
 assess package for risk metrics

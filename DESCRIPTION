@@ -27,6 +27,7 @@ Suggests:
   fs,
   glue,
   magrittr,
+  openxlsx,
   remotes,
   readr,
   pkgload,
@@ -35,6 +36,7 @@ Suggests:
   tibble,
   tidyr,
   tidyselect,
+  tools,
   utils,
   withr
 Encoding: UTF-8
