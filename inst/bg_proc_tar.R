@@ -237,6 +237,13 @@ bg_proc_tar_setup <- function() {
   
   # create path to tar files
   if (checkmate::check_os("linux") == TRUE) {
+    list_of_packages <- c("unix")
+    new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
+    if(length(new_packages)) {
+      install.packages(new_packages)
+    }
+    library({{list_of_packages}}, character.only = TRUE)
+    
     input_output_list <- setdir_linux()
   }  else if (checkmate::check_os("windows")  == TRUE) {
     input_output_list <- setdir_windows()
