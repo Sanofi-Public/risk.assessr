@@ -109,7 +109,7 @@ test_that("running rcmd check for created package in tar file with warnings", {
   )
   
   # confirm success
-  testthat::expect_gt(res_check, 0.1) 
+  testthat::expect_gte(res_check, 0) 
   testthat::expect_equal(res_check, 0.4)
 })
 

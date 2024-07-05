@@ -30,6 +30,7 @@ Suggests:
   openxlsx,
   remotes,
   readr,
+  roxygen2,
   pkgload,
   testthat (>= 3.0.0),
   stringr (>= 1.4.0),

@@ -61,10 +61,10 @@ test_that("don't run test coverage for  empty tar file works correctly", {
 #   local_check_envvar()
 #   # Create temp package that will succeed
 #   pkg_setup <- pkg_dirs$pkg_setups_df %>% dplyr::filter(pkg_type == "pass_success")
-#   
+# 
 #   pkg_source_path <- pkg_setup$tar_file
 #   out_dir <- "no audit trail"
-#   
+# 
 #   res_covr <- run_coverage(pkg_source_path, out_dir)
 #   expect_equal(res_covr, 1)
 # })
