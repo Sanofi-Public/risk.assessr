@@ -38,7 +38,7 @@ test_that("running rcmd check for actual package in tar file works correctly", {
     rcmdcheck_args$path <- pkg_source_path
     results$check <- run_rcmdcheck(pkg_source_path, out_dir, rcmdcheck_args) # use tarball
 
-    expect_true(checkmate::test_numeric(results$check))
+    testthat::expect_true(checkmate::test_numeric(results$check))
 
     testthat::expect_gt(results$check, 0.1)
 
@@ -68,7 +68,7 @@ test_that("running rcmd check for created package in tar file with notes", {
   # Run check and coverage - expect message
   rcmdcheck_args$path <- pkg_setup$tar_file
   out_dir <- "no audit trail"
-  expect_message(
+  testthat::expect_message(
     res_check <- run_rcmdcheck(pkg_setup$pkg_result_dir, out_dir, rcmdcheck_args),
     glue::glue("rcmdcheck for {basename(pkg_setup$pkg_result_dir)} passed"),
     fixed = TRUE
@@ -102,7 +102,7 @@ test_that("running rcmd check for created package in tar file with warnings", {
   # Run check and coverage - expect message
   rcmdcheck_args$path <- pkg_setup$tar_file
   out_dir <- "no audit trail"
-  expect_message(
+  testthat::expect_message(
     res_check <- run_rcmdcheck(pkg_setup$pkg_result_dir, out_dir, rcmdcheck_args),
     glue::glue("rcmdcheck for {basename(pkg_setup$pkg_result_dir)} passed with warnings and/or notes"),
     fixed = TRUE
@@ -136,7 +136,7 @@ test_that("running rcmd check for created package in tar file with test failures
   # Run check and coverage - expect message
   rcmdcheck_args$path <- pkg_setup$tar_file
   out_dir <- "no audit trail"
-  expect_message(
+  testthat::expect_message(
     res_check <- run_rcmdcheck(pkg_setup$pkg_result_dir, out_dir, rcmdcheck_args),
     glue::glue("rcmdcheck for {basename(pkg_setup$pkg_result_dir)} failed"),
     fixed = TRUE
@@ -169,7 +169,7 @@ test_that("running rcmd check for created package in tar file with bad functions
   # Run check and coverage - expect message
   rcmdcheck_args$path <- pkg_setup$tar_file
   out_dir <- "no audit trail"
-  expect_message(
+  testthat::expect_message(
     res_check <- run_rcmdcheck(pkg_setup$pkg_result_dir, out_dir, rcmdcheck_args),
     glue::glue("rcmdcheck for {basename(pkg_setup$pkg_result_dir)} failed"),
     fixed = TRUE

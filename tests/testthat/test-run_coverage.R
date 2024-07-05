@@ -19,7 +19,7 @@ test_that("run test coverage for actual package in tar file works correctly", {
     # add total coverage to results
     results$covr <- covr_list$total_cov
 
-    expect_true(checkmate::test_numeric(results$covr))
+    testthat::expect_true(checkmate::test_numeric(results$covr))
 
     testthat::expect_gt(results$covr, 0.1)
   } else {
@@ -49,7 +49,7 @@ test_that("don't run test coverage for  empty tar file works correctly", {
     # add total coverage to results
     results$covr <- covr_list$total_cov
 
-    expect_true(checkmate::test_numeric(results$covr))
+    testthat::expect_true(checkmate::test_numeric(results$covr))
 
     testthat::expect_gt(results$covr, 0.1)
   }
