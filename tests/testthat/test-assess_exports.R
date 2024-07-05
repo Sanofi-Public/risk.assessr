@@ -4,7 +4,7 @@ test_that("assess exports for tar file works correctly", {
   r["CRAN"] = "http://cran.us.r-project.org"
   options(repos = r)
   
-  dp <- system.file("testdata/diffdf-1.0.4.tar.gz", 
+  dp <- system.file("test-data/diffdf-1.0.4.tar.gz", 
                     package = "sanofi.risk.metric")
   pkg_disp <- stringr::str_extract(dp, "/testdata/[^-]+")
   

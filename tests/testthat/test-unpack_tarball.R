@@ -1,5 +1,5 @@
 test_that("Unpacking a tar file works correctly", {
-  pkg <- system.file("testdata/here-1.0.1.tar.gz", 
+  pkg <- system.file("test-data/here-1.0.1.tar.gz", 
                      package = "sanofi.risk.metric")
   pkg_disp <- "here"
   
@@ -16,7 +16,7 @@ test_that("Unpacking a tar file works correctly", {
 })
 
 test_that("Unpacking an empty tar file works correctly", {
-  pkg <- system.file("testdata/empty.tar.gz", 
+  pkg <- system.file("test-data/empty.tar.gz", 
                      package = "sanofi.risk.metric")
   pkg_disp <- "empty"
   
