@@ -68,10 +68,57 @@ test_that("running assess_pkg for test package in tar file - no notes", {
                                      rcmdcheck_args
       ) 
     
+    testthat::expect_identical(length(assess_package), 2L)
+    
+    testthat::expect_true(checkmate::check_class(assess_pkg, "function"))
+    
+    testthat::expect_identical(length(assess_package$results), 28L)
+    
+    testthat::expect_true(!is.na(assess_package$results$pkg_name))
+    
+    testthat::expect_true(!is.na(assess_package$results$pkg_version))
+    
+    testthat::expect_true(!is.na(assess_package$results$pkg_source_path))
+    
+    testthat::expect_true(!is.na(assess_package$results$date_time))
+    
+    testthat::expect_true(!is.na(assess_package$results$has_bug_reports_url))
+    
+    testthat::expect_true(checkmate::test_numeric(assess_package$results$has_bug_reports_url))
+    
+    testthat::expect_true(!is.na(assess_package$results$license))
+    
+    testthat::expect_true(checkmate::test_numeric(assess_package$results$license))
+    
+    testthat::expect_true(!is.na(assess_package$results$size_codebase))
+    
+    testthat::expect_true(checkmate::test_numeric(assess_package$results$size_codebase))
     
     testthat::expect_true(checkmate::test_numeric(assess_package$results$check))
     
     testthat::expect_gt(assess_package$results$check, 0.7)
+    
+    testthat::expect_true(checkmate::test_numeric(assess_package$results$covr))
+    
+    testthat::expect_gt(assess_package$results$covr, 0.7)
+    
+    testthat::expect_true(checkmate::test_numeric(assess_package$results$dep_score))
+    
+    testthat::expect_true(checkmate::test_numeric(assess_package$results$overall_risk_score))
+    
+    testthat::expect_true(!is.na(assess_package$results$risk_profile))
+    
+    testthat::expect_identical(length(assess_package$tm), 5L)
+    
+    testthat::expect_true(!is.na(assess_package$tm$exported_function))
+    
+    testthat::expect_true(!is.na(assess_package$tm$code_script))
+    
+    testthat::expect_true(!is.na(assess_package$tm$documentation))
+    
+    testthat::expect_true(!is.na(assess_package$tm$description))
+    
+    testthat::expect_true(!is.na(assess_package$tm$coverage_percent))
     
   }
 })
