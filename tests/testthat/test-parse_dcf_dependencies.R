@@ -1,12 +1,12 @@
 test_that("parse deps for tar file works correctly", {
   
-  dp <- system.file("test-data/diffdf-1.0.4.tar.gz", 
-                    package = "sanofi.risk.metric")
-  pkg_disp <- stringr::str_extract(dp, "/testdata/[^-]+")
-  
   r = getOption("repos")
   r["CRAN"] = "http://cran.us.r-project.org"
   options(repos = r)
+  
+  dp <- system.file("test-data/here-1.0.1.tar.gz", 
+                    package = "sanofi.risk.metric")
+  pkg_disp <- stringr::str_extract(dp, "/test-data/[^_]+")
   
   # set up package
   install_list <- set_up_pkg(dp, pkg_disp)

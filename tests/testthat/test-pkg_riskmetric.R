@@ -6,7 +6,7 @@ test_that("assess exports for tar file works correctly", {
   
   dp <- system.file("test-data/stringr-1.5.1.tar.gz", 
                     package = "sanofi.risk.metric")
-  pkg_disp <- stringr::str_extract(dp, "/testdata/[^-]+")
+  pkg_disp <- stringr::str_extract(dp, "/test-data/[^-]+")
   
   # set up package
   install_list <- set_up_pkg(dp, pkg_disp)
