@@ -53,14 +53,17 @@ create_traceability_matrix <- function(pkg_name,
                          func_coverage, 
                          by = "code_script") 
    
-  # write tm to rds
-  write_tm_rds(tm, pkg_name, results_dir)
   
-  # write tm to excel
-  write_tm_excel(tm, pkg_name, results_dir)
-  
-  message(glue::glue("traceability matrix for {pkg_name} successful"))
-  
+  if (results_dir == "no audit trail") {
+    message(glue::glue("not writing traceability matrix for {pkg_name} "))
+  } else {
+    write_tm_rds(tm, pkg_name, results_dir)
+    
+    # write tm to excel
+    write_tm_excel(tm, pkg_name, results_dir)
+    
+    message(glue::glue("traceability matrix for {pkg_name} successful"))
+  }
   return(tm)
 }
 
