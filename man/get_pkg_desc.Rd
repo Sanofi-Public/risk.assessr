@@ -8,8 +8,12 @@ get_pkg_desc(pkg_source_path, fields = NULL)
 }
 \arguments{
 \item{pkg_source_path}{path to package source code (untarred)}
+
+\item{fields}{- select specified elements from description}
+}
+\value{
+list with package description
 }
 \description{
 Read Description file and parse the package name and version
 }
-\keyword{internal}

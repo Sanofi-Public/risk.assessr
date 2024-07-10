@@ -10,7 +10,7 @@ test_that("running assess_pkg for test package in tar file - no notes", {
   
   
   # set up package
-  install_list <- set_up_pkg(dp, pkg_disp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed

@@ -1,4 +1,4 @@
-test_that("parse deps for tar file works correctly", {
+test_that("get package description works correctly", {
   
   r = getOption("repos")
   r["CRAN"] = "http://cran.us.r-project.org"
@@ -13,22 +13,20 @@ test_that("parse deps for tar file works correctly", {
   
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
-
+  
   if (package_installed == TRUE ) {	
-    deps_list <- sanofi.risk.metric::calc_dependencies(pkg_source_path)
+    pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path)
     
-    expect_identical(length(deps_list), 2L)
+    expect_identical(length(pkg_desc), 17L)
     
-    expect_true(checkmate::check_data_frame(deps_list$deps, 
+    expect_true(checkmate::check_list(pkg_desc, 
                                             any.missing = FALSE)
-                )
+    )
     
-    expect_true(checkmate::check_data_frame(deps_list$deps, 
-                                            col.names = "named"
-                                            )
-               )
+    expect_true(checkmate::check_list(pkg_desc, 
+                                      types = "character")
+    )
     
-    testthat::expect_gt(deps_list$dep_score, 0.010) 
   }
   
 })

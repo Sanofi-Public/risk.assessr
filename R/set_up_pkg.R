@@ -1,8 +1,11 @@
-#' Creates package scaffold
+#' Creates information on package installation
 #'
 #' @param dp data path and name for the package. 
 #' @param pkg_disp package name for display
-
+#' 
+#' @return list with local package install
+#' 
+#' @export
 set_up_pkg <- function(dp, pkg_disp) {
   
   build_vignettes <- TRUE
@@ -23,14 +26,14 @@ set_up_pkg <- function(dp, pkg_disp) {
                                                   pkg_disp)
     }  
   } 
-
+  
   if (package_installed == TRUE ) {	
     
     # get home directory
     
-    pkg_desc <- get_pkg_desc(pkg_source_path, 
-                             fields = c("Package", 
-                                        "Version"))
+    pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path, 
+                                                 fields = c("Package", 
+                                                            "Version"))
     pkg_name <- pkg_desc$Package
     pkg_ver <- pkg_desc$Version
     
