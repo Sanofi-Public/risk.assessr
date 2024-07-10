@@ -140,7 +140,11 @@ run_coverage <- function(pkg_source_path, out_dir, timeout = Inf) {
 
 #' Run covr in subprocess with timeout
 #'
-#' @noRd
+#' @param path - path to source file
+#' @param timeout - length of timeout - set to Inf
+#'
+#' @export
+#' 
 run_covr <- function(path, timeout) {
   callr::r_safe(
     function(p) {

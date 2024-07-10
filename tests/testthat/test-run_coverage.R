@@ -136,7 +136,7 @@ test_that("running coverage for created package in tar file with no tests", {
   
   dp <- system.file("test-data/test.package.0004_0.1.0.tar.gz",
                     package = "sanofi.risk.metric")
-  pkg_disp <- "test package with 1 note and 1 error"
+  pkg_disp <- "test package with no tests"
   
   # set up package
   install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
@@ -166,4 +166,44 @@ test_that("running coverage for created package in tar file with no tests", {
     message(glue::glue("cannot run coverage test for {basename(pkg_source_path)}"))
   } 
   
-})  
+}) 
+
+test_that("running coverage for created package in tar file with no functions", {
+  
+  dp <- system.file("test-data/test.package.0005_0.1.0.tar.gz",
+                    package = "sanofi.risk.metric")
+  pkg_disp <- "test package with no functions"
+  
+  # set up package
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+  
+  build_vignettes <- install_list$build_vignettes
+  package_installed <- install_list$package_installed
+  pkg_source_path <- install_list$pkg_source_path
+  out_dir <- install_list$out_dir
+  results <- install_list$results
+  
+  if (package_installed == TRUE ) {
+    
+    testthat::expect_message(
+      covr_list <- sanofi.risk.metric::run_coverage(pkg_source_path, out_dir),
+      glue::glue("R coverage for {basename(pkg_source_path)} had notes: no testable functions found"),
+      fixed = TRUE
+    )
+    
+    # add total coverage to results
+    results$covr <- covr_list$total_cov
+    
+    testthat::expect_true(checkmate::test_numeric(results$covr))
+    
+    testthat::expect_equal(results$covr, 0)
+    
+    testthat::expect_true(!is.na(results$covr))
+    
+    testthat::expect_equal(covr_list$res_cov$coverage$totalcoverage, 0)
+    
+  } else {
+    message(glue::glue("cannot run coverage test for {basename(pkg_source_path)}"))
+  } 
+  
+})
