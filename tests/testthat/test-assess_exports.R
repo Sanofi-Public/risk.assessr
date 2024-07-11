@@ -1,8 +1,8 @@
 test_that("assess exports for tar file works correctly", {
   
-  # r = getOption("repos")
-  # r["CRAN"] = "http://cran.us.r-project.org"
-  # options(repos = r)
+  r = getOption("repos")
+  r["CRAN"] = "http://cran.us.r-project.org"
+  options(repos = r)
   
   dp <- system.file("test-data/here-1.0.1.tar.gz", 
                     package = "sanofi.risk.metric")

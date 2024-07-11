@@ -23,8 +23,7 @@ test_that("parse deps for tar file works correctly", {
                                             any.missing = FALSE))
     
     expect_true(checkmate::check_data_frame(deps, 
-                                            col.names = "named"
-    )
+                                            col.names = "named")
     )
   }
   

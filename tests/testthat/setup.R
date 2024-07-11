@@ -120,3 +120,7 @@ test_deps <- data.frame(package, type)
 high_overall_risk_score <- .57
 medium_overall_risk_score <- .33
 low_overall_risk_score <- .24
+
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)
