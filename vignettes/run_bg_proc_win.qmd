@@ -8,6 +8,10 @@ format:
     toc: TRUE
     toc-title: "Table of contents"
     toc-depth: 5
+vignette: >
+  %\VignetteIndexEntry{Quarto HTML Vignettes}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ## **Background Processor Overview**

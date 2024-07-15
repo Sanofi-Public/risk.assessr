@@ -32,6 +32,7 @@ Suggests:
   remotes,
   readr,
   pkgload,
+  quarto,
   testthat (>= 3.0.0),
   stringr (>= 1.4.0),
   tibble,
@@ -46,4 +47,5 @@ LazyData: true
 RoxygenNote: 7.3.1
 Config/testthat/edition: 3
 Config/build/clean-inst-doc: FALSE
-VignetteBuilder: knitr
+VignetteBuilder: knitr,
+                 quarto
