@@ -1,0 +1,141 @@
+---
+title: "How to process tar files in background"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to process tar files in background}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Table of Contents{#toc}  
+
+[Overview](#overview)
+
+[Setup](#setup)
+
+[Initial Steps](#initial_steps)
+
+[Create File paths](#create_file_paths)
+
+[Usage](#usage)
+
+[Cleanup](#cleanup)
+
+# Overview - Background processing of tar files {#overview}
+
+The R script **bg_proc_tar** executes the creation of risk metrics for R packages in a batch mode that can
+be run in background.
+
+This script **bg_proc_tar** is located in the **inst** folder.
+
+This script sets up the batch mode with an input path for the tar files and output file for the riskmetrics results and calls the the **sanofi.risk.metric::assess_pkg()** to execute the risk metric processing
+
+To simplify the running of the script **bg_proc_tar**, 
+a script accessing **rstudioapi** and named **bgp_run_script.R** has been created.
+
+```{r setup}
+library(sanofi.risk.metric)
+```
+
+[Return to Table of Contents](#toc)
+
+# Setup - Background processing of tar files {#setup}
+
+# Creating a local repository
+
+If the user is using the *eWise* environment, the following steps are needed:
+
+1. Create a new project through Version Control
+
+![](~/github-helper-repos/sanofi.risk.metric/man/figures/01-Version-Control.png)
+
+2. Create the R project on **eWise** using the following subdirectory:
+
+![](~/github-helper-repos/sanofi.risk.metric/man/figures/02-create-project-as-subdirectory.png)
+
+This folder structure will help later on when setting other input and output paths.
+
+[Return to Table of Contents](#toc)
+
+## Initial Steps {#initial_steps}
+
+1. Restart R
+2. Rebuild the package
+3. Load all
+
+[Return to Table of Contents](#toc)
+
+# Create File paths {#create_file_paths}
+
+If *bgp_run_script.R* is executed, the user will need to:
+
+1. set up the input file path using bash terminal or Jupyter notebook  
+
+`
+ip <- paste0("/home/", 
+              user, 
+              "/github-helper-repos/sanofi.risk.metric/inst")
+`
+
+2. set up the path to working directory
+
+`
+wd <- paste0("/home/", 
+             user, 
+             "/github-helper-repos/sanofi.risk.metric")
+`
+
+
+When setting up a local repo, the user will need to specify folders for the input path and the output path to execute this script locally. 
+
+The user will also need to ensure that they have read and write permission for the specified folders.
+
+[Return to Table of Contents](#toc)
+
+## include Windows setup
+
+
+# Usage - Background processing of tar files {#usage}
+
+The user will need to copy whatever *tar.gz* files are to be processed
+into the folder specified for the input file path.
+
+[Return to Table of Contents](#toc)
+
+# Cleanup of temporary folders in *eWise* {#cleanup}
+
+## create an R script to do system calls to remove the files
+As the processor is writing data to a non-standard *temp* file, 
+the user will need remove unwanted files and folders after executing the processor.
+
+## managing what happens in temp folder
+
+## remove temp files
+rm -rf temp_*
+
+## remove risk metric sink files
+rm -rf riskmetric_sink*
+
+## remove file directories
+rm -rf file*
+
+## remove callr* files
+rm -rf callr-*
+
+## remove libloc* files
+rm -rf libloc*
+
+## remove repos files
+rm -rf repos_*
+
+## remove foo file
+rm foo.o
+
+[Return to Table of Contents](#toc)

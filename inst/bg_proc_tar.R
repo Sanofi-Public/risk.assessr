@@ -1,6 +1,5 @@
 library(here)
 library(rlang)
-library(unix)
 library(sanofi.risk.metric)
 
 # Restart R
@@ -48,10 +47,17 @@ library(sanofi.risk.metric)
 # set working directory to project root folder e.g. sanofi.risk.metric not inst
 # set copy job results to 'To results object in global environment' to have audit of job execution
 
-bg_proc_tar <- function(tar_file, build_vignettes) {
+# background process main function ----
+
+bg_proc_tar <- function(tar_file, input_tar_path, out_dir) {
   
-  file_path <- paste0("/home/u1004798/github-helper-repos/data/input_bg_data/", {{tar_file}})
+  input_path <- input_tar_path
   
+  file_path <- paste0(input_path,"/", {{tar_file}})
+  
+  r = getOption("repos")
+  r["CRAN"] = "http://cran.us.r-project.org"
+  options(repos = r)
   
   # get initial working directory
   initial_wd <- getwd()
@@ -63,6 +69,18 @@ bg_proc_tar <- function(tar_file, build_vignettes) {
   
   # load file path into the data path variable
   dp <- file_path 
+  
+  # check where vignettes are in the package
+  bv_result <- sanofi.risk.metric::contains_vignette_folder(dp)
+  
+  #set up build vignettes for R CMD check
+  if (bv_result == FALSE) {
+    build_vignettes <- TRUE
+  } else {
+    build_vignettes <- FALSE
+  }
+  
+  rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
   
   pkg_disp <- stringr::str_extract(pkg, "[^_]+")
   
@@ -81,12 +99,6 @@ bg_proc_tar <- function(tar_file, build_vignettes) {
     
     message("home is ", home)
     
-    out_path <- paste0("/home/u1004798/github-helper-repos/sanofi.risk.metric")
-    
-    out_dir <- file.path(out_path, "inst/results")
-    
-    message("out_dir is ", out_dir)
-    
     # set working directory back to initial directory
     here::here(initial_wd)
     
@@ -104,8 +116,6 @@ bg_proc_tar <- function(tar_file, build_vignettes) {
     riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
     
     message("data path exists ", riskscore_data_exists)
-    
-    rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
     
     # assess package for risk
     assess_package <- 
@@ -129,24 +139,143 @@ bg_proc_tar <- function(tar_file, build_vignettes) {
   } else {
     message("Package not installed")
   }
-
+  
 }
 
-# create path to tar files
-Sys.getenv("R_SESSION_TMPDIR") 
-tempdir()
+# check directory ----
 
-input_tar_path <- file.path("/home/u1004798/github-helper-repos/data/input_bg_data")
 
-# create list of tar files 
-input_tar_list <- list.files(path = input_tar_path, pattern = "*.tar.gz$", full.names = FALSE)
+setdir_linux <- function() {
+  # get the user name
+  user <- Sys.info()["user"]
+  
+  # create input dir based on user name
+  itp <- paste0("/home/", 
+                user, 
+                "/github-helper-repos/data/input_bg_data")
+  
+  input_tar_path <- file.path(itp)
+  
+  # create output path for results
+  out_path <- paste0("/home/", 
+                     user, 
+                     "/github-helper-repos/sanofi.risk.metric")
+  
+  message("out path is ", out_path)
+  
+  out_dir <- file.path(out_path, "inst/results")
+  
+  message("out_dir is ", out_dir)
+  
+  sanofi.risk.metric::check_dir(out_dir)
+  
+  # create tmp dir based on user name
+  tmp_dir <- paste0("/home/", user, "/tmp")
+  
+  # normalize the path
+  tmp_dir <- normalizePath(tmp_dir)
+  
+  # check if the temp directory doesn't exist
+  if (!dir.exists(tmp_dir)) {
+    message("temp directory exists: ", dir.exists(tmp_dir))
+    # create directory with all the files 
+    # in the current directory have all permissions type
+    dir.create(tmp_dir, showWarnings = TRUE, recursive = FALSE, mode = "0777")
+  }
+  
+  # check directory existence
+  message("temp directory exists: ", dir.exists(tmp_dir))
+  
+  # set R session temp directory
+  Sys.setenv(R_SESSION_TMPDIR = tmp_dir)
+  message("R_SESSION_TMPDIR is ", Sys.getenv("R_SESSION_TMPDIR"))
+  
+  # set Linux session temp directory
+  unix:::set_tempdir(tmp_dir)
+  message("tempdir is ", tempdir())
+  
+  input_output_list <- list(
+    input_tar_path = input_tar_path,
+    out_dir =  out_dir)
+  
+  return(input_output_list)
+}
 
-# set build vignettes parameter
-build_vignettes <- TRUE
+setdir_windows <- function() {
+  
+  #get Windows home directory
+  home_dir <- Sys.getenv()['HOME']
+  
+  # set input tar file path
+  itp <- paste0(home_dir, "/input_bg_data")
+  
+  # convert to file path
+  input_tar_path <- file.path(itp)
+  
+  # check directory exists
+  sanofi.risk.metric::check_dir(input_tar_path)
+  
+  # set output file path  
+  otp <- paste0(home_dir, "/bp-art-sanofi.risk.metric/inst/results")
+  
+  # convert to file path
+  out_dir <- file.path(otp) 
+  
+  # check directory exists
+  sanofi.risk.metric::check_dir(out_dir)
+  
+  input_output_list <- list(
+    input_tar_path = input_tar_path,
+    out_dir =  out_dir)
+  
+  return(input_output_list)
+}
+
+# background process setup ----
+
+bg_proc_tar_setup <- function() {
+  
+  # create path to tar files
+  if (checkmate::check_os("linux") == TRUE) {
+    list_of_packages <- c("unix")
+    new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
+    if(length(new_packages)) {
+      install.packages(new_packages)
+    }
+    library({{list_of_packages}}, character.only = TRUE)
+    
+    input_output_list <- setdir_linux()
+  }  else if (checkmate::check_os("windows")  == TRUE) {
+    input_output_list <- setdir_windows()
+  }
+  
+  input_tar_path <- input_output_list$input_tar_path
+  out_dir <- input_output_list$out_dir
+  
+  # check directory existence
+  sanofi.risk.metric::check_dir(input_tar_path)
+  sanofi.risk.metric::check_dir(out_dir)
+  
+  # create list of tar files 
+  input_tar_list <- list.files(path = input_tar_path, 
+                               pattern = "*.tar.gz$", 
+                               full.names = FALSE)
+  
+  bpt_list <- list(
+    input_tar_path = input_tar_path,
+    input_tar_list = input_tar_list,
+    out_dir =  out_dir 
+  )
+  return(bpt_list)
+}
+
+bpt_list <- bg_proc_tar_setup()
 
 # create list with 1 tar file
 # input_tar_list <- list.files(path = input_tar_path, pattern = "dplyr_1.0.1.tar.gz$", full.names = FALSE)
 
 # apply list vector to function
-purrr::map2(input_tar_list, build_vignettes, bg_proc_tar)
-
+purrr::pmap(list(bpt_list$input_tar_list, 
+                 bpt_list$input_tar_path, 
+                 bpt_list$out_dir), 
+            bg_proc_tar)

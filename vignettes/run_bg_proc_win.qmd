@@ -1,0 +1,81 @@
+---
+title: "Run Batch Processor Windows"
+author: "BP ART Team"
+date: "2024-04-22"
+format:
+  html:
+    code-fold: true
+    toc: TRUE
+    toc-title: "Table of contents"
+    toc-depth: 5
+---
+
+## **Background Processor Overview**
+
+The batch processor allows for the background or foreground processing of multiple source packages in the form of `tar.gz` files to create risk metric data.
+
+The following outlines the steps to set up the `sanofi.risk.metric` package and necessary folders to run this script in Windows.
+
+## **Set up background processor**
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+### Download `sanofi.risk.metric`
+
+::: {#tbl:download-table}
+| Steps                                                                             | URL                                                                  | Comments                                                                                               |
+|------------------------|------------------------|------------------------|
+| go to `Sanofi Github`                                                             | \- https://github.com/Sanofi-GitHub <br> - Confidentiality concerns  | \- This will change to open source on GitHub <br> - need to follow `OSPO` guidelines                   |
+| get `SSH key` for `sanofi.risk.assessment.tar`                                    | `git@github.com:Sanofi-GitHub/bp-art-sanofi.risk.assessment.tar.git` | \- The package name will change <br> - at the moment, this has two utility functions for tar files     |
+| get `SSH key` for `sanofi.risk.metric`                                            | `git@github.com:Sanofi-GitHub/bp-art-sanofi.risk.metric.git`         | \- The package name will change <br> - at the moment, this has two utility functions for tar files     |
+| go to `RStudio -> New Project -> Version Control -> Git`                          |                                                                      |                                                                                                        |
+| copy `SSH key` to `Repository URL` field                                          |                                                                      |                                                                                                        |
+| set up `Create project as subdirectory of`                                        |                                                                      | \- set up project in the `Documents` folder under your user name <br> - This can be in your `OneDrive` |
+| go to `Build` Tab and run a `Clean and Install` before running `Document` package |                                                                      | If you run `Document` before `Clean and Install`, it may not work due to permissions problems          |
+:::
+
+### `Download` Troubleshooting
+
+::: {#tbl:download-troubleshoot-table}
+| Problem | Comments |
+|-------|----------|
+| cannot find the package |check that the R package is in a folder under `Documents` and has write permissions         |
+:::
+
+### Set up `Batch processing script`
+
+::: {#tbl:set-batch-processor-table}
+| Steps                                                             | Comments                                                                                                                                         |
+|------------------------------------|------------------------------------|
+| go to the `Documents` folder under your user name                 |                                                                                                                                                  |
+| create a folder `input_bg_data`                                   | \- make sure you have permissions to write to this folder                                                                                        |
+| copy `tar.gz` files with R packages to this folder for processing | \- Create these files by: <br> \>    go to the `Build` tab and click `Build Source Package` <br> \>    get `tar.gz` file from `CRAN` or `bioconductor` |
+| open `sanofi.risk.assessment.tar` in `RStudio` |    |
+| `Clean and Install` this package | |
+| `Load All` this package |
+| open `sanofi.risk.metric` in `RStudio` |    |
+| `Clean and Install` this package | |
+| `Load All` this package |
+:::
+
+### Run `Batch processing script`
+
+::: {#tbl:run-batch-processor-table}
+| Steps                       | Comments                                                                   |
+|------------------------------------|------------------------------------|
+| go to the `inst` folder     |                                                                            |
+| open `bgp_run_script.R` script |                                                                            |
+| `Source as Background Job` the script         | |
+:::
+
+### `Run Batch Processor` Troubleshooting
+
+::: {#tbl:bgp-troubleshoot-table}
+| Problem | Message | Comments |
+|-------|----------| ----------|
+| can't find `input_bg_data` folder| `C:/Users/Username/OneDrive/Documents/` <br> `input_bg_data directory exists:` `FALSE` | \- check folder exists <br> - check if you have write permissions for folder <br> - `Restart R`, <br> -`Clean and Install` package <br> - `Load All` package <br> - run script again |
+| can't find `inst/results` folder | `C:/Users/Username/OneDrive/Documents/` <br> `bp-art-sanofi.risk.metric/inst/results exists:` `FALSE` | as above |
+| can't find `riskdata_results.csv` | data path is `C:/Users/username/OneDrive/` <br> `Documents/bp-art-sanofi.risk.metric/inst/extdata/riskdata_results.csv` <br> data path exists FALSE | as above |
+| Error creating `traceability matrix` | Error in `purrr::pmap()` at bp-art-sanofi.risk.metric/inst/bg_proc_tar.R 279 1  <br> ℹ In index: .<br> Caused by error in `FUN()`: <br> lazy-load database `C:/Users/username/AppData/Local/R/win-library/4.4/waldo/help/waldo.rdb` is corrupt | as above |
+| Question about deletion of `inst/doc` | Building the package will delete... <br> `C:/Users/username/AppData/Local/Temp/` <br> `RtmpuktlPk/temp_file_230431af9da/synapser/inst/doc` Are you sure? | 1 `Yes` |
+:::
