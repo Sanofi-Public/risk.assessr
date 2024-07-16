@@ -31,6 +31,9 @@ jobs:
             any::rsconnect
             local::.
 
+      - name: 'Install gh'
+        uses: Sanofi-GitHub/sih-github-actions/setup-gh@main
+
       - name: 'Setup Quarto'
         uses: quarto-dev/quarto-actions/setup@v2.1.3
 
