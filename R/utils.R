@@ -325,3 +325,31 @@ recalc_risk_scores <- function(update_comments) {
   
 }
 
+#' check directory
+#'
+#' @param dir_to_check check if direcoty exists
+#'
+#' @export
+#'
+check_dir <- function(dir_to_check) {
+  # check if the temp directory doesn't exist
+  if (!dir.exists(dir_to_check)) {
+    message(dir_to_check, 
+            " directory exists: ", 
+            dir.exists(dir_to_check))
+    # create directory with all the files 
+    # in the current directory have all permissions type
+    if (checkmate::check_os("linux") == TRUE) {
+      dir.create(dir_to_check, 
+                 showWarnings = TRUE, 
+                 recursive = FALSE, 
+                 mode = "0777")
+    } else if (checkmate::check_os("windows")  == TRUE) {
+      dir.create(dir_to_check, 
+                 showWarnings = TRUE, 
+                 recursive = FALSE)
+    }
+    # check directory existence
+  }
+  message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
+}
