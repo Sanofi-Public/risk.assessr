@@ -37,8 +37,9 @@ jobs:
       - name: 'Setup Quarto'
         uses: quarto-dev/quarto-actions/setup@v2.1.3
 
-      - name: 'Render site'
-        run:  quarto render .
+      - name: Render quarto site
+        run: |
+          Rscript -e 'quarto::quarto_render()'
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
