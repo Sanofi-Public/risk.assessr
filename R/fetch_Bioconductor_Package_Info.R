@@ -23,13 +23,13 @@ library(lubridate)
 #' @examples
 #' \dontrun{
 #' # Example usage:
-#' package_info <- fetchBioconductorPackageInfo("GenomicRanges", "1.42.0")
+#' package_info <- sanofi.risk.metric::fetch_Bioconductor_Package_Info("GenomicRanges", "1.42.0")
 #' print(package_info)
 #' }
 #' @export
-fetchBioconductorPackageInfo <- function(package_name, version) {
+fetch_Bioconductor_Package_Info <- function(package_name, version) {
   # Hypothetical URL to fetch package info
-  url <- "https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/2bb1fda0-b2fb-4686-b613-310d5a74e453/get_all_bioconductor_version/"
+  url <- "https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/2bb1fda0-b2fb-4686-b613-310d5a74e453/all-bioconductor-version"
   
   # JSON body for the request
   body <- list(

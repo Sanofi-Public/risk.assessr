@@ -39,7 +39,7 @@ test_that("test on correct result", {
   local_mocked_bindings(req_perform = mock_req_perform)
   
   # Test the result
-  package_info <- fetchBioconductorPackageInfo("DESeq2", "1.24.0")
+  package_info <- fetch_Bioconductor_Package_Info("DESeq2", "1.24.0")
   expect_equal(package_info$Version, "1.24.0")
 })
 
@@ -69,7 +69,7 @@ test_that("test on missing package", {
   # Mock the bindings
   local_mocked_bindings(req_perform = mock_req_perform)
   # Test the result
-  expect_error(fetchBioconductorPackageInfo("NonExistentPackage", "1.0.0"), 
+  expect_error(fetch_Bioconductor_Package_Info("NonExistentPackage", "1.0.0"), 
                "API request failed with status code: 404")
 })
 
@@ -99,7 +99,7 @@ test_that("test on incorrect version", {
   # Mock the bindings
   local_mocked_bindings(req_perform = mock_req_perform)
   # Test the result
-  expect_error(fetchBioconductorPackageInfo("DESeq2", "0.0.0"), 
+  expect_error(fetch_Bioconductor_Package_Info("DESeq2", "0.0.0"), 
                "API request failed with status code: 404")
 })
 
@@ -127,7 +127,7 @@ test_that("test on empty response", {
   # Mock the bindings
   local_mocked_bindings(req_perform = mock_req_perform)
   # Test the result
-  package_info <- fetchBioconductorPackageInfo("nonexistingpackage", "1.24.0")
+  package_info <- fetch_Bioconductor_Package_Info("nonexistingpackage", "1.24.0")
   expect_true(length(package_info) == 0)
 })
 
@@ -149,7 +149,7 @@ test_that("test on internal server error", {
   # Mock the bindings
   local_mocked_bindings(req_perform = mock_req_perform)
   # Test the result
-  expect_error(fetchBioconductorPackageInfo("DESeq2", "1.24.0"), 
+  expect_error(fetch_Bioconductor_Package_Info("DESeq2", "1.24.0"), 
                "API request failed with status code: 500")
 })
 
@@ -174,7 +174,7 @@ test_that("test on unexpected content type", {
   # Mock the bindings
   local_mocked_bindings(req_perform = mock_req_perform)
   # Test the result
-  expect_error(fetchBioconductorPackageInfo("DESeq2", "1.24.0"))
+  expect_error(fetch_Bioconductor_Package_Info("DESeq2", "1.24.0"))
 })
 
 
