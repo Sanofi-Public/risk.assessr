@@ -55,10 +55,13 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_dir) {
   
   file_path <- paste0(input_path,"/", {{tar_file}})
   
+
+  build_vignettes <- TRUE
+
   r = getOption("repos")
   r["CRAN"] = "http://cran.us.r-project.org"
   options(repos = r)
-  
+
   # get initial working directory
   initial_wd <- getwd()
   

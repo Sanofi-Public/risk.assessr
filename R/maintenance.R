@@ -27,12 +27,17 @@ run_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
   res_check <- do.call(rcmdcheck::rcmdcheck, rcmdcheck_args)
   
   # write results to RDS
-  saveRDS(
-    res_check,
-    get_result_path(out_dir, "check.rds")
-  )
+  if (out_dir == "no audit trail") {
+    message(glue::glue("not writing rcmdcheck results for {pkg_name}"))
+  } else {
+    saveRDS(
+      res_check,
+      get_result_path(out_dir, "check.rds")
+    )
+    message(glue::glue("writing rcmdcheck results for {pkg_name}"))
+  }
   
-  message(glue::glue("writing rcmdcheck results for {pkg_name}"))
+  
   
   # Note that res_check$status is the opposite of what we want (1 means failure, 0 means passing)
   
@@ -104,12 +109,16 @@ run_coverage <- function(pkg_source_path, out_dir, timeout = Inf) {
   
   message(glue::glue("code coverage for {pkg_name} successful"))
   
-  message(glue::glue("writing code coverage results for {pkg_name}"))
+  if (out_dir == "no audit trail") {
+    message(glue::glue("not writing code coverage results for {pkg_name}"))
+  } else {  
   # write results to RDS
-  saveRDS(
-    res_cov,
-    sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
-  )
+    saveRDS(
+      res_cov,
+      sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
+    )
+    message(glue::glue("writing code coverage results for {pkg_name}"))
+  }
   
   # return total coverage as fraction
   total_cov <- as.numeric(res_cov$coverage$totalcoverage/100)
@@ -131,7 +140,11 @@ run_coverage <- function(pkg_source_path, out_dir, timeout = Inf) {
 
 #' Run covr in subprocess with timeout
 #'
-#' @noRd
+#' @param path - path to source file
+#' @param timeout - length of timeout - set to Inf
+#'
+#' @export
+#' 
 run_covr <- function(path, timeout) {
   callr::r_safe(
     function(p) {

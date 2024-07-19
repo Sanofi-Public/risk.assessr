@@ -74,7 +74,53 @@ update_pscore <- list(
   news_current = 1
 )
 
+#create data for testing create_empty_results
+sys <- list(
+  sysname = "Linux",
+  version = "#1 SMP Tue Aug 18 14:50:17 EDT 2020",
+  release = "3.10.0-1160.el7.x86_64",
+  machine = "x86_64"
+)
+
+info <- list(
+  sys = sys
+)
+
+test_metadata <- list(
+  datetime = "2024-06-20 15:47:46",
+  executor = "test",
+  info = info
+)
+
+test_pkg_name <- "there"
+test_pkg_ver <- "1.0.1"
+test_pkg_source_path <- "/tmp/Rtmp0syfE3/temp_file_4644567f965d/there-1.0.1"
+
+# create test data to test score dependencies
+
+package <- c(
+  "rprojroot (>= 2.0.2)", "conflicted",
+  "covr", "fs", "knitr", "palmerpenguins",      
+  "plyr", "readr", "rlang",               
+  "rmarkdown", "testthat", "uuid",                
+  "withr"       
+)
+
+type <- c(
+  "Imports",  "Suggests", "Suggests",
+  "Suggests", "Suggests", "Suggests",
+  "Suggests", "Suggests", "Suggests",
+  "Suggests", "Suggests", "Suggests",
+  "Suggests"
+)
+
+test_deps <- data.frame(package, type)
+
 # create overall risk scores to test risk profiles
 high_overall_risk_score <- .57
 medium_overall_risk_score <- .33
 low_overall_risk_score <- .24
+
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)

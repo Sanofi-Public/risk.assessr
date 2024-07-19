@@ -13,6 +13,69 @@
 #' @param covr_timeout - setting for covr time out
 #'
 #' @return list containing results - list containing metrics and tm - trace matrix
+#' 
+#' @examples
+#' \dontrun{
+#' library(sanofi.risk.metric)
+#' # set CRAN repo 
+#' r = getOption("repos")
+#' r["CRAN"] = "http://cran.us.r-project.org"
+#' options(repos = r)
+#' 
+#' dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
+#'                   package = "sanofi.risk.metric")
+#' pkg_disp <- "test package with no notes"
+#' 
+#' # set up package
+#' install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+#' 
+#' build_vignettes <- install_list$build_vignettes
+#' package_installed <- install_list$package_installed
+#' pkg_source_path <- install_list$pkg_source_path
+#' out_dir <- install_list$out_dir
+#' results <- install_list$results
+#' 
+#' if (package_installed == TRUE ) {
+#'   
+#'   # get home directory
+#'   
+#'   pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path,
+#'                                                fields = c("Package",
+#'                                                "Version"))
+#'   pkg_name <- pkg_desc$Package
+#'   pkg_ver <- pkg_desc$Version
+#'   pkg <- pkg_desc$Package
+#'   out_dir <- "no audit trail"
+#'   
+#'   # set up current package
+#'   current_package <- "sanofi.risk.metric"
+#'   
+#'   # check if risk score data exists and set up path to risk score data
+#'   riskscore_data_list <- 
+#'     sanofi.risk.metric::check_riskscore_data_internal()
+#'   
+#'   riskscore_data_path <- riskscore_data_list$riskscore_data_path
+#'   
+#'   message("data path is ", riskscore_data_path)
+#'   
+#'   riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
+#'   
+#'   message("data path exists ", riskscore_data_exists)
+#'   
+#'   rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
+#'   
+#'   assess_package <- 
+#'     sanofi.risk.metric::assess_pkg(pkg,
+#'                                    dp,
+#'                                    pkg_source_path,
+#'                                    out_dir,
+#'                                    riskscore_data_path,
+#'                                    riskscore_data_exists,
+#'                                    overwrite = TRUE,
+#'                                    rcmdcheck_args
+#'     ) 
+#' }
+#' }  
 #' @export
 #'
 assess_pkg <- function(
@@ -34,8 +97,10 @@ assess_pkg <- function(
   checkmate::assert_file_exists(datapath)
   checkmate::assert_string(pkg_source_path)
   checkmate::assert_directory_exists(pkg_source_path)
-  checkmate::assert_string(out_dir)
-  checkmate::assert_directory_exists(out_dir)
+  if (out_dir != "no audit trail") {
+    checkmate::assert_string(out_dir)
+    checkmate::assert_directory_exists(out_dir)
+  }
   checkmate::check_logical(riskscore_data_exists)
   checkmate::assert_string(riskscore_data_path)
   checkmate::check_logical(overwrite)
@@ -56,11 +121,14 @@ assess_pkg <- function(
   pkg_ver <- pkg_desc$Version
   pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
   
+  if (out_dir != "no audit trail") {
   # Add pkg_name sub-directory and create if it doesn't exist
-  out_dir <- file.path(out_dir, pkg_name_ver)
-  if (!fs::dir_exists(out_dir)) fs::dir_create(out_dir)
-  out_path <- sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
-  sanofi.risk.metric::check_exists_and_overwrite(out_path, overwrite)
+  
+    out_dir <- file.path(out_dir, pkg_name_ver)
+    if (!fs::dir_exists(out_dir)) fs::dir_create(out_dir)
+    out_path <- sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
+    sanofi.risk.metric::check_exists_and_overwrite(out_path, overwrite)
+  }
   
   metadata <- sanofi.risk.metric::get_risk_metadata()
   
@@ -117,11 +185,14 @@ assess_pkg <- function(
   results$risk_profile <- 
     sanofi.risk.metric::calc_risk_profile(results$overall_risk_score)
   
+  if (out_dir == "no audit trail") {
+    message(glue::glue("not writing rcmdcheck results for {pkg_name}"))
+  } else {
   # write data to csv
-  sanofi.risk.metric::write_data_csv(results, 
-                                     riskscore_data_path, 
-                                     riskscore_data_exists)
-  
+    sanofi.risk.metric::write_data_csv(results, 
+                                       riskscore_data_path, 
+                                       riskscore_data_exists)
+  }
   return(list(results = results,
               tm = tm))
 }

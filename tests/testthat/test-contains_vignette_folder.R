@@ -49,7 +49,7 @@ test_that("correct repo with Non-tar file throws an error", {
 
   # Step 2: Create the .tar Archive
   tar_file <- file.path(temp_dir, "got_vignette.teeeeeeear")
-  tar(tar_file, files = main_dir)
+  suppressWarnings(tar(tar_file, files = main_dir))
 
   # Ensure cleanup happens even if the test fails
   defer(unlink(main_dir, recursive = TRUE))
@@ -81,7 +81,7 @@ test_that("test on package with vignette folder", {
 
   # Step 2: Create the .tar Archive
   tar_file <- file.path(temp_dir, "got_vignette.tar.gz")
-  tar(tar_file, files = main_dir)
+  suppressWarnings(tar(tar_file, files = main_dir))
 
   # Ensure cleanup happens even if the test fails
   defer(unlink(main_dir, recursive = TRUE))
@@ -113,7 +113,7 @@ test_that("test on package without vignette folder", {
 
   # Step 2: Create the .tar Archive
   tar_file <- file.path(temp_dir, "got_vignette.tar.gz")
-  tar(tar_file, files = main_dir)
+  suppressWarnings(tar(tar_file, files = main_dir))
 
   # Ensure cleanup happens even if the test fails
   defer(unlink(main_dir, recursive = TRUE))
@@ -140,7 +140,7 @@ test_that("test on package with vignette folder but no .rmd file", {
 
   # Step 2: Create the .tar Archive
   tar_file <- file.path(temp_dir, "got_vignette.tar.gz")
-  tar(tar_file, files = main_dir)
+  suppressWarnings(tar(tar_file, files = main_dir))
 
   # Ensure cleanup happens even if the test fails
   defer(unlink(main_dir, recursive = TRUE))
@@ -175,7 +175,7 @@ test_that("test on package with inst/doc and .Rmd", {
 
   # Step 2: Create the .tar Archive
   tar_file <- file.path(temp_dir, "old_structure.tar.gz")
-  tar(tar_file, files = main_dir)
+  suppressWarnings(tar(tar_file, files = main_dir))
 
   # Ensure cleanup happens even if the test fails
   defer(unlink(main_dir, recursive = TRUE))
@@ -205,7 +205,7 @@ test_that("test on package with inst/doc and no .Rmd", {
 
   # Step 2: Create the .tar Archive
   tar_file <- file.path(temp_dir, "old_structure.tar.gz")
-  tar(tar_file, files = main_dir)
+  suppressWarnings(tar(tar_file, files = main_dir))
 
   # Ensure cleanup happens even if the test fails
   defer(unlink(main_dir, recursive = TRUE))
@@ -246,11 +246,11 @@ test_that("test on package with both inst/doc and vignette with .Rmd", {
   
   # Step 2: Create the .tar Archive
   tar_file <- file.path(temp_dir, "old_structure.tar.gz")
-  tar(tar_file, files = main_dir)
+  suppressWarnings(tar(tar_file, files = main_dir))
   
   # Step 2: Create the .tar Archive
   tar_file <- file.path(temp_dir, "old_structure.tar.gz")
-  tar(tar_file, files = main_dir)
+  suppressWarnings(tar(tar_file, files = main_dir))
   
   # Ensure cleanup happens even if the test fails
   defer(unlink(main_dir, recursive = TRUE))
@@ -285,11 +285,11 @@ test_that("test on package with both inst/doc and vignette without .Rmd", {
   
   # Step 2: Create the .tar Archive
   tar_file <- file.path(temp_dir, "old_structure.tar.gz")
-  tar(tar_file, files = main_dir)
+  suppressWarnings(tar(tar_file, files = main_dir))
   
   # Step 2: Create the .tar Archive
   tar_file <- file.path(temp_dir, "old_structure.tar.gz")
-  tar(tar_file, files = main_dir)
+  suppressWarnings(tar(tar_file, files = main_dir))
   
   # Ensure cleanup happens even if the test fails
   defer(unlink(main_dir, recursive = TRUE))

@@ -1,8 +1,10 @@
 #' Read Description file and parse the package name and version
 #'
 #' @param pkg_source_path path to package source code (untarred)
+#' @param fields - select specified elements from description
 #'
-#' @keywords internal
+#' @return list with package description
+#' @export
 get_pkg_desc <- function(pkg_source_path, fields = NULL){
   
   pkg_desc_path <- file.path(pkg_source_path, "DESCRIPTION")
