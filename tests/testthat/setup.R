@@ -95,6 +95,7 @@ test_metadata <- list(
 test_pkg_name <- "there"
 test_pkg_ver <- "1.0.1"
 test_pkg_source_path <- "/tmp/Rtmp0syfE3/temp_file_4644567f965d/there-1.0.1"
+test_comments <- "test run"
 
 # create test data to test score dependencies
 

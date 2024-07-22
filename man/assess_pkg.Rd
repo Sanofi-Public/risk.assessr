@@ -13,6 +13,7 @@ assess_pkg(
   riskscore_data_exists,
   overwrite = TRUE,
   rcmdcheck_args,
+  comments,
   covr_timeout = Inf
 )
 }
@@ -33,6 +34,8 @@ assess_pkg(
 
 \item{rcmdcheck_args}{- arguments for R Cmd check - these come from setup_rcmdcheck_args}
 
+\item{comments}{- comments about the batch run}
+
 \item{covr_timeout}{- setting for covr time out}
 }
 \value{
@@ -52,15 +55,17 @@ options(repos = r)
 dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
                   package = "sanofi.risk.metric")
 pkg_disp <- "test package with no notes"
+comments <- "test example"
 
 # set up package
-install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp, comments)
 
 build_vignettes <- install_list$build_vignettes
 package_installed <- install_list$package_installed
 pkg_source_path <- install_list$pkg_source_path
 out_dir <- install_list$out_dir
 results <- install_list$results
+comments <- install_list$comments
 
 if (package_installed == TRUE ) {
   
@@ -99,7 +104,8 @@ if (package_installed == TRUE ) {
                                    riskscore_data_path,
                                    riskscore_data_exists,
                                    overwrite = TRUE,
-                                   rcmdcheck_args
+                                   rcmdcheck_args,
+                                   comments
     ) 
 }
 }  
