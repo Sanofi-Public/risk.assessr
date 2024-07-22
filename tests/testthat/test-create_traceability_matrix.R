@@ -2,16 +2,20 @@ test_that("running tm for created package in tar file with no notes", {
 
   dp <- system.file("test-data/stringr-1.5.1.tar.gz",
                     package = "sanofi.risk.metric")
-  pkg_disp <- "test here package"
+  pkg_disp <- "test stringr package"
 
+  comments <- "test tm"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
-
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp,
+                                                 comments)
+  
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
 
   if (package_installed == TRUE ) {
 
@@ -55,15 +59,19 @@ test_that("running tm for created package in tar file with no tests", {
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with no tests"
 
+  comments <- "test tm"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp,
+                                                 comments)
 
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
-
+  comments <- install_list$comments
+  
   if (package_installed == TRUE ) {
 
     # setup parameters for running covr
@@ -110,15 +118,19 @@ test_that("running tm for created package in tar file with no R directory", {
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with no R directory"
   
+  comments <- "test tm"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
-  
+  comments <- install_list$comments
+
   if (package_installed == TRUE ) {
     
     # setup parameters for running covr
@@ -155,14 +167,18 @@ test_that("running tm for created package in tar file with empty R directory", {
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with empty R directory"
   
+  comments <- "test tm"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
   
   if (package_installed == TRUE ) {
     

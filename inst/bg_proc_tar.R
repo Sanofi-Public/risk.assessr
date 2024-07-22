@@ -49,7 +49,7 @@ library(sanofi.risk.metric)
 
 # background process main function ----
 
-bg_proc_tar <- function(tar_file, input_tar_path, out_dir) {
+bg_proc_tar <- function(tar_file, input_tar_path, out_dir, comments) {
   
   input_path <- input_tar_path
   
@@ -129,7 +129,8 @@ bg_proc_tar <- function(tar_file, input_tar_path, out_dir) {
                                      riskscore_data_path,
                                      riskscore_data_exists,
                                      overwrite = TRUE,
-                                     rcmdcheck_args
+                                     rcmdcheck_args,
+                                     comments
       ) 
     
     # calculate elapsed time
@@ -238,6 +239,9 @@ setdir_windows <- function() {
 
 bg_proc_tar_setup <- function() {
   
+  # set up comments for the batch run
+  comments <- "here waldo test"
+  
   # create path to tar files
   if (checkmate::check_os("linux") == TRUE) {
     list_of_packages <- c("unix")
@@ -267,7 +271,8 @@ bg_proc_tar_setup <- function() {
   bpt_list <- list(
     input_tar_path = input_tar_path,
     input_tar_list = input_tar_list,
-    out_dir =  out_dir 
+    out_dir =  out_dir,
+    comments = comments
   )
   return(bpt_list)
 }
@@ -280,5 +285,6 @@ bpt_list <- bg_proc_tar_setup()
 # apply list vector to function
 purrr::pmap(list(bpt_list$input_tar_list, 
                  bpt_list$input_tar_path, 
-                 bpt_list$out_dir), 
+                 bpt_list$out_dir,
+                 bpt_list$comments), 
             bg_proc_tar)

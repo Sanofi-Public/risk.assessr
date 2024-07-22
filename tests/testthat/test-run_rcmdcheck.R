@@ -4,14 +4,18 @@ test_that("running rcmd check for test package in tar file - no notes", {
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with no notes"
 
+  comments <- "test run rcmdcheck"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
-
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
+  
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
 
   if (package_installed == TRUE ) {
 
@@ -30,6 +34,7 @@ test_that("running rcmd check for test package in tar file - no notes", {
     results <- sanofi.risk.metric::create_empty_results(pkg_name,
                                                         pkg_ver,
                                                         pkg_source_path,
+                                                        comments,
                                                         metadata)
 
     rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
@@ -64,14 +69,18 @@ test_that("running rcmd check for test package in tar file - 1 note 1 warning", 
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with 1 note and 1 warning"
 
+  comments <- "test run rcmdcheck"
   # set up package
-  install_list <- set_up_pkg(dp, pkg_disp)
-
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
+  
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
 
   if (package_installed == TRUE ) {
 
@@ -90,6 +99,7 @@ test_that("running rcmd check for test package in tar file - 1 note 1 warning", 
     results <- sanofi.risk.metric::create_empty_results(pkg_name,
                                                         pkg_ver,
                                                         pkg_source_path,
+                                                        comments,
                                                         metadata)
 
     rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
@@ -118,14 +128,18 @@ test_that("running rcmd check for test package in tar file - 1 note 1 error", {
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with 1 note and 1 error"
 
+  comments <- "test run rcmdcheck"
   # set up package
-  install_list <- set_up_pkg(dp, pkg_disp)
-
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
+  
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
 
   if (package_installed == TRUE ) {
 
@@ -144,6 +158,7 @@ test_that("running rcmd check for test package in tar file - 1 note 1 error", {
     results <- sanofi.risk.metric::create_empty_results(pkg_name,
                                                         pkg_ver,
                                                         pkg_source_path,
+                                                        comments,
                                                         metadata)
 
     rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)

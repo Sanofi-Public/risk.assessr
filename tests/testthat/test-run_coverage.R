@@ -4,13 +4,18 @@ test_that("don't run test coverage for  empty tar file works correctly", {
                     package = "sanofi.risk.metric")
   pkg_disp <- "empty tar file"
 
+ comments <- "test run coverage"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
-
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
+  
+  build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
 
   if (skip_if(package_installed != TRUE,
                message = glue::glue("cannot run coverage test for {pkg_disp}")) ) {
@@ -32,14 +37,18 @@ test_that("running coverage for created package in tar file with no notes", {
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with no notes"
   
+ comments <- "test run coverage"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
  
   if (package_installed == TRUE ) {
   
@@ -68,14 +77,18 @@ test_that("running coverage for created package in tar file with 1 note 1 warnin
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with 1 note and 1 warning"
   
+ comments <- "test run coverage"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
   
   if (package_installed == TRUE ) {
     
@@ -103,14 +116,18 @@ test_that("running coverage for created package in tar file with 1 note 1 error"
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with 1 note and 1 error"
   
+ comments <- "test run coverage"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
   
   if (package_installed == TRUE ) {
     
@@ -138,14 +155,18 @@ test_that("running coverage for created package in tar file with no tests", {
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with no tests"
   
+ comments <- "test run coverage"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
   
   if (package_installed == TRUE ) {
     
@@ -174,14 +195,18 @@ test_that("running coverage for created package in tar file with no functions", 
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with no functions"
   
+ comments <- "test run coverage"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
   
   if (package_installed == TRUE ) {
     

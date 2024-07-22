@@ -8,15 +8,18 @@ test_that("running assess_pkg for test package in tar file - no notes", {
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with no notes"
   
-  
+  comments <- "test assess pkg"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
   
   if (package_installed == TRUE ) {
     
@@ -49,13 +52,7 @@ test_that("running assess_pkg for test package in tar file - no notes", {
     rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
     
     # remove CRAN from args so results pass without any notes or warnings
-    # temp_args <- c("--ignore-vignettes", 
-    #                "--no-vignettes", 
-    #                "--no-manual")
-    # 
-    # rcmdcheck_args$args <- temp_args
     
-    # rcmdcheck_args$path <- pkg_source_path
     
     assess_package <- 
       sanofi.risk.metric::assess_pkg(pkg,
@@ -65,14 +62,15 @@ test_that("running assess_pkg for test package in tar file - no notes", {
                                      riskscore_data_path,
                                      riskscore_data_exists,
                                      overwrite = TRUE,
-                                     rcmdcheck_args
+                                     rcmdcheck_args,
+                                     comments
       ) 
     
     testthat::expect_identical(length(assess_package), 2L)
     
     testthat::expect_true(checkmate::check_class(assess_pkg, "function"))
     
-    testthat::expect_identical(length(assess_package$results), 28L)
+    testthat::expect_identical(length(assess_package$results), 29L)
     
     testthat::expect_true(!is.na(assess_package$results$pkg_name))
     
@@ -81,6 +79,18 @@ test_that("running assess_pkg for test package in tar file - no notes", {
     testthat::expect_true(!is.na(assess_package$results$pkg_source_path))
     
     testthat::expect_true(!is.na(assess_package$results$date_time))
+    
+    testthat::expect_true(!is.na(assess_package$results$executor))
+    
+    testthat::expect_true(!is.na(assess_package$results$sysname))
+    
+    testthat::expect_true(!is.na(assess_package$results$version))
+    
+    testthat::expect_true(!is.na(assess_package$results$release))
+    
+    testthat::expect_true(!is.na(assess_package$results$machine))
+    
+    testthat::expect_true(!is.na(assess_package$results$comments))
     
     testthat::expect_true(!is.na(assess_package$results$has_bug_reports_url))
     

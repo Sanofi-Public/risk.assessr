@@ -11,6 +11,7 @@
 #' @param overwrite Logical (T/F). Whether or not to overwrite existing risk metric results
 #' @param rcmdcheck_args - arguments for R Cmd check - these come from setup_rcmdcheck_args
 #' @param covr_timeout - setting for covr time out
+#' @param comments - comments about the batch run
 #'
 #' @return list containing results - list containing metrics and tm - trace matrix
 #' 
@@ -25,15 +26,17 @@
 #' dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
 #'                   package = "sanofi.risk.metric")
 #' pkg_disp <- "test package with no notes"
+#' comments <- "test example"
 #' 
 #' # set up package
-#' install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+#' install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp, comments)
 #' 
 #' build_vignettes <- install_list$build_vignettes
 #' package_installed <- install_list$package_installed
 #' pkg_source_path <- install_list$pkg_source_path
 #' out_dir <- install_list$out_dir
 #' results <- install_list$results
+#' comments <- install_list$comments
 #' 
 #' if (package_installed == TRUE ) {
 #'   
@@ -72,7 +75,8 @@
 #'                                    riskscore_data_path,
 #'                                    riskscore_data_exists,
 #'                                    overwrite = TRUE,
-#'                                    rcmdcheck_args
+#'                                    rcmdcheck_args,
+#'                                    comments
 #'     ) 
 #' }
 #' }  
@@ -87,6 +91,7 @@ assess_pkg <- function(
     riskscore_data_exists,
     overwrite = TRUE,
     rcmdcheck_args,
+    comments,
     covr_timeout = Inf
 ) {
   # record covr tests
@@ -114,6 +119,7 @@ assess_pkg <- function(
   checkmate::check_character(rcmdcheck_args$build_args, pattern = "--no-build-vignettes|NULL")
   checkmate::assert_string(rcmdcheck_args$env)
   checkmate::check_logical(rcmdcheck_args$quiet)
+  checkmate::assert_string(comments)
   
   # Get package name and version
   pkg_desc <- get_pkg_desc(pkg_source_path, fields = c("Package", "Version"))
@@ -135,6 +141,7 @@ assess_pkg <- function(
   results <- sanofi.risk.metric::create_empty_results(pkg_name,
                                                       pkg_ver,
                                                       pkg_source_path,
+                                                      comments,
                                                       metadata)
   
   pscore <- sanofi.risk.metric::pkg_riskmetric(pkg_source_path)

@@ -4,14 +4,18 @@ test_that("running coverage for created package in tar file with no notes", {
                     package = "sanofi.risk.metric")
   pkg_disp <- "test package with no notes"
   
+  comments <- "test run covr"
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, 
+                                                 pkg_disp, 
+                                                 comments)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   out_dir <- install_list$out_dir
   results <- install_list$results
+  comments <- install_list$comments
   
   if (package_installed == TRUE ) {
     

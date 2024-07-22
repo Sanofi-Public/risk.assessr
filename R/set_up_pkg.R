@@ -2,11 +2,12 @@
 #'
 #' @param dp data path and name for the package. 
 #' @param pkg_disp package name for display
+#' @param comments comments about the batch run
 #' 
 #' @return list with local package install
 #' 
 #' @export
-set_up_pkg <- function(dp, pkg_disp) {
+set_up_pkg <- function(dp, pkg_disp, comments) {
   
   build_vignettes <- TRUE
   
@@ -46,7 +47,9 @@ set_up_pkg <- function(dp, pkg_disp) {
     results <- sanofi.risk.metric::create_empty_results(pkg_name,
                                                         pkg_ver,
                                                         pkg_source_path,
-                                                        metadata)
+                                                        comments,
+                                                        metadata
+                                                        )
   } else {
     message(glue::glue("local package install for {pkg_disp} unsuccessful"))
   } 
@@ -55,7 +58,8 @@ set_up_pkg <- function(dp, pkg_disp) {
     package_installed = package_installed,
     results = results,
     pkg_source_path = pkg_source_path,
-    out_dir = out_dir
+    out_dir = out_dir,
+    comments = comments
   )
   return(install_list)
 }
