@@ -25,7 +25,7 @@ test_that("running assess_pkg for test package in tar file - no notes", {
     
     testthat::expect_identical(length(assess_package), 4L)
     
-    testthat::expect_true(checkmate::check_class(assess_pkg, "function"))
+    testthat::expect_true(checkmate::check_class(assess_package, "list"))
     
     testthat::expect_identical(length(assess_package$results), 29L)
     
