@@ -353,3 +353,40 @@ check_dir <- function(dir_to_check) {
   }
   message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
 }
+
+#' get package name for display
+#'
+#' @param input_string - string containing package name
+#'
+#' @return pkg_disp - package name for display
+#' @export
+#'
+#' @examples
+#' pkg_source_path <- "/home/user/R/x86_64-pc-linux-gnu-library/4.1/package.metric/test-data/test.package.0001_0.1.0.tar.gz"
+#' 
+#' pkg_disp_1 <- get_pkg_name(pkg_source_path)
+#' print(pkg_disp_1)
+#' 
+#' pkg <- "TxDb.Dmelanogaster.UCSC.dm3.ensGene_3.2.2.tar.gz"
+#' pkg_disp_2 <- get_pkg_name(pkg)
+#' print(pkg_disp_2)
+#' 
+#' 
+get_pkg_name <- function(input_string) {
+  
+  # check if input string is a file path or filename   
+  test_string <-  stringr::str_match(input_string, "/")  
+  
+  if (any(is.na(test_string)) == FALSE) {
+    # extract package name from the last part of the file path
+    input_string <- stringr::str_split_i(input_string, "/", -1)  
+    
+  }
+  
+  # extract package name
+  pkg_disp <- stringr::str_extract(input_string, "[^-|_]+")
+  
+  return(pkg_disp)
+}
+
+

@@ -6,7 +6,6 @@
 #' @param pkg_name package name
 #' @param pkg_ver package version
 #' @param pkg_source_path package source path
-#' @param comments comments about the batch run
 #' @param metadata list with metadata
 #' 
 #' @return - list with empty risk profile values
@@ -16,7 +15,6 @@
 create_empty_results <- function(pkg_name,
                                  pkg_ver,
                                  pkg_source_path,
-                                 comments,
                                  metadata) {
 
 results <- list(
@@ -29,7 +27,7 @@ results <- list(
   version = metadata$info$sys$version,
   release = metadata$info$sys$release,
   machine = metadata$info$sys$machine,
-  comments = comments,
+  comments = " ",
   has_bug_reports_url = "",
   license = "",
   has_examples = "",

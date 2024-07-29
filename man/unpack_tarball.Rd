@@ -4,12 +4,10 @@
 \alias{unpack_tarball}
 \title{Untar package and return installation directory}
 \usage{
-unpack_tarball(pkg_tar, pkg_disp, temp_file_name = "temp_file_")
+unpack_tarball(pkg_tar, temp_file_name = "temp_file_")
 }
 \arguments{
 \item{pkg_tar}{path to tarball package}
-
-\item{pkg_disp}{vector with package name for display}
 
 \item{temp_file_name}{name of `tempfile`}
 }

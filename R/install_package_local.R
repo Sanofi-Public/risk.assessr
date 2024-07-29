@@ -1,10 +1,10 @@
 #' install package locally with source
 #'
 #' @param pkg_source_path directory path to R project
-#' @param pkg_disp vector with package name for display
 #' 
 #' @export
-install_package_local <- function (pkg_source_path, pkg_disp) {
+install_package_local <- function (pkg_source_path) {
+  pkg_disp <- sanofi.risk.metric::get_pkg_name(pkg_source_path)
   message(glue::glue("installing {pkg_disp} locally"))
   tryCatch(
     {

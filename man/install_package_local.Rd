@@ -4,12 +4,10 @@
 \alias{install_package_local}
 \title{install package locally with source}
 \usage{
-install_package_local(pkg_source_path, pkg_disp)
+install_package_local(pkg_source_path)
 }
 \arguments{
 \item{pkg_source_path}{directory path to R project}
-
-\item{pkg_disp}{vector with package name for display}
 }
 \description{
 install package locally with source

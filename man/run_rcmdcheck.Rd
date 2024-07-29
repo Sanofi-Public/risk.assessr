@@ -4,12 +4,10 @@
 \alias{run_rcmdcheck}
 \title{Run R CMD CHECK}
 \usage{
-run_rcmdcheck(pkg_source_path, out_dir, rcmdcheck_args)
+run_rcmdcheck(pkg_source_path, rcmdcheck_args)
 }
 \arguments{
 \item{pkg_source_path}{directory path to R project}
-
-\item{out_dir}{directory for saving results}
 
 \item{rcmdcheck_args}{list of arguments to pass to `rcmdcheck::rcmdcheck`}
 }

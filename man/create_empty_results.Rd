@@ -4,7 +4,7 @@
 \alias{create_empty_results}
 \title{Create empty results}
 \usage{
-create_empty_results(pkg_name, pkg_ver, pkg_source_path, comments, metadata)
+create_empty_results(pkg_name, pkg_ver, pkg_source_path, metadata)
 }
 \arguments{
 \item{pkg_name}{package name}
@@ -12,8 +12,6 @@ create_empty_results(pkg_name, pkg_ver, pkg_source_path, comments, metadata)
 \item{pkg_ver}{package version}
 
 \item{pkg_source_path}{package source path}
-
-\item{comments}{comments about the batch run}
 
 \item{metadata}{list with metadata}
 }

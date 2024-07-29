@@ -4,42 +4,17 @@
 \alias{assess_pkg}
 \title{Assess package}
 \usage{
-assess_pkg(
-  pkg,
-  datapath,
-  pkg_source_path,
-  out_dir,
-  riskscore_data_path,
-  riskscore_data_exists,
-  overwrite = TRUE,
-  rcmdcheck_args,
-  comments,
-  covr_timeout = Inf
-)
+assess_pkg(pkg_source_path, rcmdcheck_args, covr_timeout = Inf)
 }
 \arguments{
-\item{pkg}{- name of the package}
-
-\item{datapath}{- datapath with 0.gz file}
-
 \item{pkg_source_path}{- source path for install local}
 
-\item{out_dir}{path for writing results}
-
-\item{riskscore_data_path}{data path of current risk assessment package}
-
-\item{riskscore_data_exists}{logical with T/F if risk score data exists}
-
-\item{overwrite}{Logical (T/F). Whether or not to overwrite existing risk metric results}
-
 \item{rcmdcheck_args}{- arguments for R Cmd check - these come from setup_rcmdcheck_args}
-
-\item{comments}{- comments about the batch run}
 
 \item{covr_timeout}{- setting for covr time out}
 }
 \value{
-list containing results - list containing metrics and tm - trace matrix
+list containing results - list containing metrics, covr, tm - trace matrix, and R CMD check
 }
 \description{
 assess package for risk metrics
@@ -54,59 +29,20 @@ options(repos = r)
 
 dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
                   package = "sanofi.risk.metric")
-pkg_disp <- "test package with no notes"
-comments <- "test example"
 
 # set up package
-install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp, comments)
+install_list <- sanofi.risk.metric::set_up_pkg(dp)
 
 build_vignettes <- install_list$build_vignettes
 package_installed <- install_list$package_installed
 pkg_source_path <- install_list$pkg_source_path
-out_dir <- install_list$out_dir
-results <- install_list$results
-comments <- install_list$comments
+rcmdcheck_args <- install_list$rcmdcheck_args
 
 if (package_installed == TRUE ) {
-  
-  # get home directory
-  
-  pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path,
-                                               fields = c("Package",
-                                               "Version"))
-  pkg_name <- pkg_desc$Package
-  pkg_ver <- pkg_desc$Version
-  pkg <- pkg_desc$Package
-  out_dir <- "no audit trail"
-  
-  # set up current package
-  current_package <- "sanofi.risk.metric"
-  
-  # check if risk score data exists and set up path to risk score data
-  riskscore_data_list <- 
-    sanofi.risk.metric::check_riskscore_data_internal()
-  
-  riskscore_data_path <- riskscore_data_list$riskscore_data_path
-  
-  message("data path is ", riskscore_data_path)
-  
-  riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
-  
-  message("data path exists ", riskscore_data_exists)
-  
-  rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
-  
+   
   assess_package <- 
-    sanofi.risk.metric::assess_pkg(pkg,
-                                   dp,
-                                   pkg_source_path,
-                                   out_dir,
-                                   riskscore_data_path,
-                                   riskscore_data_exists,
-                                   overwrite = TRUE,
-                                   rcmdcheck_args,
-                                   comments
-    ) 
+    sanofi.risk.metric::assess_pkg(pkg_source_path,
+                                   rcmdcheck_args)
 }
 }  
 }

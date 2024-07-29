@@ -2,18 +2,11 @@
 #'  
 #' @description assess package for risk metrics
 #' 
-#' @param pkg - name of the package
-#' @param datapath - datapath with 0.gz file
 #' @param pkg_source_path - source path for install local
-#' @param out_dir path for writing results
-#' @param riskscore_data_path data path of current risk assessment package
-#' @param riskscore_data_exists logical with T/F if risk score data exists
-#' @param overwrite Logical (T/F). Whether or not to overwrite existing risk metric results
 #' @param rcmdcheck_args - arguments for R Cmd check - these come from setup_rcmdcheck_args
 #' @param covr_timeout - setting for covr time out
-#' @param comments - comments about the batch run
 #'
-#' @return list containing results - list containing metrics and tm - trace matrix
+#' @return list containing results - list containing metrics, covr, tm - trace matrix, and R CMD check
 #' 
 #' @examples
 #' \dontrun{
@@ -25,90 +18,35 @@
 #' 
 #' dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
 #'                   package = "sanofi.risk.metric")
-#' pkg_disp <- "test package with no notes"
-#' comments <- "test example"
 #' 
 #' # set up package
-#' install_list <- sanofi.risk.metric::set_up_pkg(dp, pkg_disp, comments)
+#' install_list <- sanofi.risk.metric::set_up_pkg(dp)
 #' 
 #' build_vignettes <- install_list$build_vignettes
 #' package_installed <- install_list$package_installed
 #' pkg_source_path <- install_list$pkg_source_path
-#' out_dir <- install_list$out_dir
-#' results <- install_list$results
-#' comments <- install_list$comments
+#' rcmdcheck_args <- install_list$rcmdcheck_args
 #' 
 #' if (package_installed == TRUE ) {
-#'   
-#'   # get home directory
-#'   
-#'   pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path,
-#'                                                fields = c("Package",
-#'                                                "Version"))
-#'   pkg_name <- pkg_desc$Package
-#'   pkg_ver <- pkg_desc$Version
-#'   pkg <- pkg_desc$Package
-#'   out_dir <- "no audit trail"
-#'   
-#'   # set up current package
-#'   current_package <- "sanofi.risk.metric"
-#'   
-#'   # check if risk score data exists and set up path to risk score data
-#'   riskscore_data_list <- 
-#'     sanofi.risk.metric::check_riskscore_data_internal()
-#'   
-#'   riskscore_data_path <- riskscore_data_list$riskscore_data_path
-#'   
-#'   message("data path is ", riskscore_data_path)
-#'   
-#'   riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
-#'   
-#'   message("data path exists ", riskscore_data_exists)
-#'   
-#'   rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
-#'   
+#'    
 #'   assess_package <- 
-#'     sanofi.risk.metric::assess_pkg(pkg,
-#'                                    dp,
-#'                                    pkg_source_path,
-#'                                    out_dir,
-#'                                    riskscore_data_path,
-#'                                    riskscore_data_exists,
-#'                                    overwrite = TRUE,
-#'                                    rcmdcheck_args,
-#'                                    comments
-#'     ) 
+#'     sanofi.risk.metric::assess_pkg(pkg_source_path,
+#'                                    rcmdcheck_args)
 #' }
 #' }  
 #' @export
 #'
 assess_pkg <- function(
-    pkg,
-    datapath,
     pkg_source_path,
-    out_dir,
-    riskscore_data_path,
-    riskscore_data_exists,
-    overwrite = TRUE,
     rcmdcheck_args,
-    comments,
     covr_timeout = Inf
 ) {
   # record covr tests
   options(covr.record_tests = TRUE)
   
   # Input checking
-  checkmate::assert_string(pkg)
-  checkmate::assert_file_exists(datapath)
   checkmate::assert_string(pkg_source_path)
   checkmate::assert_directory_exists(pkg_source_path)
-  if (out_dir != "no audit trail") {
-    checkmate::assert_string(out_dir)
-    checkmate::assert_directory_exists(out_dir)
-  }
-  checkmate::check_logical(riskscore_data_exists)
-  checkmate::assert_string(riskscore_data_path)
-  checkmate::check_logical(overwrite)
   checkmate::assert_list(rcmdcheck_args)
   checkmate::assert_numeric(rcmdcheck_args$timeout)
   checkmate::anyInfinite(rcmdcheck_args$timeout)
@@ -119,29 +57,30 @@ assess_pkg <- function(
   checkmate::check_character(rcmdcheck_args$build_args, pattern = "--no-build-vignettes|NULL")
   checkmate::assert_string(rcmdcheck_args$env)
   checkmate::check_logical(rcmdcheck_args$quiet)
-  checkmate::assert_string(comments)
+  
   
   # Get package name and version
-  pkg_desc <- get_pkg_desc(pkg_source_path, fields = c("Package", "Version"))
+  pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path, 
+                                               fields = c("Package", 
+                                                          "Version"))
   pkg_name <- pkg_desc$Package
   pkg_ver <- pkg_desc$Version
   pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
   
-  if (out_dir != "no audit trail") {
-  # Add pkg_name sub-directory and create if it doesn't exist
-  
-    out_dir <- file.path(out_dir, pkg_name_ver)
-    if (!fs::dir_exists(out_dir)) fs::dir_create(out_dir)
-    out_path <- sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
-    sanofi.risk.metric::check_exists_and_overwrite(out_path, overwrite)
-  }
+  # if (out_dir != "no audit trail") {
+  # # Add pkg_name sub-directory and create if it doesn't exist
+  # 
+  #   out_dir <- file.path(out_dir, pkg_name_ver)
+  #   if (!fs::dir_exists(out_dir)) fs::dir_create(out_dir)
+  #   out_path <- sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
+  #   sanofi.risk.metric::check_exists_and_overwrite(out_path, overwrite)
+  # }
   
   metadata <- sanofi.risk.metric::get_risk_metadata()
   
   results <- sanofi.risk.metric::create_empty_results(pkg_name,
                                                       pkg_ver,
                                                       pkg_source_path,
-                                                      comments,
                                                       metadata)
   
   pscore <- sanofi.risk.metric::pkg_riskmetric(pkg_source_path)
@@ -151,7 +90,6 @@ assess_pkg <- function(
   # run R code coverage
   covr_list <- run_coverage(
     pkg_source_path,  # must use untarred package dir
-    out_dir,
     covr_timeout
   )
   
@@ -163,11 +101,14 @@ assess_pkg <- function(
     tm <- sanofi.risk.metric::create_empty_tm(pkg_name)
   } else {
     #  create traceability matrix
-    tm <- create_traceability_matrix(pkg_name, pkg_source_path, covr_list$res_cov, out_dir) 
+    tm <- create_traceability_matrix(pkg_name, pkg_source_path, covr_list$res_cov) 
   }
   # run R Cmd check
   rcmdcheck_args$path <- pkg_source_path
-  results$check <- run_rcmdcheck(pkg_source_path, out_dir, rcmdcheck_args) # use tarball
+  check_list <- run_rcmdcheck(pkg_source_path, rcmdcheck_args) # use tarball
+  
+  # add rcmd check score to results
+  results$check <- check_list$check_score
   
   deps_list <- sanofi.risk.metric::calc_dependencies(pkg_source_path)
   
@@ -192,14 +133,18 @@ assess_pkg <- function(
   results$risk_profile <- 
     sanofi.risk.metric::calc_risk_profile(results$overall_risk_score)
   
-  if (out_dir == "no audit trail") {
-    message(glue::glue("not writing rcmdcheck results for {pkg_name}"))
-  } else {
-  # write data to csv
-    sanofi.risk.metric::write_data_csv(results, 
-                                       riskscore_data_path, 
-                                       riskscore_data_exists)
-  }
-  return(list(results = results,
-              tm = tm))
+  # if (out_dir == "no audit trail") {
+  #   message(glue::glue("not writing rcmdcheck results for {pkg_name}"))
+  # } else {
+  # # write data to csv
+  #   sanofi.risk.metric::write_data_csv(results, 
+  #                                      riskscore_data_path, 
+  #                                      riskscore_data_exists)
+  # }
+  return(list(
+              results = results,
+              covr_list = covr_list,
+              tm = tm,
+              check_list = check_list
+              ))
 }

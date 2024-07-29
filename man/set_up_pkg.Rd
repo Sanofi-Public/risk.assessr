@@ -4,14 +4,10 @@
 \alias{set_up_pkg}
 \title{Creates information on package installation}
 \usage{
-set_up_pkg(dp, pkg_disp, comments)
+set_up_pkg(dp)
 }
 \arguments{
 \item{dp}{data path and name for the package.}
-
-\item{pkg_disp}{package name for display}
-
-\item{comments}{comments about the batch run}
 }
 \value{
 list with local package install
