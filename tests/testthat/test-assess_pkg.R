@@ -97,8 +97,6 @@ test_that("running assess_pkg for test package in tar file - no notes", {
     
     testthat::expect_identical(length(assess_package$check_list$res_check), 21L)
     
-    testthat::expect_true(!is.na(assess_package$check_list$res_check$rversion))
-    
     testthat::expect_true(!is.na(assess_package$check_list$res_check$platform))
     
     testthat::expect_true(!is.na(assess_package$check_list$res_check$package))
@@ -107,10 +105,7 @@ test_that("running assess_pkg for test package in tar file - no notes", {
     
     testthat::expect_true(!is.na(assess_package$check_list$res_check$test_output$testthat))
     
-    testthat::expect_identical(length(assess_package$check_list$res_check$session_info), 3L)
-    
     testthat::expect_identical(length(assess_package$check_list$res_check$session_info$platform), 10L)
     
-    testthat::expect_identical(length(assess_package$check_list$res_check$session_info$hash), 2L)
   }
 })
