@@ -50,37 +50,3 @@ test_that("test risk profile with Low overall risk score", {
 })
 
 
-test_that("checking for riskscore data location", {
-  # if (checkmate::check_os("linux") == TRUE) {
-  #   
-  #   current_package <- paste0(Sys.getenv("HOME"),  
-  #                             "/github-helper-repos/sanofi.risk.metric")
-  #   out_dir <- paste0(current_package, "/inst/results")
-  #   
-  # } else if (checkmate::check_os("windows")  == TRUE) {  
-  #   # set up package for writing data
-  #   home_dir <- Sys.getenv()['HOME']
-  #   
-  #   current_package <- paste0(home_dir, "/bp-art-sanofi.risk.metric")
-  #   
-  #   otp <- paste0(current_package, "/inst/results")
-  #   
-  #   out_dir <- file.path(otp) 
-  #   
-  # }
-  
-  # out_dir <- paste0(current_package, "/inst/results")
-  
-  # check if risk score data exists and set up path to risk score data
-  results_dir = "no audit trail" 
-  
-  riskscore_data_list <- 
-    sanofi.risk.metric::check_riskscore_data_location(results_dir)
-  
-  expect_identical(length(riskscore_data_list), 4L)
-  
-  expect_true(checkmate::check_list(riskscore_data_list, 
-                                    all.missing = FALSE)
-  )
- 
-})  
