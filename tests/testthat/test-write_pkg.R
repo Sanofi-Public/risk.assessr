@@ -23,7 +23,7 @@ test_that("checking write_pkg no audit trail", {
       sanofi.risk.metric::assess_pkg(pkg_source_path,
                                      rcmdcheck_args)
 
-    assess_package$results$comments <- "test run July 29 2024"
+    assess_package$results$comments <- "test write_pkg run"
 
 
     output <-

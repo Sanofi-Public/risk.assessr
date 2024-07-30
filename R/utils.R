@@ -407,8 +407,8 @@ check_riskscore_data_location <- function(results_dir) {
 #' @export
 #'
 #' @examples
-#' pkg_source_path <- "/home/user/R/x86_64-pc-linux-gnu-library/4.1/package.metric/test-data/test.package.0001_0.1.0.tar.gz"
-#' 
+#'
+#' pkg_source_path <- "/home/user/R/test.package.0001_0.1.0.tar.gz"
 #' pkg_disp_1 <- get_pkg_name(pkg_source_path)
 #' print(pkg_disp_1)
 #' 
@@ -434,88 +434,4 @@ get_pkg_name <- function(input_string) {
   return(pkg_disp)
 }
 
-setdir_linux <- function() {
-  # get the user name
-  user <- Sys.info()["user"]
-  
-  # create input dir based on user name
-  itp <- paste0("/home/", 
-                user, 
-                "/github-helper-repos/data/input_bg_data")
-  
-  input_tar_path <- file.path(itp)
-  
-  # create output path for results
-  results_path <- paste0("/home/", 
-                     user, 
-                     "/github-helper-repos/sanofi.risk.metric")
-  
-  message("out path is ", out_path)
-  
-  out_dir <- file.path(out_path, "inst/results")
-  
-  message("out_dir is ", out_dir)
-  
-  sanofi.risk.metric::check_dir(out_dir)
-  
-  # create tmp dir based on user name
-  tmp_dir <- paste0("/home/", user, "/tmp")
-  
-  # normalize the path
-  tmp_dir <- normalizePath(tmp_dir)
-  
-  # check if the temp directory doesn't exist
-  if (!dir.exists(tmp_dir)) {
-    message("temp directory exists: ", dir.exists(tmp_dir))
-    # create directory with all the files 
-    # in the current directory have all permissions type
-    dir.create(tmp_dir, showWarnings = TRUE, recursive = FALSE, mode = "0777")
-  }
-  
-  # check directory existence
-  message("temp directory exists: ", dir.exists(tmp_dir))
-  
-  # set R session temp directory
-  Sys.setenv(R_SESSION_TMPDIR = tmp_dir)
-  message("R_SESSION_TMPDIR is ", Sys.getenv("R_SESSION_TMPDIR"))
-  
-  # set Linux session temp directory
-  unix:::set_tempdir(tmp_dir)
-  message("tempdir is ", tempdir())
-  
-  input_output_list <- list(
-    input_tar_path = input_tar_path,
-    out_dir =  out_dir)
-  
-  return(input_output_list)
-}
 
-setdir_windows <- function() {
-  
-  #get Windows home directory
-  home_dir <- Sys.getenv()['HOME']
-  
-  # set input tar file path
-  itp <- paste0(home_dir, "/input_bg_data")
-  
-  # convert to file path
-  input_tar_path <- file.path(itp)
-  
-  # check directory exists
-  sanofi.risk.metric::check_dir(input_tar_path)
-  
-  # set output file path  
-  otp <- paste0(home_dir, "/bp-art-sanofi.risk.metric/inst/results")
-  
-  # convert to file path
-  out_dir <- file.path(otp) 
-  
-  # check directory exists
-  sanofi.risk.metric::check_dir(out_dir)
-  
-  input_output_list <- list(
-    input_tar_path = input_tar_path,
-    out_dir =  out_dir)
-  
-  return(input_output_list)
-}

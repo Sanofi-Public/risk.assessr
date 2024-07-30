@@ -5,7 +5,6 @@
 #' @param assess_package - nested list with risk metrics
 #' @param results_dir - path for writing results
 #' @param overwrite Logical (T/F). Whether or not to overwrite existing risk metric results
-#' @param comments - comments about the batch run
 #' 
 #' @examples
 #' \dontrun{

@@ -16,8 +16,8 @@ pkg_disp - package name for display
 get package name for display
 }
 \examples{
-pkg_source_path <- "/home/user/R/x86_64-pc-linux-gnu-library/4.1/package.metric/test-data/test.package.0001_0.1.0.tar.gz"
 
+pkg_source_path <- "/home/user/R/test.package.0001_0.1.0.tar.gz"
 pkg_disp_1 <- get_pkg_name(pkg_source_path)
 print(pkg_disp_1)
 

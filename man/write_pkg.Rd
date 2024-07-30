@@ -12,8 +12,6 @@ write_pkg(assess_package, results_dir, overwrite = TRUE)
 \item{results_dir}{- path for writing results}
 
 \item{overwrite}{Logical (T/F). Whether or not to overwrite existing risk metric results}
-
-\item{comments}{- comments about the batch run}
 }
 \description{
 write package data for risk metrics
