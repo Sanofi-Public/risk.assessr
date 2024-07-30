@@ -101,7 +101,9 @@ assess_pkg <- function(
     tm <- sanofi.risk.metric::create_empty_tm(pkg_name)
   } else {
     #  create traceability matrix
-    tm <- create_traceability_matrix(pkg_name, pkg_source_path, covr_list$res_cov) 
+    tm <- create_traceability_matrix(pkg_name, 
+                                     pkg_source_path,
+                                     covr_list$res_cov) 
   }
   # run R Cmd check
   rcmdcheck_args$path <- pkg_source_path
