@@ -30,7 +30,8 @@ contains_vignette_folder <- function(tar_file) {
   }
   
   # Check if the file has a .tar extension
-  if (!grepl("\\.tar$", tar_file) && !grepl("\\.tar\\.gz$", tar_file) && !grepl("\\.tgz$", tar_file) &&
+  if (!grepl("\\.tar$", tar_file) && !grepl("\\.tar\\.gz$", tar_file) && 
+      !grepl("\\.gz$", tar_file) && !grepl("\\.tgz$", tar_file) &&
       !grepl("\\.tar\\.bz2$", tar_file) && !grepl("\\.tbz2$", tar_file)) {
     stop("Unsupported file type. Please provide a .tar file.")
   }
