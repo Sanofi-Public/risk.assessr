@@ -4,9 +4,11 @@
 \alias{recalc_risk_scores}
 \title{Re-calculate package risk scores}
 \usage{
-recalc_risk_scores(update_comments)
+recalc_risk_scores(riskdata_results, update_comments)
 }
 \arguments{
+\item{riskdata_results}{- path to riskdata_results toy dataset}
+
 \item{update_comments}{notes explaining why score recalculated}
 }
 \description{
@@ -17,4 +19,12 @@ recalc_risk_scores(update_comments)
 have changed and the risk metrics have not changed, then
 use this function to re-calculate the risk scores and profile
 without running the whole risk assessment process again}
+}
+\examples{
+riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
+package = "sanofi.risk.metric")
+update_comments <- "test recalc"
+
+recalc_example <- recalc_risk_scores(riskdata_results, update_comments)
+
 }

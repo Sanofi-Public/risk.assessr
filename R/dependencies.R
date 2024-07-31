@@ -133,7 +133,7 @@ calc_reverse_dependencies <- function(pkg_source_path) {
   pkg_name <- basename(pkg_source_path)
   
   #extract package name without version to pass to the revdep function
-  name <- stringr::str_extract(pkg_name, "[^-]+")
+  name <- stringr::str_extract(pkg_name, "[^_|-]+")
   
   message(glue::glue("running reverse dependencies for {pkg_name}"))
   

@@ -263,25 +263,23 @@ check_riskscore_data_internal <- function() {
 #' use this function to re-calculate the risk scores and profile
 #' without running the whole risk assessment process again}
 #' 
-#'
+#' @param riskdata_results - path to riskdata_results toy dataset
 #' @param update_comments notes explaining why score recalculated
+#' 
+#' @examples 
+#' riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
+#' package = "sanofi.risk.metric")
+#' update_comments <- "recalc scores example"
+#' 
+#' recalc_example <- recalc_risk_scores(riskdata_results, update_comments)
 #' 
 #' @export
 #'
-recalc_risk_scores <- function(update_comments) {
+recalc_risk_scores <- function(riskdata_results, update_comments) {
   
-  # check if risk score data exists and set up path to risk score data
-  riskscore_data_list <- 
-    sanofi.risk.metric::check_riskscore_data_internal()
-  
-  riskscore_data_path <- riskscore_data_list$riskscore_data_path
-  
-  message("data path is ", riskscore_data_path)
-  
-  riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
   
   # read in the results
-  results <- read.csv(file.path(riskscore_data_path))
+  results <- read.csv(file.path(riskdata_results))
   
   # save existing data 
   results_old <- results 
@@ -307,7 +305,7 @@ recalc_risk_scores <- function(update_comments) {
    split(1:nrow(results)) |>
    purrr::map(sanofi.risk.metric::calc_risk_profile) |> 
    unlist()
-  
+ 
  # add comments
  results <- results |> 
     dplyr::mutate(comments = update_comments)
@@ -315,14 +313,6 @@ recalc_risk_scores <- function(update_comments) {
  # append new data to old data  
  results <- rbind(results_old, results)
  
- # set flag to ensure old data overwritten
- riskscore_data_exists <- FALSE
- 
-  # write data to csv
-  sanofi.risk.metric::write_data_csv(results, 
-                                     riskscore_data_path, 
-                                     riskscore_data_exists)
-  
 }
 
 #' check directory
