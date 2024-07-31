@@ -67,15 +67,6 @@ assess_pkg <- function(
   pkg_ver <- pkg_desc$Version
   pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
   
-  # if (out_dir != "no audit trail") {
-  # # Add pkg_name sub-directory and create if it doesn't exist
-  # 
-  #   out_dir <- file.path(out_dir, pkg_name_ver)
-  #   if (!fs::dir_exists(out_dir)) fs::dir_create(out_dir)
-  #   out_path <- sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
-  #   sanofi.risk.metric::check_exists_and_overwrite(out_path, overwrite)
-  # }
-  
   metadata <- sanofi.risk.metric::get_risk_metadata()
   
   results <- sanofi.risk.metric::create_empty_results(pkg_name,
@@ -135,14 +126,6 @@ assess_pkg <- function(
   results$risk_profile <- 
     sanofi.risk.metric::calc_risk_profile(results$overall_risk_score)
   
-  # if (out_dir == "no audit trail") {
-  #   message(glue::glue("not writing rcmdcheck results for {pkg_name}"))
-  # } else {
-  # # write data to csv
-  #   sanofi.risk.metric::write_data_csv(results, 
-  #                                      riskscore_data_path, 
-  #                                      riskscore_data_exists)
-  # }
   return(list(
               results = results,
               covr_list = covr_list,

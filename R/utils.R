@@ -62,53 +62,6 @@ get_result_path <- function(
   file.path(out_dir, paste0(pkg_name,".",ext))
 }
 
-#' Check if a path exists and delete the file
-#' if overwrite is TRUE
-#' @param path a file path to check if it exists
-#' @param overwrite Logical (T/F). If `TRUE`, delete the file at the specified path
-#'
-#' @export
-#' 
-check_exists_and_overwrite <- function(path, overwrite) {
-  checkmate::assert_string(path)
-  checkmate::assert_logical(overwrite, len = 1)
-  
-  if (fs::file_exists(path)) {
-    if (isTRUE(overwrite)) {
-      fs::file_delete(path)
-    } else {
-      rlang::abort(glue::glue("{path} already exists. Pass overwrite = TRUE to overwrite it."))
-    }
-  }
-}
-
-#' Write results to csv
-#'
-#' @param data - results data
-#' @param riskscore_data_path directory path and file name
-#' @param riskscore_data_exists logical with T/F if risk score data exists
-#'
-#' @export
-#'
-write_data_csv <- function(data, 
-                           riskscore_data_path, 
-                           riskscore_data_exists) {
-  # convert data to dataframe
-  
-  data <- as.data.frame(data)
-  
-  # check if file exists
-  if(riskscore_data_exists == TRUE) {
-    # If the file exists, run the append code.
-    readr::write_excel_csv(data, riskscore_data_path, append=TRUE)
-    message(glue::glue("Data appended to csv"))
-  } else { 
-    # If it doesn't exist, save the file with the columns included.
-    readr::write_excel_csv(data, riskscore_data_path, append=FALSE)
-    message(glue::glue("Data written to csv"))
-  }
-}
-
 #' Set the default weight of each metric to 1.
 #'
 #' @param data risk metric data
@@ -232,29 +185,6 @@ calc_risk_profile <- function(risk_data) {
   return(risk_profile)
 }
 
-
-#' check if risk score data exists
-#'
-#' @return riskscore_data_list - list with path and exists logical
-#' @export
-#'
-check_riskscore_data_internal <- function() {
-  library(sanofi.risk.metric)
-  
-  riskscore_data_list <- list()
-  
-  riskscore_data_path <- here::here("inst", "extdata", "riskdata_results.csv")
-  
-  riskscore_data_exists <- 
-    file.exists(riskscore_data_path)
-  
-  riskscore_data_list <- list(
-    riskscore_data_path = riskscore_data_path,
-    riskscore_data_exists = riskscore_data_exists 
-  )
-  return(riskscore_data_list)
-}
-
 #' Re-calculate package risk scores
 #' 
 #' @description {Use this function to re-calculate risk scores and risk profile}
@@ -314,80 +244,6 @@ recalc_risk_scores <- function(riskdata_results, update_comments) {
  results <- rbind(results_old, results)
  
 }
-
-#' check directory
-#'
-#' @param dir_to_check check if direcoty exists
-#'
-#' @export
-#'
-check_dir <- function(dir_to_check) {
-  # check if the temp directory doesn't exist
-  if (!dir.exists(dir_to_check)) {
-    message(dir_to_check, 
-            " directory exists: ", 
-            dir.exists(dir_to_check))
-    # create directory with all the files 
-    # in the current directory have all permissions type
-    if (checkmate::check_os("linux") == TRUE) {
-      dir.create(dir_to_check, 
-                 showWarnings = TRUE, 
-                 recursive = FALSE, 
-                 mode = "0777")
-    } else if (checkmate::check_os("windows")  == TRUE) {
-      dir.create(dir_to_check, 
-                 showWarnings = TRUE, 
-                 recursive = FALSE)
-    }
-    # check directory existence
-  }
-  message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
-}
-
-#' check if risk score data exists
-#'
-#' @param results_dir - path to the results directory
-#'
-#' @return riskscore_data_list - list with path and exists logical
-#' @export
-#'
-check_riskscore_data_location <- function(results_dir) {
-  home <- setwd(find.package("sanofi.risk.metric"))
-  
-  riskscore_data_list <- list()
-  
-  if (results_dir != "no audit trail") {
-  
-    riskscore_data_path <-
-      file.path(home, "inst/extdata", 
-                "riskdata_results.csv")
-    
-    riskscore_data_exists <- 
-      file.exists(riskscore_data_path)
-    
-    results_dir <-
-      file.path(home, "inst/results")
-    
-    results_dir_exists <- 
-      sanofi.risk.metric::check_dir(results_dir)
-    
-    riskscore_data_list <- list(
-      riskscore_data_path = riskscore_data_path,
-      riskscore_data_exists = riskscore_data_exists,
-      results_dir = results_dir,
-      results_dir_exists = results_dir_exists
-    ) 
-  } else {
-    riskscore_data_list <- list(
-      riskscore_data_path = "no audit trail" ,
-      riskscore_data_exists = "no audit trail",
-      results_dir = "no audit trail",
-      results_dir_exists = "no audit trail"
-    ) 
-  }
-  return(riskscore_data_list)
-}
-
 
 #' get package name for display
 #'
