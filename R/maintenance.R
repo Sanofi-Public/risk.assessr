@@ -1,7 +1,6 @@
 #' Run R CMD CHECK
 #'
 #' @param pkg_source_path directory path to R project
-#' @param out_dir directory for saving results
 #' @param rcmdcheck_args list of arguments to pass to `rcmdcheck::rcmdcheck`
 #'
 #' @details
@@ -14,7 +13,7 @@
 #'
 #' @export
 #' 
-run_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
+run_rcmdcheck <- function(pkg_source_path, rcmdcheck_args) {
   
   # We never want the rcmdcheck to fail
   rcmdcheck_args$error_on <- "never"
@@ -26,18 +25,16 @@ run_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
   
   res_check <- do.call(rcmdcheck::rcmdcheck, rcmdcheck_args)
   
-  # write results to RDS
-  if (out_dir == "no audit trail") {
-    message(glue::glue("not writing rcmdcheck results for {pkg_name}"))
-  } else {
-    saveRDS(
-      res_check,
-      get_result_path(out_dir, "check.rds")
-    )
-    message(glue::glue("writing rcmdcheck results for {pkg_name}"))
-  }
-  
-  
+  # # write results to RDS
+  # if (out_dir == "no audit trail") {
+  #   message(glue::glue("not writing rcmdcheck results for {pkg_name}"))
+  # } else {
+  #   saveRDS(
+  #     res_check,
+  #     get_result_path(out_dir, "check.rds")
+  #   )
+  #   message(glue::glue("writing rcmdcheck results for {pkg_name}"))
+  # }
   
   # Note that res_check$status is the opposite of what we want (1 means failure, 0 means passing)
   
@@ -51,11 +48,16 @@ run_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
   }else if(check_score < 1 && check_score > 0){
     message(glue::glue("rcmdcheck for {pkg_name} passed with warnings and/or notes"))
   }else if(check_score == 0){
-    check_path <- get_result_path(out_dir, "check.rds")
-    message(glue::glue("rcmdcheck for {pkg_name} failed. Read in the rcmdcheck output to see what went wrong: {check_path}"))
+    # check_path <- get_result_path(out_dir, "check.rds")
+    message(glue::glue("rcmdcheck for {pkg_name} failed. Read in the rcmdcheck output to see what went wrong: "))
   }
   
-  return(check_score)
+  check_list <- list(
+    res_check = res_check,
+    check_score = check_score
+  )
+  
+  return(check_list)
 }
 
 
@@ -64,16 +66,13 @@ run_rcmdcheck <- function(pkg_source_path, out_dir, rcmdcheck_args) {
 #' Run covr and potentially save results to disk
 #'
 #' @param pkg_source_path package installation directory
-#' @param out_dir directory for saving results
 #' @param timeout Timeout to pass to [callr::r_safe()] when running covr.
 #'
-#' @details
-#' The basename of `out_dir` should be the package name and version pasted together
 #'
 #' @return list with total coverage and function coverage
 #' @export
 #' 
-run_coverage <- function(pkg_source_path, out_dir, timeout = Inf) {
+run_coverage <- function(pkg_source_path, timeout = Inf) {
   
   pkg_name <- basename(pkg_source_path)
   
@@ -109,16 +108,16 @@ run_coverage <- function(pkg_source_path, out_dir, timeout = Inf) {
   
   message(glue::glue("code coverage for {pkg_name} successful"))
   
-  if (out_dir == "no audit trail") {
-    message(glue::glue("not writing code coverage results for {pkg_name}"))
-  } else {  
-  # write results to RDS
-    saveRDS(
-      res_cov,
-      sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
-    )
-    message(glue::glue("writing code coverage results for {pkg_name}"))
-  }
+  # if (out_dir == "no audit trail") {
+  #   message(glue::glue("not writing code coverage results for {pkg_name}"))
+  # } else {  
+  # # write results to RDS
+  #   saveRDS(
+  #     res_cov,
+  #     sanofi.risk.metric::get_result_path(out_dir, "covr.rds")
+  #   )
+  #   message(glue::glue("writing code coverage results for {pkg_name}"))
+  # }
   
   # return total coverage as fraction
   total_cov <- as.numeric(res_cov$coverage$totalcoverage/100)

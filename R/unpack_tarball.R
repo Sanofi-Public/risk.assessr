@@ -1,13 +1,13 @@
 #' Untar package and return installation directory
 #'
 #' @param pkg_tar path to tarball package
-#' @param pkg_disp vector with package name for display
 #' @param temp_file_name name of `tempfile`
 #'
 #' @export
 unpack_tarball <- function(pkg_tar, 
-                           pkg_disp,
                            temp_file_name = "temp_file_"){
+  
+  pkg_disp <- sanofi.risk.metric::get_pkg_name(pkg_tar)
   message(glue::glue("unpacking {pkg_disp} locally"))
   # Create temporary location for package installation
   temp_pkg_dir <- tempfile(temp_file_name)

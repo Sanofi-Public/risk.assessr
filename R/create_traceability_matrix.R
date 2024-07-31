@@ -6,7 +6,6 @@
 #' @param pkg_name name of package
 #' @param pkg_source_path path to a source package
 #' @param func_covr function coverage
-#' @param results_dir where matrix will be written
 #' @param verbose Logical (`TRUE`/`FALSE`). If `TRUE`, show any warnings/messages per function.
 #'
 #' @returns a tibble with traceability matrix
@@ -15,7 +14,7 @@
 create_traceability_matrix <- function(pkg_name, 
                                        pkg_source_path, 
                                        func_covr,
-                                       results_dir = NULL, verbose = FALSE){
+                                       verbose = FALSE){
   
   message(glue::glue("creating traceability matrix for {pkg_name}"))
   
@@ -52,18 +51,9 @@ create_traceability_matrix <- function(pkg_name,
   tm <- dplyr::left_join(exports_df, 
                          func_coverage, 
                          by = "code_script") 
-   
   
-  if (results_dir == "no audit trail") {
-    message(glue::glue("not writing traceability matrix for {pkg_name} "))
-  } else {
-    write_tm_rds(tm, pkg_name, results_dir)
-    
-    # write tm to excel
-    write_tm_excel(tm, pkg_name, results_dir)
-    
-    message(glue::glue("traceability matrix for {pkg_name} successful"))
-  }
+  message(glue::glue("traceability matrix for {pkg_name} successful"))
+   
   return(tm)
 }
 

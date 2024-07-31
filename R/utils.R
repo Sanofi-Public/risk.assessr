@@ -62,53 +62,6 @@ get_result_path <- function(
   file.path(out_dir, paste0(pkg_name,".",ext))
 }
 
-#' Check if a path exists and delete the file
-#' if overwrite is TRUE
-#' @param path a file path to check if it exists
-#' @param overwrite Logical (T/F). If `TRUE`, delete the file at the specified path
-#'
-#' @export
-#' 
-check_exists_and_overwrite <- function(path, overwrite) {
-  checkmate::assert_string(path)
-  checkmate::assert_logical(overwrite, len = 1)
-  
-  if (fs::file_exists(path)) {
-    if (isTRUE(overwrite)) {
-      fs::file_delete(path)
-    } else {
-      rlang::abort(glue::glue("{path} already exists. Pass overwrite = TRUE to overwrite it."))
-    }
-  }
-}
-
-#' Write results to csv
-#'
-#' @param data - results data
-#' @param riskscore_data_path directory path and file name
-#' @param riskscore_data_exists logical with T/F if risk score data exists
-#'
-#' @export
-#'
-write_data_csv <- function(data, 
-                           riskscore_data_path, 
-                           riskscore_data_exists) {
-  # convert data to dataframe
-  
-  data <- as.data.frame(data)
-  
-  # check if file exists
-  if(riskscore_data_exists == TRUE) {
-    # If the file exists, run the append code.
-    readr::write_excel_csv(data, riskscore_data_path, append=TRUE)
-    message(glue::glue("Data appended to csv"))
-  } else { 
-    # If it doesn't exist, save the file with the columns included.
-    readr::write_excel_csv(data, riskscore_data_path, append=FALSE)
-    message(glue::glue("Data written to csv"))
-  }
-}
-
 #' Set the default weight of each metric to 1.
 #'
 #' @param data risk metric data
@@ -232,29 +185,6 @@ calc_risk_profile <- function(risk_data) {
   return(risk_profile)
 }
 
-
-#' check if risk score data exists
-#'
-#' @return riskscore_data_list - list with path and exists logical
-#' @export
-#'
-check_riskscore_data_internal <- function() {
-  library(sanofi.risk.metric)
-  
-  riskscore_data_list <- list()
-  
-  riskscore_data_path <- here::here("inst", "extdata", "riskdata_results.csv")
-  
-  riskscore_data_exists <- 
-    file.exists(riskscore_data_path)
-  
-  riskscore_data_list <- list(
-    riskscore_data_path = riskscore_data_path,
-    riskscore_data_exists = riskscore_data_exists 
-  )
-  return(riskscore_data_list)
-}
-
 #' Re-calculate package risk scores
 #' 
 #' @description {Use this function to re-calculate risk scores and risk profile}
@@ -263,25 +193,23 @@ check_riskscore_data_internal <- function() {
 #' use this function to re-calculate the risk scores and profile
 #' without running the whole risk assessment process again}
 #' 
-#'
+#' @param riskdata_results - path to riskdata_results toy dataset
 #' @param update_comments notes explaining why score recalculated
+#' 
+#' @examples 
+#' riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
+#' package = "sanofi.risk.metric")
+#' update_comments <- "recalc scores example"
+#' 
+#' recalc_example <- recalc_risk_scores(riskdata_results, update_comments)
 #' 
 #' @export
 #'
-recalc_risk_scores <- function(update_comments) {
+recalc_risk_scores <- function(riskdata_results, update_comments) {
   
-  # check if risk score data exists and set up path to risk score data
-  riskscore_data_list <- 
-    sanofi.risk.metric::check_riskscore_data_internal()
-  
-  riskscore_data_path <- riskscore_data_list$riskscore_data_path
-  
-  message("data path is ", riskscore_data_path)
-  
-  riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
   
   # read in the results
-  results <- read.csv(file.path(riskscore_data_path))
+  results <- read.csv(file.path(riskdata_results))
   
   # save existing data 
   results_old <- results 
@@ -307,7 +235,7 @@ recalc_risk_scores <- function(update_comments) {
    split(1:nrow(results)) |>
    purrr::map(sanofi.risk.metric::calc_risk_profile) |> 
    unlist()
-  
+ 
  # add comments
  results <- results |> 
     dplyr::mutate(comments = update_comments)
@@ -315,41 +243,41 @@ recalc_risk_scores <- function(update_comments) {
  # append new data to old data  
  results <- rbind(results_old, results)
  
- # set flag to ensure old data overwritten
- riskscore_data_exists <- FALSE
- 
-  # write data to csv
-  sanofi.risk.metric::write_data_csv(results, 
-                                     riskscore_data_path, 
-                                     riskscore_data_exists)
-  
 }
 
-#' check directory
+#' get package name for display
 #'
-#' @param dir_to_check check if direcoty exists
+#' @param input_string - string containing package name
 #'
+#' @return pkg_disp - package name for display
 #' @export
 #'
-check_dir <- function(dir_to_check) {
-  # check if the temp directory doesn't exist
-  if (!dir.exists(dir_to_check)) {
-    message(dir_to_check, 
-            " directory exists: ", 
-            dir.exists(dir_to_check))
-    # create directory with all the files 
-    # in the current directory have all permissions type
-    if (checkmate::check_os("linux") == TRUE) {
-      dir.create(dir_to_check, 
-                 showWarnings = TRUE, 
-                 recursive = FALSE, 
-                 mode = "0777")
-    } else if (checkmate::check_os("windows")  == TRUE) {
-      dir.create(dir_to_check, 
-                 showWarnings = TRUE, 
-                 recursive = FALSE)
-    }
-    # check directory existence
+#' @examples
+#'
+#' pkg_source_path <- "/home/user/R/test.package.0001_0.1.0.tar.gz"
+#' pkg_disp_1 <- get_pkg_name(pkg_source_path)
+#' print(pkg_disp_1)
+#' 
+#' pkg <- "TxDb.Dmelanogaster.UCSC.dm3.ensGene_3.2.2.tar.gz"
+#' pkg_disp_2 <- get_pkg_name(pkg)
+#' print(pkg_disp_2)
+#' 
+#' 
+get_pkg_name <- function(input_string) {
+  
+  # check if input string is a file path or filename   
+  test_string <-  stringr::str_match(input_string, "/")  
+  
+  if (any(is.na(test_string)) == FALSE) {
+    # extract package name from the last part of the file path
+    input_string <- stringr::str_split_i(input_string, "/", -1)  
+    
   }
-  message(dir_to_check, " directory exists: ", dir.exists(dir_to_check))
+  
+  # extract package name
+  pkg_disp <- stringr::str_extract(input_string, "[^-|_]+")
+  
+  return(pkg_disp)
 }
+
+

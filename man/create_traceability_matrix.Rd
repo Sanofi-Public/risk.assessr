@@ -8,7 +8,6 @@ create_traceability_matrix(
   pkg_name,
   pkg_source_path,
   func_covr,
-  results_dir = NULL,
   verbose = FALSE
 )
 }
@@ -18,8 +17,6 @@ create_traceability_matrix(
 \item{pkg_source_path}{path to a source package}
 
 \item{func_covr}{function coverage}
-
-\item{results_dir}{where matrix will be written}
 
 \item{verbose}{Logical (`TRUE`/`FALSE`). If `TRUE`, show any warnings/messages per function.}
 }

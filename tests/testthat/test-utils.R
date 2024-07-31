@@ -48,3 +48,5 @@ test_that("test risk profile with Low overall risk score", {
     sanofi.risk.metric::calc_risk_profile(low_overall_risk_score)
   expect_equal(low_level, "Low")
 })
+
+

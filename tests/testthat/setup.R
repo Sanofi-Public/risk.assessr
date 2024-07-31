@@ -125,3 +125,9 @@ low_overall_risk_score <- .24
 r = getOption("repos")
 r["CRAN"] = "http://cran.us.r-project.org"
 options(repos = r)
+
+#create results list for testing
+results <- list(
+  check = "",
+  covr = ""
+)
