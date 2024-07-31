@@ -4,7 +4,10 @@
 \alias{assess_dep_for_sigmoid}
 \title{Assess dependencies for sigmoid point}
 \usage{
-assess_dep_for_sigmoid()
+assess_dep_for_sigmoid(riskdata_results)
+}
+\arguments{
+\item{riskdata_results}{- path to riskdata_results toy dataset}
 }
 \value{
 nested list with dependencies, Import count mean, 
@@ -13,4 +16,12 @@ and all dependency count and mean
 \description{
 This function calculates average number of dependencies to 
 determine the dependency sigmoid point
+}
+\examples{
+riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
+package = "sanofi.risk.metric")
+
+sigmoid_example <- assess_dep_for_sigmoid(riskdata_results)
+print(sigmoid_example$all_count_mean)
+  
 }

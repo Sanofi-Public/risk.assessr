@@ -148,29 +148,28 @@ calc_reverse_dependencies <- function(pkg_source_path) {
 
 #' Assess dependencies for sigmoid point
 #' 
+#' @param riskdata_results - path to riskdata_results toy dataset
+#' 
 #' @description This function calculates average number of dependencies to 
 #' determine the dependency sigmoid point
 #'
 #' @return nested list with dependencies, Import count mean, 
 #' and all dependency count and mean
+#' 
+#' @examples 
+#' riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
+#' package = "sanofi.risk.metric")
+#' 
+#' sigmoid_example <- assess_dep_for_sigmoid(riskdata_results)
+#' print(sigmoid_example$all_count_mean)
 #'   
 #' @export
 #'
 
-assess_dep_for_sigmoid <- function() {
-  
-  # check if risk score data exists and set up path to risk score data
-  riskscore_data_list <- 
-    sanofi.risk.metric::check_riskscore_data_internal()
-  
-  riskscore_data_path <- riskscore_data_list$riskscore_data_path
-  
-  message("data path is ", riskscore_data_path)
-  
-  riskscore_data_exists <- riskscore_data_list$riskscore_data_exists
+assess_dep_for_sigmoid <- function(riskdata_results) {
   
   # read in the results
-  results <- read.csv(file.path(riskscore_data_path))
+  results <- read.csv(file.path(riskdata_results))
   
   # filter existing data from initial run
   results <- results |> 
