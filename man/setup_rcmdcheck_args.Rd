@@ -4,9 +4,11 @@
 \alias{setup_rcmdcheck_args}
 \title{set up rcmdcheck arguments}
 \usage{
-setup_rcmdcheck_args(build_vignettes)
+setup_rcmdcheck_args(check_type = "1", build_vignettes)
 }
 \arguments{
+\item{check_type}{basic R CMD check type - "1" CRAN R CMD check_type - "2"}
+
 \item{build_vignettes}{Logical (T/F). Whether or not to build vignettes}
 }
 \value{
