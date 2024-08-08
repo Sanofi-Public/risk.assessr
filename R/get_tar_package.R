@@ -24,24 +24,43 @@ library(jsonlite)
 #' result <- get_tar_package("dplyr", "1.0.0")
 #' print(result)
 #' # Expected output:
-#' # $url
-#' # [1] "https://cran.r-project.org/src/contrib/Archive/dplyr/dplyr_1.0.0.tar.gz"
+#'$package_name
+#'[1] "dplyr"
+#'
+#'$version
+#'[1] "1.0.0"
+#'
+#'$tar_link
+#'[1] "https://cran.r-project.org/src/contrib/Archive/dplyr/dplyr_1.0.0.tar.gz"
+#'
+#'$source
+#'[1] "CRAN"
+#'
+#'$error
+#'NULL
+#'
+#'$version_available
+#'[1] "0.1.1, 0.1.2, 0.1.3, 0.1, 0.2, 0.3.0.1, 0.3.0.2, 0.3, 0.4.0, 0.4.1, 
+#'0.4.2, 0.4.3, 0.5.0, 0.7.0, 0.7.1, 0.7.2, 0.7.3, 0.7.4, 0.7.5, 0.7.6, 
+#'0.7.7, 0.7.8, 0.8.0.1, 0.8.0, 0.8.1, 0.8.2, 0.8.3, 0.8.4, 0.8.5, 1.0.0, 
+#'1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.0.5, 1.0.6, 1.0.7, 1.0.8, 1.0.9, 1.0.10, 
+#'1.1.0, 1.1.1, 1.1.2, 1.1.3, 1.1.4"
 #' }
-get_tar_package <- function(package_name, version) {
-  url <- "https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/2bb1fda0-b2fb-4686-b613-310d5a74e453/get_tar_link/"
+get_tar_package <- function(package_name, version=NA) {
+  url <- "https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/2bb1fda0-b2fb-4686-b613-310d5a74e453/tar-link"
   body <- list(
-    name = package_name,
+    repo_name = package_name,
     version = version
   )
   
   # Perform the request
-  response <- request(url) %>%
+  response <- httr2::request(url) %>%
     req_body_json(body) %>%
     req_headers(
       accept = "application/json",
       `Content-Type` = "application/json"
     ) %>%
-    req_perform()
+    httr2::req_perform()
   
   # Check for a successful status code and print a success message
   if (resp_status(response) != 200) {
