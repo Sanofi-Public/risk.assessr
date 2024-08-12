@@ -1,11 +1,12 @@
 #' Creates information on package installation
 #'
 #' @param dp data path and name for the package. 
+#' @param check_type basic R CMD check type - "1" CRAN R CMD check_type - "2"
 #' 
 #' @return list with local package install
 #' 
 #' @export
-set_up_pkg <- function(dp) {
+set_up_pkg <- function(dp, check_type = "1") {
   
   build_vignettes <- TRUE
   
@@ -37,7 +38,8 @@ set_up_pkg <- function(dp) {
   
   if (package_installed == TRUE ) {	
     
-    rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
+    rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(check_type, 
+                                                               build_vignettes)
   } 
   install_list <- list(
     build_vignettes = build_vignettes,

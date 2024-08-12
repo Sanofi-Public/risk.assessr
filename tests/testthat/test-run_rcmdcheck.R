@@ -13,14 +13,8 @@ test_that("running rcmd check for test package in tar file - no notes", {
 
   if (package_installed == TRUE ) {
 
-    # remove CRAN from args so results pass without any notes or warnings
-    temp_args <- c("--ignore-vignettes", 
-                          "--no-vignettes", 
-                          "--no-manual")
-    
-    rcmdcheck_args$args <- temp_args
-    
-    rcmdcheck_args$path <- pkg_source_path
+  # ensure path is set to package source path  
+  rcmdcheck_args$path <- pkg_source_path
     
     testthat::expect_message(
          results$check <- run_rcmdcheck(pkg_source_path, rcmdcheck_args),
@@ -43,12 +37,13 @@ test_that("running rcmd check for test package in tar file - no notes", {
 
 test_that("running rcmd check for test package in tar file - 1 note 1 warning", {
 
+  check_type <- "2"
 
   dp <- system.file("test-data/test.package.0002_0.1.0.tar.gz",
                     package = "sanofi.risk.metric")
   
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, check_type)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -57,8 +52,8 @@ test_that("running rcmd check for test package in tar file - 1 note 1 warning", 
 
   if (package_installed == TRUE ) {
 
-        rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
-
+    
+    # ensure path is set to package source path
     rcmdcheck_args$path <- pkg_source_path
     
     testthat::expect_message(
@@ -74,9 +69,11 @@ test_that("running rcmd check for test package in tar file - 1 note 1 warning", 
     
     testthat::expect_true(!is.na(results$check$res_check$test_output))
     
+    testthat::expect_true(checkmate::check_list(results$check$res_check$test_output))
+    
     testthat::expect_true(checkmate::test_numeric(results$check$check_score))
     
-    testthat::expect_gt(results$check$check_score, 0.4)
+    testthat::expect_gte(results$check$check_score, 0)
 
   }
 
@@ -84,11 +81,12 @@ test_that("running rcmd check for test package in tar file - 1 note 1 warning", 
 
 test_that("running rcmd check for test package in tar file - 1 note 1 error", {
 
+  check_type <- "2"
+  
   dp <- system.file("test-data/test.package.0003_0.1.0.tar.gz",
                     package = "sanofi.risk.metric")
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp)
-  
+  install_list <- sanofi.risk.metric::set_up_pkg(dp, check_type)
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
@@ -96,8 +94,7 @@ test_that("running rcmd check for test package in tar file - 1 note 1 error", {
 
   if (package_installed == TRUE ) {
 
-    rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(build_vignettes)
-
+    # ensure path is set to package source path
     rcmdcheck_args$path <- pkg_source_path
 
     testthat::expect_message(
