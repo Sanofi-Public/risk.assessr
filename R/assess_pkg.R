@@ -87,7 +87,7 @@ assess_pkg <- function(
   # add total coverage to results
   results$covr <- covr_list$total_cov
   
-  if (is.na(results$covr)) {
+  if (is.na(results$covr) | results$covr == 0L) {
     #  create empty traceability matrix
     tm <- sanofi.risk.metric::create_empty_tm(pkg_name)
   } else {
