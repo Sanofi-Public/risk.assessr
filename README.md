@@ -21,8 +21,8 @@ the beginning of the validation process when packages are not on github
 
 It calculates risk metrics such as:
 
-**Unit testing metrics** - includes R command check, unit test coverage
-and composite coverage of dependencies
+**Core metrics** - includes R command check, unit test coverage and
+composite coverage of dependencies
 
 **Documentation metrics** - availability of vignettes, news tracking,
 example(s), return object description for exported functions, and type
@@ -57,15 +57,11 @@ This package executes the following tasks:
 
 4.  Run code coverage
 
-5.  Save the code coverage results
+5.  Run a traceability matrix
 
-6.  Run a traceability matrix
+6.  Run R CMD check
 
-7.  Run R CMD check
-
-8.  Save the R CMD check results
-
-9.  Run risk assessment metrics using default or user defined weighting
+7.  Run risk assessment metrics using default or user defined weighting
 
 # Notes
 
@@ -85,9 +81,6 @@ This package fixes a number of errors in `pharmaR/riskmetric`
 - overall risk profile - `DONE`
 - traceability matrix - matching the function / test descriptions to
   tests and match to test pass/fail - `DONE`
-- background/batch processor to create risk metrics for a larger number
-  of packages  
-- write data to SQLite DB
 - check package versions with **verdepcheck**
 
 # Acknowledgements
