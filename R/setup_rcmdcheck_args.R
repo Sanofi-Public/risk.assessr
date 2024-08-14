@@ -16,7 +16,9 @@ setup_rcmdcheck_args <- function(check_type = "1",
 if (check_type == "1") {
   rcmdcheck_args = list(
     timeout = Inf,
-    args = c("--no-manual"),
+    args = c("--no-manual"), # disable pdf manual rendering
+    # FORCE_SUGGESTS give an error if suggested packages are not available. 
+    # Default: true (but false for CRAN submission checks)
     env = c(`_R_CHECK_FORCE_SUGGESTS_` = "FALSE"),
     quiet = FALSE
   )
@@ -25,21 +27,25 @@ if (check_type == "1") {
   if (build_vignettes == FALSE) {
     rcmdcheck_args = list(
       timeout = Inf,
-      args = c("--ignore-vignettes", 
-               "--no-vignettes", 
-               "--as-cran",
-               "--no-manual"),
-      build_args = "--no-build-vignettes",
-      env = c(`_R_CHECK_FORCE_SUGGESTS_` = "FALSE"),
+      args = c("--ignore-vignettes", # skip all tests on vignettes
+               "--no-vignettes", # do not run R code in vignettes nor build outputs
+               "--as-cran", # select customizations similar to those used for CRAN incoming checking"
+               "--no-manual"), # disable pdf manual rendering
+      build_args = "--no-build-vignettes", # do not build vignette outputs
+      # FORCE_SUGGESTS give an error if suggested packages are not available. 
+      # Default: true (but false for CRAN submission checks)
+      env = c(`_R_CHECK_FORCE_SUGGESTS_` = "FALSE"), 
       quiet = FALSE
     )
   } else {
     rcmdcheck_args = list(
       timeout = Inf,
-      args = c("--ignore-vignettes", 
-               "--no-vignettes", 
-               "--as-cran",
-               "--no-manual"),
+      args = c("--ignore-vignettes", # skip all tests on vignettes
+               "--no-vignettes", # do not run R code in vignettes nor build outputs
+               "--as-cran", # select customizations similar to those used for CRAN incoming checking"
+               "--no-manual"), # disable pdf manual rendering
+      # FORCE_SUGGESTS give an error if suggested packages are not available. 
+      # Default: true (but false for CRAN submission checks)
       env = c(`_R_CHECK_FORCE_SUGGESTS_` = "FALSE"),
       quiet = FALSE
     )
