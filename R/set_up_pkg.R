@@ -31,8 +31,7 @@ set_up_pkg <- function(dp, check_type = "1") {
     build_vignettes <- ""
   } else { 
     if (fs::file_exists(pkg_source_path)) {
-      package_installed <- 
-        sanofi.risk.metric::install_package_local(pkg_source_path)
+      package_installed <- TRUE
     }  
   } 
   
