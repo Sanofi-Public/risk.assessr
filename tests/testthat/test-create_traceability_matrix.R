@@ -48,6 +48,11 @@ test_that("running tm for created package in tar file with no notes", {
 
 })
 
+
+# The following test is commented out temporarily 
+# the test with devtools::test() but the problem is caused by 
+#  https://github.com/hadley/testthat/issues/144
+# and https://github.com/r-lib/testthat/issues/86
 # test_that("running tm for created package in tar file with no tests", {
 # 
 #   dp <- system.file("test-data/test.package.0004_0.1.0.tar.gz",

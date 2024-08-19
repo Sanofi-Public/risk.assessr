@@ -1,3 +1,8 @@
+# The following test is commented out temporarily 
+# the test with devtools::test() but the problem is caused by 
+#  https://github.com/hadley/testthat/issues/144
+# and https://github.com/r-lib/testthat/issues/86
+
 # test_that("running assess_pkg for test package in tar file - no notes", {
 #   
 #   r = getOption("repos")
