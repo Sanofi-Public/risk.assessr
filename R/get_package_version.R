@@ -36,7 +36,7 @@ library(lubridate)
 #' }
 #' @export
 get_package_version <- function(package_name, last_num = 10) {
-  url <- "https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/2bb1fda0-b2fb-4686-b613-310d5a74e453/get_all_package_version/"
+  url <- "https://r-connect-dev.prod.p488440267176.aws-emea.sanofi.com/content/2bb1fda0-b2fb-4686-b613-310d5a74e453/all-package-version"
   body <- list(package = package_name)
   
   # Perform the request
