@@ -40,17 +40,6 @@ assess_pkg_r_package <- function(package_name, version=NA) {
   return(assess_package)
 }
 
-# result <- assess_pkg_r_package("mixOmics") # actual CMD check no passing for this package
-# 
-# result <- assess_pkg_r_package("dplyr", version="1.1.4")
-# result <- assess_pkg_r_package("admiral")
-# result <- assess_pkg_r_package("sdtmchecks")
-# 
-# # working
-# result <- assess_pkg_r_package("here")
-
-
-
 
 
 
