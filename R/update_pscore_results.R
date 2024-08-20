@@ -17,6 +17,12 @@ update_pscore_results <- function(results,
   results$license <- pscore$license
   results$has_examples <- pscore$has_examples
   results$has_maintainer <- pscore$has_maintainer
+  
+  # reverse size_codebase scores to fix issue
+  #  pharmaR/riskmetric#330
+  
+  pscore$size_codebase <- 1 - pscore$size_codebase
+  
   results$size_codebase <- pscore$size_codebase 
   results$has_news <- pscore$has_news
   results$has_source_control <- pscore$has_source_control
