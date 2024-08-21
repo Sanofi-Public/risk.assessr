@@ -1,18 +1,8 @@
 library(testthat)
 library(sanofi.risk.metric)
+library(httr2)
+library(jsonlite)
 
-# # Test the assess_pkg_r_package function
-# test_that("assess_pkg_r_package works as expected", {
-#   
-#   result <- assess_pkg_r_package("here")
-#   
-#   # Check if the result is a list (as expected for the assessment result)
-#   expect_type(result, "list")
-#   # Check that no errors occurred
-#   expect_null(result$error)
-# })
-
-# Additional test for a non-existent package
 test_that("assess_pkg_r_package handles non-existent packages gracefully", {
   
   result <- assess_pkg_r_package("thispackagedoesnotexist")
@@ -21,99 +11,85 @@ test_that("assess_pkg_r_package handles non-existent packages gracefully", {
 })
 
 
-library(testthat)
-library(httr2)
-library(dplyr)
-library(jsonlite)
-
-
-mock_req_perform_sucess <- function(request) {
-  # Define the response body as a list
-  response_body <- list(
-    package_name = "ggplot2",
-    version = "3.3.5",
-    tar_link = "http://example.com/package/ggplot2_3.3.5.tar.gz",
-    source = "CRAN",
-    error = NA,
-    version_available = c(
-      "0.1.1", "0.1.2", "0.1.3", "0.1", "0.2", "0.3.0.1", "0.3.0.2", "0.3",
-      "0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.5.0", "0.7.0", "0.7.1", "0.7.2",
-      "0.7.3", "0.7.4", "0.7.5", "0.7.6", "0.7.7", "0.7.8", "0.8.0.1", "0.8.0",
-      "0.8.1", "0.8.2", "0.8.3", "0.8.4", "0.8.5", "1.0.0", "1.0.1", "1.0.2",
-      "1.0.3", "1.0.4", "1.0.5", "1.0.6", "1.0.7", "1.0.8", "1.0.9", "1.0.10",
-      "1.1.0", "1.1.1", "1.1.2", "1.1.3", "1.1.4"
-    )
-  )
-  
-  # Convert the list to a JSON string
-  response_json <- jsonlite::toJSON(response_body, auto_unbox = TRUE)
-  
-  # Create the response object using httr2
-  base_response <- httr2::response(
-    status_code = 200,
-    url = "http://example.com",
-    headers = list("Content-Type" = "application/json"),
-    body = charToRaw(response_json)
-  )
-  
-  # Return the response object
-  return(base_response)
-}
-
-test_that("test on correct result", {
+test_that("test on unvalid tar link", {
   # Mock function to simulate `req_perform`
- 
+  mock_req_perform_sucess <- function(request) {
+    # Define the response body as a list
+    response_body <- list(
+      package_name = "ggplot2",
+      version = "3.3.5",
+      tar_link = "http://example.com/false_link",
+      source = "CRAN",
+      error = NA,
+      version_available = c(
+        "0.1.1", "0.1.2", "0.1.3", "0.1", "0.2", "0.3.0.1", "0.3.0.2", "0.3"
+      )
+    )
+    
+    # Convert the list to a JSON string
+    response_json <- jsonlite::toJSON(response_body, auto_unbox = TRUE)
+    
+    # Create the response object using httr2
+    base_response <- httr2::response(
+      status_code = 200,
+      url = "http://example.com",
+      headers = list("Content-Type" = "application/json"),
+      body = charToRaw(response_json)
+    )
+    
+    # Return the response object
+    return(base_response)
+  }
   # Mock the bindings
   local_mocked_bindings(req_perform = mock_req_perform_sucess, .package = "httr2")
   
   # Test the result
-  result <- assess_pkg_r_package("here")
-  expect_type(result, "list")
-  expect_null(result$error)
+  expect_error(
+    assess_pkg_r_package("some_package"),
+    regexp = "Failed to download the package from the provided URL http://example.com/false_link . Error: cannot open URL 'http://example.com/false_link'"
+  )
+  
 })
-
-
-mock_req_perform_fail <- function(request) {
-  # Define the response body as a list
-  response_body <- list(
-    package_name = "dplyr",
-    version = "1.02222.0",
-    tar_link = NA,
-    source = "CRAN",
-    error = "Version 1.02222.0 for dplyr not found",
-    version_available = c(
-      "0.1.1", "0.1.2", "0.1.3", "0.1", "0.2", "0.3.0.1", "0.3.0.2", "0.3",
-      "0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.5.0", "0.7.0", "0.7.1", "0.7.2",
-      "0.7.3", "0.7.4", "0.7.5", "0.7.6", "0.7.7", "0.7.8", "0.8.0.1", "0.8.0",
-      "0.8.1", "0.8.2", "0.8.3", "0.8.4", "0.8.5", "1.0.0", "1.0.1", "1.0.2",
-      "1.0.3", "1.0.4", "1.0.5", "1.0.6", "1.0.7", "1.0.8", "1.0.9", "1.0.10",
-      "1.1.0", "1.1.1", "1.1.2", "1.1.3", "1.1.4"
-    )
-  )
   
-  # Convert the list to a JSON string
-  response_json <- jsonlite::toJSON(response_body, auto_unbox = TRUE)
-  
-  # Create the response object using httr2
-  base_response <- httr2::response(
-    status_code = 200,
-    url = "http://example.com",
-    headers = list("Content-Type" = "application/json"),
-    body = charToRaw(response_json)
-  )
-  
-  # Return the response object
-  return(base_response)
-}
-
-test_that("test on fail url package", {
+test_that("test on fail url package not found", {
   # Mock function to simulate `req_perform`
-  
+  mock_req_perform_fail <- function(request) {
+    # Define the response body as a list
+    response_body <- list(
+      package_name = "some_package",
+      version = "1.02222.0",
+      tar_link = NA,
+      source = "CRAN",
+      error = "Version 1.02222.0 for dplyr not found",
+      version_available = c(
+        "0.1.1", "0.1.2", "0.1.3", "0.1", "0.2", "0.3.0.1", "0.3.0.2", "0.3",
+        "0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.5.0", "0.7.0", "0.7.1", "0.7.2",
+        "0.7.3", "0.7.4", "0.7.5", "0.7.6", "0.7.7", "0.7.8", "0.8.0.1", "0.8.0",
+        "0.8.1", "0.8.2", "0.8.3", "0.8.4", "0.8.5", "1.0.0", "1.0.1", "1.0.2",
+        "1.0.3", "1.0.4", "1.0.5", "1.0.6", "1.0.7", "1.0.8", "1.0.9", "1.0.10",
+        "1.1.0", "1.1.1", "1.1.2", "1.1.3", "1.1.4"
+      )
+    )
+    
+    # Convert the list to a JSON string
+    response_json <- jsonlite::toJSON(response_body, auto_unbox = TRUE)
+    
+    # Create the response object using httr2
+    base_response <- httr2::response(
+      status_code = 200,
+      url = "http://example.com",
+      headers = list("Content-Type" = "application/json"),
+      body = charToRaw(response_json)
+    )
+    
+    # Return the response object
+    return(base_response)
+  }  
   # Mock the bindings
   local_mocked_bindings(req_perform = mock_req_perform_fail, .package = "httr2")
   
   # Test the result
-  result <- assess_pkg_r_package("here")
+  result <- assess_pkg_r_package("some_package")
   expect_type(result, "list")
   expect_identical(result$error, "Version 1.02222.0 for dplyr not found")
 })
