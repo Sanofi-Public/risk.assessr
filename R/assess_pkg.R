@@ -65,11 +65,7 @@ assess_pkg <- function(
   pkg_name <- pkg_desc$Package
   pkg_ver <- pkg_desc$Version
   pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
-  
-  # Create a temporary file to store the downloaded package
-  temp_file <- tempfile(fileext = ".tar.gz")
-  pkg_source_path <- modify_description_file(temp_file, pkg_name)
-  
+
   metadata <- sanofi.risk.metric::get_risk_metadata()
   
   results <- sanofi.risk.metric::create_empty_results(pkg_name,
