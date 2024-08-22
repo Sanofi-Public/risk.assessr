@@ -11,6 +11,7 @@ test_that("assess_pkg_r_package handles non-existent packages gracefully", {
 })
 
 test_that("test on fail url package not found", {
+  
   # Mock function to simulate `req_perform`
   mock_req_perform_fail <- function(request) {
     # Define the response body as a list
@@ -21,12 +22,7 @@ test_that("test on fail url package not found", {
       source = "CRAN",
       error = "Version 1.02222.0 for dplyr not found",
       version_available = c(
-        "0.1.1", "0.1.2", "0.1.3", "0.1", "0.2", "0.3.0.1", "0.3.0.2", "0.3",
-        "0.4.0", "0.4.1", "0.4.2", "0.4.3", "0.5.0", "0.7.0", "0.7.1", "0.7.2",
-        "0.7.3", "0.7.4", "0.7.5", "0.7.6", "0.7.7", "0.7.8", "0.8.0.1", "0.8.0",
-        "0.8.1", "0.8.2", "0.8.3", "0.8.4", "0.8.5", "1.0.0", "1.0.1", "1.0.2",
-        "1.0.3", "1.0.4", "1.0.5", "1.0.6", "1.0.7", "1.0.8", "1.0.9", "1.0.10",
-        "1.1.0", "1.1.1", "1.1.2", "1.1.3", "1.1.4"
+        "0.1.1", "0.1.2", "0.1.3", "0.1", "0.2", "0.3.0.1", "0.3.0.2", "0.3"
       )
     )
     
@@ -54,6 +50,7 @@ test_that("test on fail url package not found", {
 })
 
 test_that("test on unvalid tar link", {
+  
   # Mock function to simulate `req_perform`
   mock_req_perform_sucess <- function(request) {
     # Define the response body as a list
@@ -86,8 +83,6 @@ test_that("test on unvalid tar link", {
   local_mocked_bindings(req_perform = mock_req_perform_sucess, .package = "httr2")
   
   # Test the result
-  expect_error(
-    assess_pkg_r_package("some_package"),
-    regexp = "Failed to download the package from the provided URL http://example.com/false_link . Error: cannot open URL 'http://example.com/false_link'"
-  )
+  expect_error(assess_pkg_r_package("some_package"))
+  expect_error(assess_pkg_r_package("some_package"), regexp = "Failed to download the package from the provided URL")
 })

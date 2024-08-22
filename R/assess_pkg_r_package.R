@@ -42,8 +42,7 @@ assess_pkg_r_package <- function(package_name, version=NA) {
   tryCatch({
     download.file(package_url, temp_file, mode = "wb")
   }, error = function(e) {
-    new_error_msg <- paste("Failed to download the package from the provided URL", package_data$tar_link, ". Error:", e$message)
-    stop(new_error_msg)
+    stop("Failed to download the package from the provided URL: ", package_url, ". Error: ", e$message)
   })
   
   # Set up the package using the temporary file
