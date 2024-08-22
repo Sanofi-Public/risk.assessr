@@ -1,19 +1,21 @@
+library(mockery)
+
 test_that("modify_description_file modifies DESCRIPTION correctly", {
-  # Construct the path to the tar.gz file in the inst/ folder
-  tar_file_path <- file.path("inst", "test-data", "test.package.0001_0.1.0.tar.gz")
-  package_name <- "test.package.0001"
+
+  dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
+                    package = "sanofi.risk.metric")
   
   # Check if the file exists before attempting to download
-  if (!file.exists(tar_file_path)) {
+  if (!file.exists(dp)) {
     stop("The tar file does not exist at the specified path.")
   }
   
   # Create a temporary file to store the downloaded package
-  file_name <- basename(tar_file_path) # Use the base name for temporary file
+  file_name <- basename(dp) # Use the base name for temporary file
   temp_file <- file.path(tempdir(), file_name)
   
   # Copy the file to the temporary file instead of downloading it
-  file.copy(tar_file_path, temp_file, overwrite = TRUE)
+  file.copy(dp, temp_file, overwrite = TRUE)
   
   # Verify that the copy was successful
   if (!file.exists(temp_file)) {
@@ -21,6 +23,7 @@ test_that("modify_description_file modifies DESCRIPTION correctly", {
   }
   
   # Run the function to modify the DESCRIPTION file
+  package_name <- "test.package.0001"
   modified_tar_file <- modify_description_file(temp_file, package_name)
   
   # Extract the modified tarball to a temporary directory
@@ -42,3 +45,108 @@ test_that("modify_description_file modifies DESCRIPTION correctly", {
   expect_true("Config/build/clean-inst-doc: false" %in% description_content)
 })
 
+test_that("modify_description_file modifies DESCRIPTION correctly 2", {
+  
+  # Create separate temporary directories for creation and extraction
+  temp_dir_create <- tempdir()
+  temp_dir_extract <- tempdir()
+  
+  # Path to the DESCRIPTION file in the temporary directory
+  description_file <- file.path(temp_dir_create, "DESCRIPTION")
+  writeLines("This is a DESCRIPTION file.", description_file)
+  
+  # Create the .tar Archive with only the necessary files
+  tar_file <- file.path(temp_dir_create, "my_package.tar")
+  suppressWarnings(tar(tar_file, files = c(description_file)))
+  
+  # Run the function to modify the DESCRIPTION file
+  modified_tar_file <- modify_description_file(temp_dir_create, "test.package.0001")
+  
+  # Extract the modified tarball to a separate temporary directory
+  suppressWarnings(untar(modified_tar_file, exdir = temp_dir_extract))
+  
+  # Path to the package directory inside the extracted tarball
+  package_dir <- file.path(temp_dir_extract, "test.package.0001")
+  
+  if (!dir.exists(package_dir)) {
+    stop("Package directory not found after untarring.")
+  }
+  
+  # Ensure cleanup happens even if the test fails
+  defer(unlink(temp_dir_create, recursive = TRUE))
+  defer(unlink(temp_dir_extract, recursive = TRUE))
+  defer(unlink(tar_file))
+  
+  # Check if the DESCRIPTION file exists in the modified package directory
+  description_file <- file.path(package_dir, "DESCRIPTION")
+  expect_true(file.exists(description_file))
+  
+  # Check if the DESCRIPTION file contains the new line
+  description_content <- readLines(description_file)
+  expect_true("Config/build/clean-inst-doc: false" %in% description_content)
+})
+
+test_that("No DESCRIPTION file un package", {
+  
+  # Create separate temporary directories for creation and extraction
+  temp_dir_create <- tempdir()
+  temp_dir_extract <- tempdir()
+  
+  # Path to the DESCRIPTION file in the temporary directory
+  description_file <- file.path(temp_dir_create, "no_DESCRIPTION")
+
+  # Create the .tar Archive with only the necessary files
+  tar_file <- file.path(temp_dir_create, "my_package.tar")
+  suppressWarnings(tar(tar_file))
+  
+  # Ensure cleanup happens even if the test fails
+  defer(unlink(temp_dir_create, recursive = TRUE))
+  defer(unlink(temp_dir_extract, recursive = TRUE))
+  defer(unlink(tar_file))
+  
+  expect_error(modified_tar_file <- modify_description_file(temp_dir_create, "test.package.0001"), 
+               "DESCRIPTION file not found in the extracted package directory.")
+})
+
+test_that("Error in untarring the file", {
+  # Mock the untar function to force it to throw an error
+  mock_untar <- mockery::mock(stop("Untar failed"))
+  
+  mockery::stub(modify_description_file, "untar", mock_untar)
+  
+  # Now call the function, expecting it to throw the custom error
+  expect_error(modify_description_file("path/to/invalid.tar.gz", "package_name"),
+               "Error in untarring the file: Untar failed")
+})
+
+test_that("Error in tarring the file", {
+  
+  # Create a temporary directory for the package
+  temp_dir_create <- tempdir()
+
+  # Create a fake package directory structure
+  package_name <- "test.package.0001"
+  package_dir <- file.path(temp_dir_create, package_name)
+  dir.create(package_dir)
+  
+  # Path to the DESCRIPTION file in the package directory
+  description_file <- file.path(package_dir, "DESCRIPTION")
+  writeLines("This is a DESCRIPTION file.", description_file)
+  
+  # Create the .tar Archive with only the necessary files
+  tar_file <- file.path(temp_dir_create, "my_package.tar.gz")
+  tar(tar_file, files = temp_dir_create, compression = "gzip", tar = "internal")
+  
+  # Mock the tar function to simulate an error during the tarring process
+  mock_tar <- mockery::mock(stop("Tar failed"))
+  mockery::stub(modify_description_file, "tar", mock_tar)
+  
+  # Ensure cleanup happens even if the test fails
+  defer(unlink(temp_dir_create, recursive = TRUE))
+  defer(unlink(tar_file))
+  
+  # Now call the function, expecting it to throw the custom error
+  expect_error(modify_description_file(tar_file, package_name),
+               "Error in creating the tar.gz file: Tar failed")
+  
+})
