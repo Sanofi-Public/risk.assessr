@@ -94,6 +94,54 @@ assess_description_file_elements <- function(pkg_name, pkg_source_path) {
   return(desc_elements_scores)
 }
 
+#' assess codebase size
+#'
+#' @description #' Scores packages based on its codebase size, 
+#' as determined by number of lines of code.
+#'
+#' @param pkg_source_path - pkg_source_path - source path for install local 
+#'
+#' @return - size_codebase - numeric value between \code{0} (for small codebase) and \code{1} (for large codebase)
+#' @export
+#'
+assess_size_codebase <- function(pkg_source_path) {
+  
+    # create character vector of function files
+    files <- list.files(path = file.path(pkg_source_path, "R"), full.names = T)
+    
+    # define the function for counting code base
+    count_lines <- function(x){
+      # read the lines of code into a character vector
+      code_base <- readLines(x)
+      
+      # count all the lines
+      n_tot <- length(code_base)
+      
+      # count lines for roxygen headers starting with #
+      n_head <- length(grep("^#+", code_base))
+      
+      # count the comment lines with leading spaces
+      n_comment <- length(grep("^\\s+#+", code_base))
+      
+      # count the line breaks or only white space lines
+      n_break <- length(grep("^\\s*$", code_base))
+      
+      # compute the line of code base
+      n_tot - (n_head + n_comment + n_break)
+    }
+    
+    # count number of lines for all functions
+    nloc <- sapply(files, count_lines)
+    
+    # sum the number of lines
+    nloc_total <- sum(nloc)
+  
+    # calculate size of the code base
+    size_codebase <- 1 - (1.5 / (nloc_total / 1e2 + 1.5))
+    
+    return(size_codebase)
+}
+
 #' Run all relevant documentation riskmetric checks
 #'
 #' @param pkg_name name of the package
@@ -113,13 +161,16 @@ doc_riskmetric <- function(pkg_name, pkg_source_path) {
     sanofi.risk.metric::assess_description_file_elements(pkg_name, 
                                                          pkg_source_path)
   
+  size_codebase <- 
+    sanofi.risk.metric::assess_size_codebase(pkg_source_path)
   
   doc_scores <- list(
     export_help = export_help,
     has_bug_reports_url = desc_elements$has_bug_reports_url,
     license = desc_elements$license,
     has_maintainer = desc_elements$has_maintainer,
-    has_website = desc_elements$has_website 
+    has_website = desc_elements$has_website,
+    size_codebase = size_codebase 
   )
   
   # passess <- riskmetric::pkg_assess(
