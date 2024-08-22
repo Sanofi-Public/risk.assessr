@@ -114,17 +114,6 @@ standardize_risk_weights <- function(data, weights) {
   weights <- weights / sum(weights, na.rm = TRUE)
 }
 
-#' Assess exported functions to namespace
-#'
-#' @param data pkg source path
-#' 
-#' @export
-#'
-assess_exports <- function(data) {
-  exports <- pkgload::parse_ns_file(data)$exports
-  export_calc <- 1 - 1 / (1 + exp(-0.25 * (sqrt(length(exports)) - sqrt(25))))
-}  
-
 #' Calculate overall package risk scores
 #'
 #' @param data risk metric data

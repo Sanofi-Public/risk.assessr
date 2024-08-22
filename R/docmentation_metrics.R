@@ -1,3 +1,14 @@
+#' Assess exported functions to namespace
+#'
+#' @param data pkg source path
+#' 
+#' @export
+#'
+assess_exports <- function(data) {
+  exports <- pkgload::parse_ns_file(data)$exports
+  export_calc <- 1 - 1 / (1 + exp(-0.25 * (sqrt(length(exports)) - sqrt(25))))
+}  
+
 #' assess_export_help
 #'
 #' @param pkg_name - name of the package 
@@ -115,15 +126,11 @@ doc_riskmetric <- function(pkg_name, pkg_source_path) {
   #   pref,
   #   assessments = list(
   #     riskmetric::assess_export_help, 
-  #     riskmetric::assess_has_bug_reports_url,
   #     riskmetric::assess_size_codebase, 
-  #     riskmetric::assess_has_maintainer,
   #     riskmetric::assess_has_examples,
   #     riskmetric::assess_has_news,
   #     riskmetric::assess_has_source_control, # R/pkg_ref_cache_source_control_url.R
   #     riskmetric::assess_has_vignettes,
-  #     riskmetric::assess_has_website,
-  #     riskmetric::assess_license, 
   #     riskmetric::assess_news_current
   #   )
   # )
