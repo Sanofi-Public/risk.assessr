@@ -12,55 +12,6 @@
 #' and a minimum score of 0 (equal to 1 error, 4 warnings, or 10 notes). This scoring methodology is taken directly from [riskmetric::metric_score.pkg_metric_r_cmd_check()].
 #'
 #' @export
-#' 
-# run_rcmdcheck <- function(pkg_source_path, rcmdcheck_args) {
-#   
-#   # We never want the rcmdcheck to fail
-#   rcmdcheck_args$error_on <- "never"
-#   
-#   # run rcmdcheck
-#   pkg_name <- basename(pkg_source_path)
-#   
-#   message(glue::glue("running rcmdcheck for {pkg_name}"))
-#   
-#   # Use tryCatch to handle potential errors during rcmdcheck
-#   res_check <- tryCatch({
-#     do.call(rcmdcheck::rcmdcheck, rcmdcheck_args)
-#   }, error = function(e) {
-#     message(glue::glue("rcmdcheck for {pkg_name} failed to run: {e$message}"))
-#     return(list(notes = character(0), warnings = character(0), errors = e$message))
-#   })
-#   
-#   # Initialize check_score to 0 in case res_check is NULL or calculation fails
-#   check_score <- 0
-#   
-#   # If res_check is not NULL, attempt to calculate the check score
-#   if (!is.null(res_check)) {
-#     
-#       sum_vars <- c(notes = length(res_check$notes), warnings = length(res_check$warnings), errors = length(res_check$errors))
-#       score_weightings <- c(notes = 0.1, warnings = 0.25, errors = 1)
-#       check_score <- 1 - min(c(sum(score_weightings * sum_vars), 1))
-#     } else {
-#       res_check$errors <- c(res_check$errors, e$message)
-#       check_score <- 0  # Ensure check_score is set to 0 if calculation fails
-#     }
-#   
-#   if(check_score == 1){
-#     message(glue::glue("rcmdcheck for {pkg_name} passed"))
-#   }else if(check_score < 1 && check_score > 0){
-#     message(glue::glue("rcmdcheck for {pkg_name} passed with warnings and/or notes"))
-#   }else if(check_score == 0){
-#     message(glue::glue("rcmdcheck for {pkg_name} failed. Read in the rcmdcheck output to see what went wrong: "))
-#   }
-#   
-#   check_list <- list(
-#     res_check = res_check,
-#     check_score = check_score
-#   )
-#   
-#   return(check_list)
-# }
-
 run_rcmdcheck <- function(pkg_source_path, rcmdcheck_args) {
   
   # We never want the rcmdcheck to fail

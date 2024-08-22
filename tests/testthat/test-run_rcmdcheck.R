@@ -147,17 +147,3 @@ test_that("running rcmd check for test package - error handling", {
     testthat::expect_true(length(nzchar(results$check$res_check$errors)) > 0)
   }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
