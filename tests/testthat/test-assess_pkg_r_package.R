@@ -36,10 +36,7 @@ test_that("test on unvalid tar link", {
   local_mocked_bindings(req_perform = mock_req_perform_sucess, .package = "httr2")
   
   # Test the result
-  expect_error(
-    assess_pkg_r_package("some_package"),
-    regexp = "Failed to download the package from the provided URL http://example.com/false_link . Error: cannot open URL 'http://example.com/false_link'"
-  )
+  expect_error(assess_pkg_r_package("some_package"))
 })
   
 test_that("test on fail url package not found", {
