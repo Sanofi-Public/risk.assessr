@@ -70,6 +70,9 @@ assess_pkg_r_package <- function(package_name, version=NA) {
 }
 
 
+#result <- assess_pkg_r_package("dplyr")
+
+
 
 
 
