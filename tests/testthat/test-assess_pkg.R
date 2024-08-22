@@ -272,4 +272,3 @@ test_that("running assess_pkg for test package with Config/build/clean-inst-doc:
   }
 })
 
-
