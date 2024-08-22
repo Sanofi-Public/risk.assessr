@@ -58,7 +58,6 @@ assess_pkg <- function(
   checkmate::assert_string(rcmdcheck_args$env)
   checkmate::check_logical(rcmdcheck_args$quiet)
   
-  
   # Get package name and version
   pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path, 
                                                fields = c("Package", 
@@ -66,6 +65,10 @@ assess_pkg <- function(
   pkg_name <- pkg_desc$Package
   pkg_ver <- pkg_desc$Version
   pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
+  
+  # Create a temporary file to store the downloaded package
+  temp_file <- tempfile(fileext = ".tar.gz")
+  pkg_source_path <- modify_description_file(temp_file, pkg_name)
   
   metadata <- sanofi.risk.metric::get_risk_metadata()
   
