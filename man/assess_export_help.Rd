@@ -12,7 +12,7 @@ assess_export_help(pkg_name, pkg_source_path)
 \item{pkg_source_path}{- pkg_source_path - source path for install local}
 }
 \value{
-- export_help_score - variable with score
+- export_help - variable with score
 }
 \description{
 assess_export_help

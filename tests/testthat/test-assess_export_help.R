@@ -48,13 +48,13 @@ test_that("assess exports for help files works correctly", {
   
 })
 
-test_that("assess exports for help files works correctly", {
+test_that("assess exports for missing help files works correctly", {
   
   r = getOption("repos")
   r["CRAN"] = "http://cran.us.r-project.org"
   options(repos = r)
   
-  dp <- system.file("test-data/test.package.0007_0.1.0.tar.gz", 
+  dp <- system.file("test-data/stringr-1.5.1.tar.gz", 
                     package = "sanofi.risk.metric")
   
   # set up package
@@ -77,7 +77,7 @@ test_that("assess exports for help files works correctly", {
     
     testthat::expect_message(
       export_help <- sanofi.risk.metric::assess_export_help(pkg_name, pkg_source_path),
-      glue::glue("All exported functions have corresponding help files in {(pkg_name)}"),
+      glue::glue("The following exported functions are missing help files in {(pkg_name)}"),
       fixed = TRUE
     )
     
@@ -93,7 +93,7 @@ test_that("assess exports for help files works correctly", {
                                          any.missing = FALSE)
     )
     
-    testthat::expect_equal(export_help, 1L) 
+    testthat::expect_equal(export_help, 0L) 
   }
   
 })

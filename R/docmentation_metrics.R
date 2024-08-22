@@ -3,7 +3,7 @@
 #' @param pkg_name - name of the package 
 #' @param pkg_source_path - pkg_source_path - source path for install local
 #'
-#' @return - export_help_score - variable with score
+#' @return - export_help - variable with score
 #' @export
 #'
 assess_export_help <- function(pkg_name, pkg_source_path) {
@@ -13,13 +13,74 @@ assess_export_help <- function(pkg_name, pkg_source_path) {
   missing_docs <- setdiff(exported_functions, gsub("\\.Rd$", "", names(db)))
   if (length(missing_docs) == 0) {
     message(glue::glue("All exported functions have corresponding help files in {pkg_name}"))
-    export_help_score <- 1
+    export_help <- 1
   } else {
     message(glue::glue("The following exported functions are missing help files in {pkg_name}"))
     print(missing_docs)
-    export_help_score <- 0
+    export_help <- 0
   }
-  return(export_help_score)
+  return(export_help)
+}
+
+#' assess_description_file_elements
+#'
+#' @param pkg_name - name of the package 
+#' @param pkg_source_path - pkg_source_path - source path for install local
+#'
+#' @return - list - list with scores for description file elements
+#' @export
+#'
+assess_description_file_elements <- function(pkg_name, pkg_source_path) {
+  
+  desc_elements <- sanofi.risk.metric::get_pkg_desc(pkg_source_path, 
+                                                    fields = c(
+                                                               "Package", 
+                                                               "BugReports",
+                                                               "License",
+                                                               "Maintainer",
+                                                               "URL"
+                                                               ))
+  
+  if (is.null(desc_elements$BugReports) | (is.na(desc_elements$BugReports))) {
+    message(glue::glue("{pkg_name} does not have bug reports URL"))
+    has_bug_reports_url <- 0
+  } else {
+    message(glue::glue("{pkg_name} has bug reports URL"))
+    has_bug_reports_url <- 1
+  }
+  
+  if (is.null(desc_elements$License) | (is.na(desc_elements$License))) {
+    message(glue::glue("{pkg_name} does not have a license"))
+    license <- 0
+  } else {
+    message(glue::glue("{pkg_name} has a license"))
+    license <- 1
+  }
+  
+  if (is.null(desc_elements$Maintainer) | (is.na(desc_elements$Maintainer))) {
+    message(glue::glue("{pkg_name} does not have a maintainer"))
+    has_maintainer <- 0
+  } else {
+    message(glue::glue("{pkg_name} has a maintainer"))
+    has_maintainer <- 1
+  }
+  
+  if (is.null(desc_elements$URL) | (is.na(desc_elements$URL))) {
+    message(glue::glue("{pkg_name} does not have a website"))
+    has_website <- 0
+  } else {
+    message(glue::glue("{pkg_name} has a website"))
+    has_website <- 1
+  }
+  
+  desc_elements_scores <- list(
+    has_bug_reports_url = has_bug_reports_url,
+    license = license,
+    has_maintainer = has_maintainer,
+    has_website = has_website
+  )
+  
+  return(desc_elements_scores)
 }
 
 #' Run all relevant documentation riskmetric checks
@@ -34,10 +95,20 @@ assess_export_help <- function(pkg_name, pkg_source_path) {
 doc_riskmetric <- function(pkg_name, pkg_source_path) {
   
   export_help <- 
-    sanofi.risk.metric::assess_export_help(pkg_name, pkg_source_path)
+    sanofi.risk.metric::assess_export_help(pkg_name, 
+                                           pkg_source_path)
+  
+  desc_elements <- 
+    sanofi.risk.metric::assess_description_file_elements(pkg_name, 
+                                                         pkg_source_path)
+  
   
   doc_scores <- list(
-    export_help = export_help
+    export_help = export_help,
+    has_bug_reports_url = desc_elements$has_bug_reports_url,
+    license = desc_elements$license,
+    has_maintainer = desc_elements$has_maintainer,
+    has_website = desc_elements$has_website 
   )
   
   # passess <- riskmetric::pkg_assess(
