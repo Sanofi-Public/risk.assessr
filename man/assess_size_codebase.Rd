@@ -7,12 +7,12 @@
 assess_size_codebase(pkg_source_path)
 }
 \arguments{
-\item{pkg_source_path}{- pkg_source_path - source path for install local}
+\item{pkg_source_path}{- source path for install local}
 }
 \value{
 - size_codebase - numeric value between \code{0} (for small codebase) and \code{1} (for large codebase)
 }
 \description{
-#' Scores packages based on its codebase size, 
+Scores packages based on its codebase size, 
 as determined by number of lines of code.
 }

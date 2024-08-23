@@ -28,7 +28,7 @@ test_that("test doc_riskmetrics", {
     sanofi.risk.metric::doc_riskmetric(pkg_name, 
                                        pkg_source_path)
   
-  expect_identical(length(doc_riskmetric_test), 6L)
+  expect_identical(length(doc_riskmetric_test), 7L)
   
   expect_true(checkmate::check_list(doc_riskmetric_test, all.missing = FALSE))
   

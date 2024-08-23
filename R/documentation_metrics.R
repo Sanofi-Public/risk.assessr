@@ -96,10 +96,10 @@ assess_description_file_elements <- function(pkg_name, pkg_source_path) {
 
 #' assess codebase size
 #'
-#' @description #' Scores packages based on its codebase size, 
+#' @description Scores packages based on its codebase size, 
 #' as determined by number of lines of code.
 #'
-#' @param pkg_source_path - pkg_source_path - source path for install local 
+#' @param pkg_source_path - source path for install local 
 #'
 #' @return - size_codebase - numeric value between \code{0} (for small codebase) and \code{1} (for large codebase)
 #' @export
@@ -142,6 +142,34 @@ assess_size_codebase <- function(pkg_source_path) {
     return(size_codebase)
 }
 
+#' Assess vignettes
+#'
+#' @param pkg_name - name of the package 
+#' @param pkg_source_path - source path for install local 
+#' 
+#' @return - has_vignettes - variable with score
+#' @export
+#'
+assess_vignettes <- function(pkg_name, pkg_source_path) {
+  
+  folder <- c(source = "/vignettes", bundle = "/inst/doc", binary = "/doc")
+  files <- unlist(lapply(paste0(pkg_source_path, folder), list.files, full.names = TRUE))
+  
+  file_path = unique(tools::file_path_sans_ext(files))
+  filename = basename(file_path)
+  names(file_path) <- filename
+  
+  if (length(filename) == 0) {
+    message(glue::glue("{pkg_name} has no vignettes"))
+    has_vignettes <- 0
+  } else {
+    message(glue::glue("{pkg_name} has vignettes"))
+    has_vignettes <- 1
+  }
+  
+  return(has_vignettes)
+}
+
 #' Run all relevant documentation riskmetric checks
 #'
 #' @param pkg_name name of the package
@@ -164,13 +192,18 @@ doc_riskmetric <- function(pkg_name, pkg_source_path) {
   size_codebase <- 
     sanofi.risk.metric::assess_size_codebase(pkg_source_path)
   
+  has_vignettes <- 
+    sanofi.risk.metric::assess_vignettes(pkg_name, 
+                                           pkg_source_path)
+  
   doc_scores <- list(
     export_help = export_help,
     has_bug_reports_url = desc_elements$has_bug_reports_url,
     license = desc_elements$license,
     has_maintainer = desc_elements$has_maintainer,
     has_website = desc_elements$has_website,
-    size_codebase = size_codebase 
+    size_codebase = size_codebase,
+    has_vignettes = has_vignettes
   )
   
   # passess <- riskmetric::pkg_assess(
