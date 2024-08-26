@@ -51,9 +51,6 @@ assess_pkg_r_package <- function(package_name, version=NA) {
   # Set up the package using the temporary file
   install_list <- sanofi.risk.metric::set_up_pkg(modified_tar_file)
 
-    stop("Failed to download the package from the provided URL: ", package_url, ". Error: ", e$message)
-  })
-  
   # Set up the package using the temporary file
   install_list <- sanofi.risk.metric::set_up_pkg(temp_file)
 
