@@ -5,6 +5,8 @@
 \title{Assess Rd files for example or examples}
 \usage{
 assess_examples(pkg_name, pkg_source_path)
+
+assess_examples(pkg_name, pkg_source_path)
 }
 \arguments{
 \item{pkg_name}{- name of the package}
@@ -13,7 +15,11 @@ assess_examples(pkg_name, pkg_source_path)
 }
 \value{
 has_examples - variable with score
+
+has_examples - variable with score
 }
 \description{
+Assess Rd files for example or examples
+
 Assess Rd files for example or examples
 }
