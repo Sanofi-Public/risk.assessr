@@ -261,6 +261,14 @@ doc_riskmetric <- function(pkg_name, pkg_source_path) {
     sanofi.risk.metric::assess_vignettes(pkg_name, 
                                            pkg_source_path)
   
+  has_examples <- 
+    sanofi.risk.metric::assess_examples(pkg_name, 
+                                         pkg_source_path)
+  
+  has_news <- 
+    sanofi.risk.metric::assess_news(pkg_name, 
+                                        pkg_source_path)
+  
   doc_scores <- list(
     export_help = export_help,
     has_bug_reports_url = desc_elements$has_bug_reports_url,
@@ -268,13 +276,14 @@ doc_riskmetric <- function(pkg_name, pkg_source_path) {
     has_maintainer = desc_elements$has_maintainer,
     has_website = desc_elements$has_website,
     size_codebase = size_codebase,
-    has_vignettes = has_vignettes
+    has_vignettes = has_vignettes,
+    has_examples = has_examples,
+    has_news = has_news
   )
   
   # passess <- riskmetric::pkg_assess(
   #   pref,
   #   assessments = list(
-  #     riskmetric::assess_has_news,
   #     riskmetric::assess_has_source_control, # R/pkg_ref_cache_source_control_url.R
   #     riskmetric::assess_news_current
   #   )
