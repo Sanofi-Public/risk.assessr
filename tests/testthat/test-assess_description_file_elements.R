@@ -36,6 +36,14 @@ test_that("test assess_description_file_elements for all elements present", {
     desc_elements_test <- 
       sanofi.risk.metric::assess_description_file_elements(pkg_name, 
                                                            pkg_source_path),
+    glue::glue("{pkg_name} has a source control"),
+    fixed = TRUE
+  )
+  
+  testthat::expect_message(
+    desc_elements_test <- 
+      sanofi.risk.metric::assess_description_file_elements(pkg_name, 
+                                                           pkg_source_path),
     glue::glue("{pkg_name} has a license"),
     fixed = TRUE
   )
@@ -59,7 +67,7 @@ test_that("test assess_description_file_elements for all elements present", {
     sanofi.risk.metric::assess_description_file_elements(pkg_name, 
                                        pkg_source_path)
   
-  expect_identical(length(desc_elements_test), 4L)
+  expect_identical(length(desc_elements_test), 5L)
   
   expect_true(checkmate::check_list(desc_elements_test, all.missing = FALSE))
   
@@ -104,6 +112,14 @@ test_that("test assess_description_file_elements for all elements present", {
     desc_elements_test <- 
       sanofi.risk.metric::assess_description_file_elements(pkg_name, 
                                                            pkg_source_path),
+    glue::glue("{pkg_name} does not have a source control"),
+    fixed = TRUE
+  )
+  
+  testthat::expect_message(
+    desc_elements_test <- 
+      sanofi.risk.metric::assess_description_file_elements(pkg_name, 
+                                                           pkg_source_path),
     glue::glue("{pkg_name} does not have a license"),
     fixed = TRUE
   )
@@ -128,7 +144,7 @@ test_that("test assess_description_file_elements for all elements present", {
     sanofi.risk.metric::assess_description_file_elements(pkg_name, 
                                                          pkg_source_path)
   
-  expect_identical(length(desc_elements_test), 4L)
+  expect_identical(length(desc_elements_test), 5L)
   
   expect_true(checkmate::check_list(desc_elements_test, all.missing = FALSE))
   

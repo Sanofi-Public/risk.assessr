@@ -29,7 +29,7 @@ test_that("test doc_riskmetrics", {
                                        pkg_ver,
                                        pkg_source_path)
   
-  expect_identical(length(doc_riskmetric_test), 10L)
+  expect_identical(length(doc_riskmetric_test), 11L)
   
   expect_true(checkmate::check_list(doc_riskmetric_test, all.missing = FALSE))
   

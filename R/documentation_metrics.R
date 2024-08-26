@@ -126,11 +126,27 @@ assess_description_file_elements <- function(pkg_name, pkg_source_path) {
     has_website <- 1
   }
   
+  if (is.null(desc_elements$URL) | (is.na(desc_elements$URL))) {
+    message(glue::glue("{pkg_name} does not have a source control"))
+    has_source_control <- 0
+  } else {
+    patterns <- "github\\.com|bitbucket\\.org|gitlab\\.com"
+    matches <- grep(patterns, desc_elements$URL, value = TRUE)
+    if (length(matches) == 0) {
+      message(glue::glue("{pkg_name} does not have a source control"))
+      has_source_control <- 0
+    } else {
+      message(glue::glue("{pkg_name} has a source control"))
+      has_source_control <- 1
+    }
+  }
+  
   desc_elements_scores <- list(
     has_bug_reports_url = has_bug_reports_url,
     license = license,
     has_maintainer = has_maintainer,
-    has_website = has_website
+    has_website = has_website,
+    has_source_control = has_source_control
   )
   
   return(desc_elements_scores)
@@ -317,6 +333,7 @@ doc_riskmetric <- function(pkg_name, pkg_ver, pkg_source_path) {
   doc_scores <- list(
     export_help = export_help,
     has_bug_reports_url = desc_elements$has_bug_reports_url,
+    has_source_control = desc_elements$has_source_control,
     license = desc_elements$license,
     has_maintainer = desc_elements$has_maintainer,
     has_website = desc_elements$has_website,
@@ -326,13 +343,6 @@ doc_riskmetric <- function(pkg_name, pkg_ver, pkg_source_path) {
     has_news = has_news,
     news_current = news_current
   )
-  
-  # passess <- riskmetric::pkg_assess(
-  #   pref,
-  #   assessments = list(
-  #     riskmetric::assess_has_source_control, # R/pkg_ref_cache_source_control_url.R
-  #   )
-  # )
   
   return(doc_scores)
 }
