@@ -1,3 +1,45 @@
+#' Assess Rd files for example or examples
+#'
+#' @param pkg_name - name of the package 
+#' @param pkg_source_path - source path for install local
+#'
+#' @return has_examples - variable with score
+#' @export
+assess_examples <- function(pkg_name, pkg_source_path) {
+  
+  # get all information on Rd objects
+  db <- tools::Rd_db(dir = pkg_source_path)
+  
+  # omit whole package rd
+  db <- db[!names(db) %in% c(paste0(pkg_name, "-package.Rd"), paste0(pkg_name,".Rd"))]
+  
+  extract_section <- function(rd, section) {
+    lines <- unlist(strsplit(as.character(rd), "\n"))
+    start <- grep(paste0("^\\\\", section), lines)
+    if (length(start) == 0) return(NULL)
+    end <- grep("^\\\\", lines[-(1:start)], fixed = TRUE)
+    end <- if (length(end) == 0) length(lines) else start + end[1] - 2
+    paste(lines[(start + 1):end], collapse = "\n")
+  }
+  # check Rd objects for example examples usage
+  examples <- lapply(db, extract_section, section = "examples")
+  example <- lapply(db, extract_section, section = "example")
+  
+  # filter out NULL values
+  examples <- Filter(Negate(is.null), examples)
+  example <- Filter(Negate(is.null), example)
+  
+  if (length(examples) > 0 | length(example) > 0) {
+    message(glue::glue("{pkg_name} has examples"))
+    has_examples <- 1
+  } else {
+    message(glue::glue("{pkg_name} has no examples"))
+    has_examples <- 0
+  }
+
+}
+
+
 #' Assess exported functions to namespace
 #'
 #' @param data pkg source path
