@@ -19,7 +19,7 @@
 #' @examples
 #' \dontrun{
 #' # Example usage of assess_pkg_r_package
-#' results <- assess_pkg_r_package("dplyr", version = "1.0.7")
+#' results <- assess_pkg_r_package("here", version = "1.0.1")
 #' print(results)
 #' }
 #'

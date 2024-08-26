@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' \dontrun{
-#'   modified_tar <- modify_description_file("path/to/package.tar.gz", "mypackage")
+#'   modified_tar <- modify_description_file("path/to/mypackage.tar.gz", "mypackage")
 #'   print(modified_tar)
 #' }
 #'
@@ -36,6 +36,11 @@ modify_description_file <- function(tar_file, package_name) {
   
   # Modify the DESCRIPTION file
   description_content <- readLines(description_file)
+  # Check if the line already exists
+  if ("Config/build/clean-inst-doc: false" %in% description_content) {
+    return(tar_file)
+  }
+  
   description_content <- c(description_content, "Config/build/clean-inst-doc: false")
   writeLines(description_content, description_file)
   
