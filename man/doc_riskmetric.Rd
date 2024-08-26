@@ -4,10 +4,12 @@
 \alias{doc_riskmetric}
 \title{Run all relevant documentation riskmetric checks}
 \usage{
-doc_riskmetric(pkg_name, pkg_source_path)
+doc_riskmetric(pkg_name, pkg_ver, pkg_source_path)
 }
 \arguments{
 \item{pkg_name}{name of the package}
+
+\item{pkg_ver}{version of the package}
 
 \item{pkg_source_path}{path to package source code (untarred)}
 }

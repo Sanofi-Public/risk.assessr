@@ -159,6 +159,45 @@ assess_news <- function(pkg_name, pkg_source_path) {
   return(has_news)
 }
 
+#' Assess Rd files for news
+#'
+#' @param pkg_name - name of the package
+#' @param pkg_ver - package version 
+#' @param pkg_source_path - source path for install local
+#'
+#' @return news_current - variable with score
+#' @export
+assess_news_current <- function(pkg_name, pkg_ver, pkg_source_path) {
+  
+  # get NEWS.md filepath
+  news_path <- file.path(pkg_source_path, "NEWS.md")
+  
+  # check news for latest package version
+  if (file.exists(news_path)) {
+    news_content <- readLines(news_path)
+    version_pattern <- paste0("^# ",
+                              pkg_name,
+                              " ",
+                              pkg_ver)
+    version_lines <- grep(version_pattern, 
+                          news_content, 
+                          value = TRUE)
+  } else {
+    message(glue::glue("{pkg_name} has no news"))
+    version_lines <- character(0)
+  }
+  
+  if (length(version_lines) == 0) {
+    message(glue::glue("{pkg_name} has no current news"))
+    news_current <- 0
+  } else {
+    message(glue::glue("{pkg_name} has current news"))
+    news_current <- 1
+  }
+  return(news_current)
+}
+
+
 #' assess codebase size
 #'
 #' @description Scores packages based on its codebase size, 
@@ -238,13 +277,14 @@ assess_vignettes <- function(pkg_name, pkg_source_path) {
 #' Run all relevant documentation riskmetric checks
 #'
 #' @param pkg_name name of the package
+#' @param pkg_ver version of the package
 #' @param pkg_source_path path to package source code (untarred)
 #'
 #' @returns raw riskmetric outputs
 #'  
 #' @export
 #'
-doc_riskmetric <- function(pkg_name, pkg_source_path) {
+doc_riskmetric <- function(pkg_name, pkg_ver, pkg_source_path) {
   
   export_help <- 
     sanofi.risk.metric::assess_export_help(pkg_name, 
@@ -269,6 +309,11 @@ doc_riskmetric <- function(pkg_name, pkg_source_path) {
     sanofi.risk.metric::assess_news(pkg_name, 
                                         pkg_source_path)
   
+  news_current <- 
+    sanofi.risk.metric::assess_news_current(pkg_name,
+                                            pkg_ver,
+                                            pkg_source_path)
+  
   doc_scores <- list(
     export_help = export_help,
     has_bug_reports_url = desc_elements$has_bug_reports_url,
@@ -278,14 +323,14 @@ doc_riskmetric <- function(pkg_name, pkg_source_path) {
     size_codebase = size_codebase,
     has_vignettes = has_vignettes,
     has_examples = has_examples,
-    has_news = has_news
+    has_news = has_news,
+    news_current = news_current
   )
   
   # passess <- riskmetric::pkg_assess(
   #   pref,
   #   assessments = list(
   #     riskmetric::assess_has_source_control, # R/pkg_ref_cache_source_control_url.R
-  #     riskmetric::assess_news_current
   #   )
   # )
   

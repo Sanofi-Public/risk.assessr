@@ -25,10 +25,11 @@ test_that("test doc_riskmetrics", {
   pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
   
   doc_riskmetric_test <- 
-    sanofi.risk.metric::doc_riskmetric(pkg_name, 
+    sanofi.risk.metric::doc_riskmetric(pkg_name,
+                                       pkg_ver,
                                        pkg_source_path)
   
-  expect_identical(length(doc_riskmetric_test), 9L)
+  expect_identical(length(doc_riskmetric_test), 10L)
   
   expect_true(checkmate::check_list(doc_riskmetric_test, all.missing = FALSE))
   
