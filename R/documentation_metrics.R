@@ -68,8 +68,9 @@ assess_export_help <- function(pkg_name, pkg_source_path) {
     message(glue::glue("All exported functions have corresponding help files in {pkg_name}"))
     export_help <- 1
   } else {
-    message(glue::glue("The following exported functions are missing help files in {pkg_name}"))
-    print(missing_docs)
+    message(glue::glue("Some exported functions are missing help files in {pkg_name}"))
+    # message(glue::glue("The following exported functions are missing help files in {pkg_name}"))
+    # print(missing_docs) comment out - reactivate if needed
     export_help <- 0
   }
   return(export_help)

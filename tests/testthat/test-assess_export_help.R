@@ -77,7 +77,7 @@ test_that("assess exports for missing help files works correctly", {
     
     testthat::expect_message(
       export_help <- sanofi.risk.metric::assess_export_help(pkg_name, pkg_source_path),
-      glue::glue("The following exported functions are missing help files in {(pkg_name)}"),
+      glue::glue("Some exported functions are missing help files in {(pkg_name)}"),
       fixed = TRUE
     )
     
