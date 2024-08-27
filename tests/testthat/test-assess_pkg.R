@@ -115,6 +115,31 @@
 #   }
 # })
 
+install_package_local <- function (pkg_source_path) {
+  pkg_disp <- sanofi.risk.metric::get_pkg_name(pkg_source_path)
+  message(glue::glue("installing {pkg_disp} locally"))
+  tryCatch(
+    {
+      remotes::install_local(
+        pkg_source_path,
+        upgrade = "never",
+        force = TRUE,
+        quiet = TRUE,
+        INSTALL_opts = "--with-keep.source"
+      )
+      message(glue::glue("{pkg_disp} installed locally"))
+      return(TRUE)
+    },  
+    error=function(cond) {
+      message(glue::glue("Local installation issue is: {cond}"))
+      message(glue::glue("{pkg_disp} not installed locally"))
+      return(FALSE)
+    })    
+} 
+
+Sys.setenv("R_TESTS" = "")
+library(testthat)
+
 test_that("running assess_pkg for test package in tar file - no exports", {
 
   r = getOption("repos")
@@ -133,9 +158,16 @@ test_that("running assess_pkg for test package in tar file - no exports", {
   pkg_source_path <- install_list$pkg_source_path
   rcmdcheck_args <- install_list$rcmdcheck_args
 
+  # install package locally to ensure test works
+  package_installed <- 
+    install_package_local(pkg_source_path)
+  package_installed <- TRUE
+  
   if (package_installed == TRUE ) {
 
-
+    # ensure path is set to package source path
+    rcmdcheck_args$path <- pkg_source_path
+    
     assess_package <-
       sanofi.risk.metric::assess_pkg(pkg_source_path,
                                      rcmdcheck_args)
@@ -227,7 +259,8 @@ test_that("running assess_pkg for test package in tar file - no exports", {
   }
 })
 
-
+Sys.setenv("R_TESTS" = "")
+library(testthat)
 
 test_that("running rcmd check for test package - error handling", {
   
@@ -242,7 +275,15 @@ test_that("running rcmd check for test package - error handling", {
   pkg_source_path <- install_list$pkg_source_path
   rcmdcheck_args <- install_list$rcmdcheck_args
   
+  # install package locally to ensure test works
+  package_installed <- 
+    install_package_local(pkg_source_path)
+  package_installed <- TRUE
+  
   if (package_installed == TRUE ) {
+    
+    # ensure path is set to package source path
+    rcmdcheck_args$path <- pkg_source_path
     
     assess_package <- 
       sanofi.risk.metric::assess_pkg(pkg_source_path,
