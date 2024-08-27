@@ -95,7 +95,7 @@ find_reverse_dependencies <- function(path){
                                                 "Imports", 
                                                 "Suggests", 
                                                 "LinkingTo"),
-                               bioconductor = TRUE)
+                               bioconductor = FALSE)
   return(rev_deps)
 }
 

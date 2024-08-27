@@ -142,6 +142,7 @@ library(testthat)
 
 test_that("running assess_pkg for test package in tar file - no exports", {
 
+  # set CRAN repo to calculate reverse dependencies
   r = getOption("repos")
   r["CRAN"] = "http://cran.us.r-project.org"
   options(repos = r)
@@ -263,6 +264,11 @@ Sys.setenv("R_TESTS" = "")
 library(testthat)
 
 test_that("running rcmd check for test package - error handling", {
+  
+  # set CRAN repo to calculate reverse dependencies
+  r = getOption("repos")
+  r["CRAN"] = "http://cran.us.r-project.org"
+  options(repos = r)
   
   check_type <- "2"
   
