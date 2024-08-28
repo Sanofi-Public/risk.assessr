@@ -5,3 +5,5 @@ test.package.0003,test.package.0003.tar.gz,1 note  - new submission to CRAN; 1 E
 test.package.0004,test.package.0004.tar.gz,no notes - no tests
 test.package.0005,test.package.0005.tar.gz,1 notes - no testable functions
 test.package.0006,test.package.0006.tar.gz,1 notes - no R directory
+test.package.0007,test.package.0007.tar.gz,8 notes - DESCRIPTION elements
+

@@ -82,7 +82,7 @@ test_that("test assess_description_file_elements for all elements present", {
   r["CRAN"] = "http://cran.us.r-project.org"
   options(repos = r)
   
-  dp <- system.file("test-data/test.package.0008_0.1.0.tar.gz",
+  dp <- system.file("test-data/test.package.0007_0.1.0.tar.gz",
                     package = "sanofi.risk.metric")
   
   # set up package

@@ -151,7 +151,7 @@ test_that("running tm for created package in tar file with no R directory", {
 
 test_that("running tm for created package in tar file with empty R directory", {
   
-  dp <- system.file("test-data/test.package.0007_0.1.0.tar.gz",
+  dp <- system.file("test-data/test.package.0006_0.1.0.tar.gz",
                     package = "sanofi.risk.metric")
   
   # set up package
