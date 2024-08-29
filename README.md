@@ -4,7 +4,7 @@
 
 [![R-CMD-check](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/R-CMD-check.yaml)
 [![test-coverage](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/test-coverage.yaml)
-![Coverage](https://img.shields.io/badge/coverage-92%25-green.svg)
+![Coverage](https://img.shields.io/badge/coverage-0%25-green.svg)
 
 
 <!-- badges: end -->
