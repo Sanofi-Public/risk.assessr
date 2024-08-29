@@ -74,10 +74,14 @@ assess_pkg <- function(
                                                       pkg_source_path,
                                                       metadata)
   
-  pscore <- sanofi.risk.metric::pkg_riskmetric(pkg_source_path)
+  doc_scores <- 
+    sanofi.risk.metric::doc_riskmetric(pkg_name, 
+                                       pkg_ver, 
+                                       pkg_source_path)
   
-  results <- sanofi.risk.metric::update_pscore_results(results, pscore)
-  
+  results <- 
+    sanofi.risk.metric::update_results_doc_scores(results, 
+                                                  doc_scores)
   # run R code coverage
   covr_list <- run_coverage(
     pkg_source_path,  # must use untarred package dir
