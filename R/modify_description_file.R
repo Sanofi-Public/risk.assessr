@@ -13,6 +13,12 @@
 #' \dontrun{
 #'   modified_tar <- modify_description_file("path/to/mypackage.tar.gz", "mypackage")
 #'   print(modified_tar)
+#'   # Unpack the tar.gz file
+#'   contents <- sanofi.risk.metric::unpack_tarball(modified_tar)
+#    # Read and display the DESCRIPTION file
+#'   description_path <- file.path(contents, "DESCRIPTION")
+#'   description_content <- readLines(description_path)
+#'   cat(description_content, sep = "\n")
 #' }
 #'
 #' @importFrom utils untar tar

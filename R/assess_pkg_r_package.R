@@ -70,6 +70,7 @@ assess_pkg_r_package <- function(package_name, version=NA) {
   
   # Clean up: remove the temporary file
   unlink(temp_file)
+  return(assess_package)
 }
 
 
