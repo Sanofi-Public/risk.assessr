@@ -77,7 +77,7 @@ jobs:
           sed -i 's|!\\[Coverage\\](.*)|![Coverage]('"${{ env.badge_url }}"')|g' README.md
           git add README.md
           git commit -m 'Update README with coverage badge' || echo "No changes to commit"
-          git push origin HEAD
+          git push origin $(git rev-parse --abbrev-ref HEAD)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
