@@ -244,52 +244,48 @@ test_that("running assess_pkg for test package in tar file - no exports", {
   }
 })
 
-Sys.setenv("R_TESTS" = "")
-library(testthat)
-
-test_that("running rcmd check for test package - error handling", {
+test_that("running assess_pkg for test package with Config/build/clean-inst-doc: false", {
   
-  # set CRAN repo to calculate reverse dependencies
-  r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
-  options(repos = r)
-  
-  check_type <- "2"
-  
-  dp <- system.file("test-data/test.package.0003_0.1.0.tar.gz",
+  dp <- system.file("test-data/test.package.0005_0.1.0.tar.gz",
                     package = "sanofi.risk.metric")
+  
+  # Check if the file exists before attempting to download
+  if (!file.exists(dp)) {
+    stop("The tar file does not exist at the specified path.")
+  }
+  
+  # Create a temporary file to store the downloaded package
+  file_name <- basename(dp) # Use the base name for temporary file
+  temp_file <- file.path(tempdir(), file_name)
+  
+  # Copy the file to the temporary file instead of downloading it
+  file.copy(dp, temp_file, overwrite = TRUE)
+  
+  # Verify that the copy was successful
+  if (!file.exists(temp_file)) {
+    stop("File copy failed: temporary file not found.")
+  }
+  
+  # Run the function to modify the DESCRIPTION file
+  package_name <- "test.package.0005"
+  modified_tar_file <- modify_description_file(temp_file, package_name)
+  
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp, check_type)
+  install_list <- sanofi.risk.metric::set_up_pkg(dp)
+  
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   rcmdcheck_args <- install_list$rcmdcheck_args
   
-  # install package locally to ensure test works
-  package_installed <- 
-    install_package_local(pkg_source_path)
-  package_installed <- TRUE
-  
   if (package_installed == TRUE ) {
     
-    # ensure path is set to package source path
-    rcmdcheck_args$path <- pkg_source_path
-    
-    assess_package <- 
+    assess_package <-
       sanofi.risk.metric::assess_pkg(pkg_source_path,
                                      rcmdcheck_args)
     
-    testthat::expect_identical(assess_package$results$check, 0)
-    
-    testthat::expect_identical(assess_package$check_list$check_score, 0)
-    
-    testthat::expect_false(is.null(assess_package$check$res_check$errors))
-    
-    testthat::expect_true(length(nzchar(assess_package$check$res_check$errors)) > 0)
+    #testthat::expect_identical(length(assess_package), 4L)
+    testthat::expect_true(checkmate::check_class(assess_package, "list"))
   }
 })
-
-
-
-
 

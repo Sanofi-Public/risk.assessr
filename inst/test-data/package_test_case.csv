@@ -1,9 +1,9 @@
-test package,tar name,Comments
-test.package.0001,test.package.0001.tar.gz,1 note for new submission to CRAN
+test package,tar name,Comments;
+test.package.0001,test.package.0001.tar.gz,1 note for new submission to CRAN;
 test.package.0002,test.package.0002.tar.gz,2 notes - new submission to CRAN; problems with License
 test.package.0003,test.package.0003.tar.gz,1 note  - new submission to CRAN; 1 Error - test failure
 test.package.0004,test.package.0004.tar.gz,no notes - no tests
 test.package.0005,test.package.0005.tar.gz,1 notes - no testable functions
 test.package.0006,test.package.0006.tar.gz,1 notes - no R directory
 test.package.0007,test.package.0007.tar.gz,8 notes - DESCRIPTION elements
-
+test.package.0008,test.package.0008.tar.gz,DESCRIPTION file with "Config/build/clean-inst-doc: FALSE"

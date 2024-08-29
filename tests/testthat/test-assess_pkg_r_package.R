@@ -38,7 +38,7 @@ test_that("test on unvalid tar link", {
   # Test the result
   expect_error(assess_pkg_r_package("some_package"))
 })
-  
+
 test_that("test on fail url package not found", {
   # Mock function to simulate `req_perform`
   mock_req_perform_fail <- function(request) {

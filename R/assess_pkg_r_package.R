@@ -27,7 +27,6 @@
 #' @importFrom utils download.file
 #' @export
 assess_pkg_r_package <- function(package_name, version=NA) {
-
   package_data <- sanofi.risk.metric::get_tar_package(package_name, version=version)
   
   if (is.null(package_data$error)) {
@@ -35,25 +34,31 @@ assess_pkg_r_package <- function(package_name, version=NA) {
   } else {
     return(package_data)
   }
-
+  
   # Create a temporary file to store the downloaded package
   temp_file <- tempfile(fileext = ".tar.gz")
-
+  
   tryCatch({
     download.file(package_url, temp_file, mode = "wb")
   }, error = function(e) {
-    stop("Failed to download the package from the provided URL: ", package_url, ". Error: ", e$message)
+    new_error_msg <- paste("Failed to download the package from the provided URL", package_data$tar_link, ". Error:", e$message)
+    stop(new_error_msg, call. = FALSE)
   })
   
+  package_name <- basename(package_url)
+  package_name <- sub("_.*\\.tar\\.gz$", "", package_name)
+  modified_tar_file <- modify_description_file(temp_file, package_name)
+  
   # Set up the package using the temporary file
-  install_list <- sanofi.risk.metric::set_up_pkg(temp_file)
-
+  install_list <- sanofi.risk.metric::set_up_pkg(modified_tar_file)
+  
+  
   # Extract information from the installation list
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   rcmdcheck_args <- install_list$rcmdcheck_args
-
+  
   # Check if the package was installed successfully
   if (package_installed == TRUE) {
     # Assess the package
@@ -62,14 +67,10 @@ assess_pkg_r_package <- function(package_name, version=NA) {
   } else {
     message("Package installation failed.")
   }
-
+  
   # Clean up: remove the temporary file
   unlink(temp_file)
   return(assess_package)
 }
-
-
-
-
 
 
