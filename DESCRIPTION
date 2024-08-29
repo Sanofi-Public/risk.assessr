@@ -19,8 +19,7 @@ Imports:
   rcmdcheck,
   rlang,
   httr2,
-  jsonlite,
-  riskmetric
+  jsonlite
 Suggests:
   forcats,
   fs,
