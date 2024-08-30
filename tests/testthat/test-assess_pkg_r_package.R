@@ -135,9 +135,18 @@ test_that("test on fail url package not found", {
 #   result$results$date_time <- NA
 #   result$results$pkg_source_path <- NA
 #   result$check_list$res_check <- NA
-#   
+#   results$executor <- NA
+#   results$sysname <- NA
+#   results$version <- NA
+#   results$release <- NA
+#   results$machine <- NA
 #   # Check that the result is a list
 #   expect_type(result, "list")
 #   expect_snapshot(result)
 # })
+
+
+
+
+
 
