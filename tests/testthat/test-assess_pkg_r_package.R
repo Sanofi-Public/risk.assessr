@@ -5,37 +5,44 @@ library(jsonlite)
 
 test_that("test on unvalid tar link", {
   # Suppress warnings within this scope
-  suppressWarnings({
-    # Mock function to simulate `req_perform`
-    mock_req_perform_sucess <- function(request) {
-      response_body <- list(
-        package_name = "ggplot2",
-        version = "3.3.5",
-        tar_link = "http://example.com/false_link",
-        source = "CRAN",
-        error = NA,
-        version_available = c(
-          "0.1.1", "0.1.2", "0.1.3", "0.1", "0.2", "0.3.0.1", "0.3.0.2", "0.3"
-        )
+
+  # Mock function to simulate `req_perform`
+  mock_req_perform_sucess <- function(request) {
+    response_body <- list(
+      package_name = "ggplot2",
+      version = "3.3.5",
+      tar_link = "http://example.com/false_link",
+      source = "CRAN",
+      error = NA,
+      version_available = c(
+        "0.1.1", "0.1.2", "0.1.3", "0.1", "0.2", "0.3.0.1", "0.3.0.2", "0.3"
       )
-      response_json <- jsonlite::toJSON(response_body, auto_unbox = TRUE)
-      base_response <- httr2::response(
-        status_code = 200,
-        url = "http://example.com",
-        headers = list("Content-Type" = "application/json"),
-        body = charToRaw(response_json)
-      )
-      return(base_response)
-    }
-    
-    local_mocked_bindings(req_perform = mock_req_perform_sucess, .package = "httr2")
-    
-    # Test for specific error message
+    )
+    response_json <- jsonlite::toJSON(response_body, auto_unbox = TRUE)
+    base_response <- httr2::response(
+      status_code = 200,
+      url = "http://example.com",
+      headers = list("Content-Type" = "application/json"),
+      body = charToRaw(response_json)
+    )
+    return(base_response)
+  }
+  
+  local_mocked_bindings(req_perform = mock_req_perform_sucess, .package = "httr2")
+  
+  # Test for specific error message
+  expect_error(
+    assess_pkg_r_package("some_package"),
+    regexp = "Failed to download the package from the provided URL http://example.com/false_link"
+  )
+  
+  expect_warning(
     expect_error(
       assess_pkg_r_package("some_package"),
-      regexp = "Failed to download the package from the provided URL http://example.com/false_link"
-    )
-  })
+      regexp = "Failed to download the package from the provided URL"
+    ),
+    regexp = NA  # Expect no warnings
+  )
 })
 
 
