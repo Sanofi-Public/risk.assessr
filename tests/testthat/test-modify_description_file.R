@@ -1,5 +1,3 @@
-library(mockery)
-
 test_that("modify_description_file modifies DESCRIPTION correctly", {
 
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",

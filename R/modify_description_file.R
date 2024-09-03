@@ -26,12 +26,14 @@ modify_description_file <- function(tar_file, package_name) {
   # Create a temporary directory
   temp_dir <- tempdir()
 
-  # Try to untar the file and stop if there's an error
   tryCatch({
-    untar(tar_file, exdir = temp_dir)
+    suppressWarnings({
+      untar(tar_file, exdir = temp_dir)
+    })
   }, error = function(e) {
     stop("Error in untarring the file: ", e$message)
   })
+  
 
   package_dir <- file.path(temp_dir, package_name)
   
