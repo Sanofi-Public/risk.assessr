@@ -15,8 +15,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/R-CMD-check.yaml)
-[![test-coverage](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/test-coverage.yaml)
+[![R-CMD-check](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/R-CMD-check.yaml) [![test-coverage](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/test-coverage.yaml)
 
 <!-- badges: end -->
 
@@ -38,15 +37,13 @@ It calculates risk metrics such as:
 
 It also calculates a:
 
-**Traceability matrix** - matching the function / test descriptions to tests and match to test pass/fail 
+**Traceability matrix** - matching the function / test descriptions to tests and match to test pass/fail
 
 # Description
 
 This package has the following steps in the workflow to assess the risk of an R package using riskmetric:
 
-Finding a source for package information locally (**renv.lock** file 
-or installed local package **tar.gz** file
-Assessing the package under validation criteria and scoring the assessment criteria `assess_pkg()`
+Finding a source for package information locally (**renv.lock** file or installed local package **tar.gz** file Assessing the package under validation criteria and scoring the assessment criteria `assess_pkg()`
 
 The results are assembled in a dataset of validation criteria containing an overall risk score for each package as shown in the example below.
 
@@ -70,21 +67,41 @@ This package executes the following tasks:
 
 This package fixes a number of errors in `pharmaR/riskmetric`
 
-1. running R CMD check and code coverage with locally installed packages
-2. user defined weighting works
-3. `Suggests` added to checking dependencies
-4. `assess_dependencies` and `assess_reverse_dependencies` has sigmoid point increased
-5. `assess_dependencies` has value range changed to fit in with other scoring metrics
-
+1.  running R CMD check and code coverage with locally installed packages
+2.  user defined weighting works
+3.  `Suggests` added to checking dependencies
+4.  `assess_dependencies` and `assess_reverse_dependencies` has sigmoid point increased
+5.  `assess_dependencies` has value range changed to fit in with other scoring metrics
 
 # Current/Future directions
 
 -   overall risk profile - `DONE`
 -   traceability matrix - matching the function / test descriptions to tests and match to test pass/fail - `DONE`
-- check package versions with **verdepcheck**
+-   check package versions with **verdepcheck**
 
 # Acknowledgements
 
 The project is inspired by the [`riskmetric`](https://github.com/pharmaR/riskmetric) package and the [`mpn.scorecard`](https://github.com/metrumresearchgroup/mpn.scorecard) package and draws on some of their ideas and functions.
 
 # Installation
+
+-   Create a `Personal Access Token` (PAT) on `github`
+
+    -   Log into your `github` account
+    -   Go to the token settings URL using the [Token Settings URL](https://github.com/settings/tokens)
+        -   (do not forget to add the SSH `Sanofi-GitHub` authorization)
+
+-   Create a `.Renviron` file with your GITHUBTOKEN as:
+
+<!-- -->
+
+    # .Renviron
+    GITHUBTOKEN=dfdxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxfdf
+
+-   restart R session
+-   You can install the package with:
+
+<!-- -->
+
+    auth_token = Sys.getenv("GITHUBTOKEN")
+    devtools::install_github("Sanofi-GitHub/bp-art-sanofi.risk.metric", ref = "main", auth_token = auth_token)
