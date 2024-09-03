@@ -28,7 +28,13 @@ test_that("test on unvalid tar link", {
     return(base_response)
   }
   
+  # Mock `download.file` to simulate an error
+  mock_download_file_error <- function(url, destfile, ...) {
+    stop("Cannot download file from the provided URL")
+  }
+  
   local_mocked_bindings(req_perform = mock_req_perform_sucess, .package = "httr2")
+  local_mocked_bindings(download.file = mock_download_file_error)
   
   # Test for specific error message
   expect_error(
@@ -75,6 +81,7 @@ test_that("test on fail url package not found", {
     # Return the response object
     return(base_response)
   }  
+  
   # Mock the bindings
   local_mocked_bindings(req_perform = mock_req_perform_fail, .package = "httr2")
   
