@@ -234,8 +234,8 @@ test_that("Error in tarring the file", {
 
   # Create the .tar Archive with only the necessary files
   tar_file <- file.path(temp_dir_create, "my_package.tar.gz")
-  tar(tar_file, files = temp_dir_create, compression = "gzip", tar = "internal")
-
+  suppressWarnings(tar(tar_file, files = temp_dir_create, compression = "gzip", tar = "internal")) 
+  
   # Mock the tar function to simulate an error during the tarring process
   mock_tar <- mockery::mock(stop("Tar failed"))
   mockery::stub(modify_description_file, "tar", mock_tar)
