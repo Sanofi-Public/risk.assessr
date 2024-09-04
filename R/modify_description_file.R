@@ -65,7 +65,9 @@ modify_description_file <- function(tar_file, package_name) {
   setwd(temp_dir)
 
   tryCatch({
-    tar(modified_tar_file, files = package_name, compression = "gzip", tar = "internal")
+    suppressWarnings({
+      tar(modified_tar_file, files = package_name, compression = "gzip", tar = "internal")
+    })
   }, error = function(e) {
     setwd(current_wd)  # Ensure we return to the original directory on error
     stop("Error in creating the tar.gz file: ", e$message)
