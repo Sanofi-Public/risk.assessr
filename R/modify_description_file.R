@@ -26,12 +26,14 @@ modify_description_file <- function(tar_file, package_name) {
   # Create a temporary directory
   temp_dir <- tempdir()
 
-  # Try to untar the file and stop if there's an error
   tryCatch({
-    untar(tar_file, exdir = temp_dir)
+    suppressWarnings({
+      untar(tar_file, exdir = temp_dir)
+    })
   }, error = function(e) {
     stop("Error in untarring the file: ", e$message)
   })
+  
 
   package_dir <- file.path(temp_dir, package_name)
   
@@ -63,7 +65,9 @@ modify_description_file <- function(tar_file, package_name) {
   setwd(temp_dir)
 
   tryCatch({
-    tar(modified_tar_file, files = package_name, compression = "gzip", tar = "internal")
+    suppressWarnings({
+      tar(modified_tar_file, files = package_name, compression = "gzip", tar = "internal")
+    })
   }, error = function(e) {
     setwd(current_wd)  # Ensure we return to the original directory on error
     stop("Error in creating the tar.gz file: ", e$message)

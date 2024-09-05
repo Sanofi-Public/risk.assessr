@@ -93,3 +93,25 @@ The project is inspired by the
 package and draws on some of their ideas and functions.
 
 # Installation
+
+- Create a `Personal Access Token` (PAT) on `github`
+
+  - Log into your `github` account
+  - Go to the token settings URL using the [Token Settings
+    URL](https://github.com/settings/tokens)
+    - (do not forget to add the SSH `Sanofi-GitHub` authorization)
+
+- Create a `.Renviron` file with your GITHUBTOKEN as:
+
+<!-- -->
+
+    # .Renviron
+    GITHUBTOKEN=dfdxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxfdf
+
+- restart R session
+- You can install the package with:
+
+<!-- -->
+
+    auth_token = Sys.getenv("GITHUBTOKEN")
+    devtools::install_github("Sanofi-GitHub/bp-art-sanofi.risk.metric", ref = "main", auth_token = auth_token)
