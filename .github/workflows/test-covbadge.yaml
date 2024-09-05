@@ -32,7 +32,7 @@ jobs:
             clean = FALSE,
             install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
           )
-          covr::to_cobertura(cov, file = "coverage.xml")
+          # covr::to_cobertura(cov, file = "coverage.xml")
           coverage_percentage <- round(covr::percent_coverage(cov), 0)
           # Export the coverage percentage as an environment variable
           cat(sprintf("COVERAGE_PERCENTAGE=%s\n", coverage_percentage), file = Sys.getenv("GITHUB_ENV"), append = TRUE)
@@ -50,6 +50,9 @@ jobs:
             color="brightgreen"
           fi
           badge_url="https://img.shields.io/badge/coverage-${coverage}%25-${color}.svg"
+          # Print the badge URL to the GitHub Actions log
+          echo "Badge URL: ${badge_url}"
+          # set badge 
           echo "badge_url=${badge_url}" >> $GITHUB_ENV
           
       - name: Update README with coverage badge for PR
