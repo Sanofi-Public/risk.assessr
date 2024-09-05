@@ -35,7 +35,7 @@ jobs:
           covr::to_cobertura(cov, file = "coverage.xml")
           coverage_percentage <- round(covr::percent_coverage(cov), 0)
           # Export the coverage percentage as an environment variable
-          echo "COVERAGE_PERCENTAGE=${coverage_percentage}" >> $GITHUB_ENV
+          cat(sprintf("COVERAGE_PERCENTAGE=%s\n", coverage_percentage), file = Sys.getenv("GITHUB_ENV"), append = TRUE)
         shell: Rscript {0}
 
       - name: Create Shields.io badge URL
