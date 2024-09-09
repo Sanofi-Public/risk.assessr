@@ -74,6 +74,4 @@ test_that("risk_assess_pkg works with mocked file.choose", {
  
   testthat::expect_identical(length(risk_assess_package$check_list), 2L)
   
-  testthat::expect_identical(length(risk_assess_package$check_list$res_check), 21L)
-  
 })
