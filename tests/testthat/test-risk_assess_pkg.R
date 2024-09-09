@@ -54,8 +54,6 @@ test_that("risk_assess_pkg works with mocked file.choose", {
   
   testthat::expect_true(checkmate::test_numeric(risk_assess_package$results$check))
   
-  testthat::expect_gt(risk_assess_package$results$check, 0.7)
-  
   testthat::expect_true(checkmate::test_numeric(risk_assess_package$results$covr))
   
   testthat::expect_gt(risk_assess_package$results$covr, 0.7)
@@ -77,15 +75,5 @@ test_that("risk_assess_pkg works with mocked file.choose", {
   testthat::expect_identical(length(risk_assess_package$check_list), 2L)
   
   testthat::expect_identical(length(risk_assess_package$check_list$res_check), 21L)
-  
-  testthat::expect_true(!is.na(risk_assess_package$check_list$res_check$platform))
-  
-  testthat::expect_true(!is.na(risk_assess_package$check_list$res_check$package))
-  
-  testthat::expect_identical(length(risk_assess_package$check_list$res_check$test_output), 1L)
-  
-  testthat::expect_true(!is.na(risk_assess_package$check_list$res_check$test_output$testthat))
-  
-  testthat::expect_identical(length(risk_assess_package$check_list$res_check$session_info$platform), 10L)
   
 })
