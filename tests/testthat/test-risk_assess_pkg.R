@@ -2,7 +2,7 @@ library(testthat)
 
 # Mock function for file.choose
 mock_file_choose <- function() {
-  return(system.file("test-data/stringr-1.5.1.tar.gz", 
+  return(system.file("test-data/test.package.0001.tar.gz", 
                      package = "sanofi.risk.metric"))
 }
 
@@ -54,6 +54,8 @@ test_that("risk_assess_pkg works with mocked file.choose", {
   
   testthat::expect_true(checkmate::test_numeric(risk_assess_package$results$check))
   
+  testthat::expect_gt(risk_assess_package$results$check, 0.7)
+  
   testthat::expect_true(checkmate::test_numeric(risk_assess_package$results$covr))
   
   testthat::expect_gt(risk_assess_package$results$covr, 0.7)
@@ -71,7 +73,30 @@ test_that("risk_assess_pkg works with mocked file.choose", {
   testthat::expect_identical(length(risk_assess_package$covr_list$res_cov$coverage), 2L)
   
   testthat::expect_identical(length(risk_assess_package$tm), 5L)
- 
+  
+  testthat::expect_true(!is.na(risk_assess_package$tm$exported_function))
+  
+  testthat::expect_true(!is.na(risk_assess_package$tm$code_script))
+  
+  testthat::expect_true(!is.na(risk_assess_package$tm$documentation))
+  
+  testthat::expect_true(!is.na(risk_assess_package$tm$description))
+  
+  testthat::expect_true(!is.na(risk_assess_package$tm$coverage_percent))
+  
   testthat::expect_identical(length(risk_assess_package$check_list), 2L)
+  
+  testthat::expect_identical(length(risk_assess_package$check_list$res_check), 21L)
+  
+  testthat::expect_true(!is.na(risk_assess_package$check_list$res_check$platform))
+  
+  testthat::expect_true(!is.na(risk_assess_package$check_list$res_check$package))
+  
+  testthat::expect_identical(length(risk_assess_package$check_list$res_check$test_output), 1L)
+  
+  testthat::expect_true(!is.na(risk_assess_package$check_list$res_check$test_output$testthat))
+  
+  testthat::expect_identical(length(risk_assess_package$check_list$res_check$session_info$platform), 10L)
+  
   
 })
