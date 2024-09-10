@@ -16,10 +16,10 @@ risk_assess_pkg <-function() {
   pkg_source_path <- file.choose()
   
   # modify pkg_name
-  pkg_name <- sub("\\.tar\\.gz$", "", basename(pkg_source_path))
+  #pkg_name <- sub("\\.tar\\.gz$", "", basename(pkg_source_path))
   
   # modify DESCRIPTION file
-  modified_tar_file <- modify_description_file(pkg_source_path, pkg_name)
+  modified_tar_file <- modify_description_file(pkg_source_path)
   
   # set CRAN repo to enable running of reverse dependencies
   r = getOption("repos")

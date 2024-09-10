@@ -22,7 +22,7 @@ test_that("modify_description_file modifies DESCRIPTION correctly", {
 
   # Run the function to modify the DESCRIPTION file
   package_name <- "test.package.0001"
-  modified_tar_file <- modify_description_file(temp_file, package_name)
+  modified_tar_file <- modify_description_file(temp_file)
 
   # Extract the modified tarball to a temporary directory
   temp_dir <- tempdir()
@@ -68,7 +68,7 @@ test_that("modify_description_file modifies DESCRIPTION correctly 1bis", {
 
   # Run the function to modify the DESCRIPTION file
   package_name <- "test.package.0005"
-  modified_tar_file <- modify_description_file(temp_file, package_name)
+  modified_tar_file <- modify_description_file(temp_file)
 
   # Extract the modified tarball to a temporary directory
   temp_dir <- tempdir()
@@ -104,7 +104,7 @@ test_that("modify_description_file modifies DESCRIPTION correctly 2", {
   suppressWarnings(tar(tar_file, files = c(description_file)))
 
   # Run the function to modify the DESCRIPTION file
-  modified_tar_file <- modify_description_file(temp_dir_create, "test.package.0001")
+  modified_tar_file <- modify_description_file(temp_dir_create)
 
   # Extract the modified tarball to a separate temporary directory
   suppressWarnings(untar(modified_tar_file, exdir = temp_dir_extract))
@@ -154,7 +154,7 @@ test_that("Config/build/clean-inst-doc: false already in DESCRIPTION file", {
   
   # Run the function to modify the DESCRIPTION file
   package_name <- "test.package.0008"
-  modified_tar_file <- modify_description_file(temp_file, package_name)
+  modified_tar_file <- modify_description_file(temp_file)
   
   # Extract the modified tarball to a temporary directory
   temp_dir <- tempdir()
@@ -202,7 +202,7 @@ test_that("No DESCRIPTION file in package", {
   defer(unlink(tar_file))
   
   # Expect the error when trying to modify the DESCRIPTION file
-  expect_error(modify_description_file(temp_dir_extract, "my_package"),
+  expect_error(modify_description_file(temp_dir_extract),
                "DESCRIPTION file not found in the extracted package directory.")
 })
 
@@ -214,7 +214,7 @@ test_that("Error in untarring the file", {
   mockery::stub(modify_description_file, "untar", mock_untar)
 
   # Now call the function, expecting it to throw the custom error
-  expect_error(modify_description_file("path/to/invalid.tar.gz", "package_name"),
+  expect_error(modify_description_file("path/to/invalid.tar.gz"),
                "Error in untarring the file: Untar failed")
 })
 
@@ -245,36 +245,36 @@ test_that("Error in tarring the file", {
   defer(unlink(tar_file))
 
   # Now call the function, expecting it to throw the custom error
-  expect_error(modify_description_file(tar_file, package_name),
+  expect_error(modify_description_file(tar_file),
                "Error in creating the tar.gz file: Tar failed")
 
 })
 
 
-test_that("modify_description_file throws error when package name and tar file don't match", {
-  
-  dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
-                    package = "sanofi.risk.metric")
-  
-  # Check if the file exists before attempting to download
-  if (!file.exists(dp)) {
-    stop("The tar file does not exist at the specified path.")
-  }
-  
-  # Create a temporary file to store the downloaded package
-  file_name <- basename(dp) # Use the base name for temporary file
-  temp_file <- file.path(tempdir(), file_name)
-  
-  # Copy the file to the temporary file instead of downloading it
-  file.copy(dp, temp_file, overwrite = TRUE)
-  
-  # Verify that the copy was successful
-  if (!file.exists(temp_file)) {
-    stop("File copy failed: temporary file not found.")
-  }
-  
-  # Run the function to modify the DESCRIPTION file
-  expect_error(modified_tar_file <- modify_description_file(temp_file, "Package directory not found"))
-  
-})
+# test_that("modify_description_file throws error when package name and tar file don't match", {
+#   
+#   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
+#                     package = "sanofi.risk.metric")
+#   
+#   # Check if the file exists before attempting to download
+#   if (!file.exists(dp)) {
+#     stop("The tar file does not exist at the specified path.")
+#   }
+#   
+#   # Create a temporary file to store the downloaded package
+#   file_name <- basename(dp) # Use the base name for temporary file
+#   temp_file <- file.path(tempdir(), file_name)
+#   
+#   # Copy the file to the temporary file instead of downloading it
+#   file.copy(dp, temp_file, overwrite = TRUE)
+#   
+#   # Verify that the copy was successful
+#   if (!file.exists(temp_file)) {
+#     stop("File copy failed: temporary file not found.")
+#   }
+#   
+#   # Run the function to modify the DESCRIPTION file
+#   expect_error(modified_tar_file <- modify_description_file(temp_file))
+#   
+# })
 
