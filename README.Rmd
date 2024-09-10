@@ -287,6 +287,8 @@ $res_cov$notes
 risk_assess_package$tm
 ```
 
+# Traceability Matrix 
+
 ```         
 # A tibble: 4 × 5
   exported_function code_script  documentation description                   coverage_percent

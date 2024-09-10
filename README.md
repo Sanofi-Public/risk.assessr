@@ -286,6 +286,8 @@ risk_assess_package$covr_list
 risk_assess_package$tm
 ```
 
+# Traceability Matrix
+
     # A tibble: 4 × 5
       exported_function code_script  documentation description                   coverage_percent
       <chr>             <chr>        <chr>         <chr>                                    <dbl>
