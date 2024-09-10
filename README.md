@@ -129,7 +129,180 @@ To assess your package, do the following steps:
 ``` r
 library(sanofi.risk.metric)
 
-risk_assess_package <- risk_assess_pkg()
-
-head(risk_assess_package)
+# for local tar.gz R package
+risk_assess_package <- sanofi.risk.metric::risk_assess_pkg()
 ```
+
+``` r
+# to check the overall riskmetric results
+risk_assess_package$results
+```
+
+## Metrics and Risk assessment
+
+    risk_assess_package$results
+    $pkg_name
+    [1] "here"
+
+    $pkg_version
+    [1] "1.0.1"
+
+    $pkg_source_path
+      /tmp/RtmpBPtvSG/temp_file_22f8324c0828/here-1.0.1 
+    "/tmp/RtmpBPtvSG/temp_file_22f8324c0828/here-1.0.1" 
+
+    $date_time
+    [1] "2024-09-10 10:35:58"
+
+    $executor
+    [1] "u1004798"
+
+    $sysname
+    [1] "Linux"
+
+    $version
+    [1] "#1 SMP Tue Aug 18 14:50:17 EDT 2020"
+
+    $release
+    [1] "3.10.0-1160.el7.x86_64"
+
+    $machine
+    [1] "x86_64"
+
+    $comments
+    [1] " "
+
+    $has_bug_reports_url
+    [1] 1
+
+    $license
+    [1] 1
+
+    $has_examples
+    [1] 1
+
+    $has_maintainer
+    [1] 0
+
+    $size_codebase
+    [1] 0.4680851
+
+    $has_news
+    [1] 1
+
+    $has_source_control
+    [1] 1
+
+    $has_vignettes
+    [1] 1
+
+    $has_website
+    [1] 1
+
+    $news_current
+    [1] 1
+
+    $export_help
+    [1] 1
+
+    $export_calc
+    [1] 0.6791787
+
+    $check
+    [1] 1
+
+    $covr
+    [1] 0.9867
+
+    $dependencies
+    [1] "rprojroot (>= 2.0.2)#conflicted#covr#fs#knitr#palmerpenguins#plyr#readr#rlang#rmarkdown#testthat#uuid#withr#Imports#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests"
+
+    $dep_score
+    [1] 0.04742587
+
+    $revdep_score
+    [1] 0.9662389
+
+    $overall_risk_score
+    [1] 0.1806717
+
+    $risk_profile
+    [1] "Low"
+
+# Check the RCMD check results
+
+``` r
+
+risk_assess_package$check_list$res_check
+```
+
+## R CMD check results
+
+    risk_assess_package$check_list$res_check
+    ── R CMD check results ─────────────────────────────────────────────────────────── here 1.0.1 ────
+    Duration: 46.9s
+
+    0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+    > 
+    > # to check the RCMD check score
+    > risk_assess_package$check_list$check_score
+    [1] 1
+
+# Check the test coverage results
+
+``` r
+
+risk_assess_package$covr_list
+```
+
+# Test coverage results
+
+    risk_assess_package$covr_list
+    $total_cov
+    [1] 0.9867
+
+    $res_cov
+    $res_cov$name
+    [1] "here-1.0.1"
+
+    $res_cov$coverage
+    $res_cov$coverage$filecoverage
+         R/aaa.R  R/dr_here.R     R/here.R     R/i_am.R R/set_here.R      R/zzz.R 
+          100.00       100.00       100.00        95.83       100.00       100.00 
+
+    $res_cov$coverage$totalcoverage
+    [1] 98.67
+
+
+    $res_cov$errors
+    [1] NA
+
+    $res_cov$notes
+    [1] NA
+
+# Check the traceability matrix
+
+``` r
+risk_assess_package$tm
+```
+
+    # A tibble: 4 × 5
+      exported_function code_script  documentation description                   coverage_percent
+      <chr>             <chr>        <chr>         <chr>                                    <dbl>
+    1 dr_here           R/dr_here.R  dr_here.Rd    "dr_here() shows a message t…            100  
+    2 here              R/here.R     here.Rd       "here() uses a reasonable he…            100  
+    3 i_am              R/i_am.R     i_am.Rd       "Add a call to here::i_am(\"…             95.8
+    4 set_here          R/set_here.R set_here.Rd   "html<a href='https://www.ti…            100
+
+# R package on CRAN or bioconductor
+
+To check a package on `CRAN` or `bioconductor`, run the following code:
+
+``` r
+library(sanofi.risk.metric)
+risk_assess_package <- sanofi.risk.metric::assess_pkg_r_package("here", 
+                                                                version = "1.0.1")
+```
+
+This will produce similar results to the example with
+`Assessing your own package` with a `tar` file.
