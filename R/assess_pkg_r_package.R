@@ -47,8 +47,6 @@ assess_pkg_r_package <- function(package_name, version=NA) {
     stop(new_error_msg, call. = FALSE)
   })
   
-  #package_name <- basename(package_url)
-  #package_name <- sub("_.*\\.tar\\.gz$", "", package_name)
   modified_tar_file <- modify_description_file(temp_file)
   
   # Set up the package using the temporary file

@@ -18,7 +18,7 @@ by appending Config/build/clean-inst-doc: false parameter.
 }
 \examples{
 \dontrun{
-  modified_tar <- modify_description_file("path/to/mypackage.tar.gz", "mypackage")
+  modified_tar <- modify_description_file("path/to/mypackage.tar.gz")
   print(modified_tar)
   # Unpack the tar.gz file
   contents <- sanofi.risk.metric::unpack_tarball(modified_tar)
