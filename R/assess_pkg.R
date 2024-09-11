@@ -17,7 +17,7 @@
 #' options(repos = r)
 #' 
 #' pkg_source_path <- file.choose()
-#' pkg_name <- sub("_.*", "", basename(pkg_source_path))
+#' pkg_name <- sub("\\.tar\\.gz$", "", basename(pkg_source_path)) 
 #' modified_tar_file <- modify_description_file(pkg_source_path, pkg_name)
 #' 
 #' # Set up the package using the temporary file
