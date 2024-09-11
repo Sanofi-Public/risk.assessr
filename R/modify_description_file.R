@@ -85,8 +85,7 @@ modify_description_file <- function(tar_file) {
   setwd(current_wd)
   
   # # Clean up extracted files in temp_dir
-  # unlink(package_dir)
-  # unlink(package_dir, recursive = TRUE)
+  unlink(package_dir, recursive = TRUE)
   
   return(modified_tar_file)
 }
