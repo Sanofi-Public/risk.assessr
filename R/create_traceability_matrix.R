@@ -18,50 +18,60 @@ create_traceability_matrix <- function(pkg_name,
   
   message(glue::glue("creating traceability matrix for {pkg_name}"))
   
-  # Check that package is valid
-  check_tm_possible(pkg_source_path)
-  
-  # Get data.frame of exported functions
-  exports_df <- get_exports(pkg_source_path)
-  
-  # Locate script for each exported function
-  exports_df <- map_functions_to_scripts(exports_df, pkg_source_path, verbose)
-  
-  # Map all Rd files to functions, then join back to exports
-  exports_df <- map_functions_to_docs(exports_df, pkg_source_path, verbose)
-  
-  descrip <- get_func_descriptions(pkg_name)
-  descript_df <- tibble::enframe(descrip) |> 
-    dplyr::rename(
-                  c(documentation = name,
-                    description = value)
-                  )
-  
-  exports_df <- dplyr::left_join(exports_df, 
-                                 descript_df, 
-                                 by = "documentation")
-  
-  # convert array to df
-  func_coverage <- as.data.frame.table(func_covr$coverage$filecoverage)
-  
-  func_coverage <- func_coverage |> dplyr::rename(code_script = Var1, 
-                                                  coverage_percent = Freq)
-  
-  # create traceability matrix
-  tm <- dplyr::left_join(exports_df, 
-                         func_coverage, 
-                         by = "code_script") 
-  
-  message(glue::glue("traceability matrix for {pkg_name} successful"))
-   
-  return(tm)
-}
-
-check_tm_possible <- function(pkg_source_path){
-    r_dir <- file.path(pkg_source_path, "R")
-    if(!fs::dir_exists(r_dir)){
-      stop("an R directory is needed to create a traceability matrix")
+  # Check that package has an R folder
+  tm_possible <- contains_r_folder(pkg_source_path) 
+  # 
+  if (tm_possible == FALSE) {
+    tm <- sanofi.risk.metric::create_empty_tm(pkg_name)
+    message(glue::glue("no R folder to create traceability matrix for {pkg_name}"))
+  } else {  
+    
+    # Get data.frame of exported functions
+    exports_df <- get_exports(pkg_source_path)
+    
+    # Locate script for each exported function
+    exports_df <- map_functions_to_scripts(exports_df, pkg_source_path, verbose)
+    
+    # Map all Rd files to functions, then join back to exports
+    exports_df <- map_functions_to_docs(exports_df, pkg_source_path, verbose)
+    
+    descrip <- get_func_descriptions(pkg_name)
+    descript_df <- tibble::enframe(descrip) |> 
+      dplyr::rename(
+        c(documentation = name,
+          description = value)
+      )
+    
+    exports_df <- dplyr::left_join(exports_df, 
+                                   descript_df, 
+                                   by = "documentation")
+    
+        # convert array to df
+    func_coverage <- as.data.frame.table(func_covr$coverage$filecoverage)
+    
+    # check for column existence
+    column_exists <- function(df, column_name) {
+      return(column_name %in% names(df))
     }
+    cl_exists <- column_exists(func_coverage, "Var1")
+    
+    if (cl_exists == TRUE) {  
+    
+      func_coverage <- func_coverage |> dplyr::rename(code_script = Var1, 
+                                                      coverage_percent = Freq)
+      
+      # create traceability matrix
+      tm <- dplyr::left_join(exports_df, 
+                             func_coverage, 
+                             by = "code_script") 
+      
+      message(glue::glue("traceability matrix for {pkg_name} successful"))
+    } else {
+      tm <- sanofi.risk.metric::create_empty_tm(pkg_name)
+      message(glue::glue("traceability matrix for {pkg_name} unsuccessful"))
+    }
+  }
+  return(tm)
 }
 
 #' Get all exported functions and map them to R script where they are defined
@@ -81,24 +91,26 @@ map_functions_to_scripts <- function(exports_df, pkg_source_path, verbose){
   
   if(nrow(funcs_df) == 0){
     # Triggering this means an R/ directory exists, but no assignments were found.
-    msg <- paste(
-      "No top level assignments were found in the R/ directory for package",
-      glue::glue("`{basename(pkg_source_path)}`."),
-      "Exports cannot be linked to their defining script."
-    )
-    warning(msg)
-  }
+    exports_df <- data.frame()
+    message(glue::glue("No top level assignments found in R folder for {basename(pkg_source_path)}"))
+    # msg <- paste(
+    #   "No top level assignments were found in the R/ directory for package",
+    #   glue::glue("`{basename(pkg_source_path)}`."),
+    #   "Exports cannot be linked to their defining script."
+    # )
+    # warning(msg)
+  } else {
   
-  exports_df <- dplyr::left_join(exports_df, funcs_df, by = c("exported_function" = "func"))
-  
-  if (any(is.na(exports_df$code_script))) {
-    if(isTRUE(verbose)) {
-      missing_from_files <- exports_df$exported_function[is.na(exports_df$code_file)] %>%
-        paste(collapse = "\n")
-      message(glue::glue("The following exports were not found in R/ for {basename(pkg_source_path)}:\n{missing_from_files}\n\n"))
+    exports_df <- dplyr::left_join(exports_df, funcs_df, by = c("exported_function" = "func"))
+    
+    if (any(is.na(exports_df$code_script))) {
+      if(isTRUE(verbose)) {
+        missing_from_files <- exports_df$exported_function[is.na(exports_df$code_file)] %>%
+          paste(collapse = "\n")
+        message(glue::glue("The following exports were not found in R/ for {basename(pkg_source_path)}:\n{missing_from_files}\n\n"))
+      }
     }
   }
-  
   return(exports_df)
 }
 
@@ -127,7 +139,7 @@ get_exports <- function(pkg_source_path){
   exports <- filter_symbol_functions(exports)
   
   if(rlang::is_empty(exports)){
-    stop(glue::glue("No exports found in package {basename(pkg_source_path)}"))
+    message(glue::glue("No exports found in package {basename(pkg_source_path)}"))
   }
   
   return(tibble::tibble(exported_function = exports))

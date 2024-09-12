@@ -67,9 +67,9 @@ test_that("running tm for created package in tar file with no tests", {
   rcmdcheck_args <- install_list$rcmdcheck_args
 
   # install package locally to ensure test works
-  package_installed <- 
-    install_package_local(pkg_source_path)
-  package_installed <- TRUE
+  # package_installed <- 
+  #  install_package_local(pkg_source_path)
+  # package_installed <- TRUE
   
   if (package_installed == TRUE ) {
 
@@ -141,11 +141,28 @@ test_that("running tm for created package in tar file with no R directory", {
       covr_timeout)
     )
     
-    testthat::expect_error(
+    testthat::expect_message(
       tm <- create_traceability_matrix(pkg_name, 
                                        pkg_source_path, 
                                        covr_list$res_cov),
-      "an R directory is needed to create a traceability matrix"
+      glue::glue("creating traceability matrix for {basename(pkg_source_path)}"),
+      fixed = TRUE
+    )
+    
+    testthat::expect_message(
+      tm <- create_traceability_matrix(pkg_name, 
+                                       pkg_source_path, 
+                                       covr_list$res_cov),
+      glue::glue("traceability matrix for {basename(pkg_source_path)} unsuccessful"),
+      fixed = TRUE
+    )
+    
+    testthat::expect_message(
+      tm <- create_traceability_matrix(pkg_name, 
+                                       pkg_source_path, 
+                                       covr_list$res_cov),
+      glue::glue("no R folder to create traceability matrix for {basename(pkg_source_path)}"),
+      fixed = TRUE
     )
     
   } else {
@@ -157,45 +174,62 @@ test_that("running tm for created package in tar file with no R directory", {
 # The following test will be reactivated when 
 # https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/issues/78 is fixed
 
-# test_that("running tm for created package in tar file with empty R directory", {
-#   
-#   dp <- system.file("test-data/test.package.0005_0.1.0.tar.gz",
-#                     package = "sanofi.risk.metric")
-#   
-#   # set up package
-#   install_list <- sanofi.risk.metric::set_up_pkg(dp)
-#   
-#   build_vignettes <- install_list$build_vignettes
-#   package_installed <- install_list$package_installed
-#   pkg_source_path <- install_list$pkg_source_path
-#   rcmdcheck_args <- install_list$rcmdcheck_args
-#   
-#   if (package_installed == TRUE ) {
-#     
-#     # setup parameters for running covr
-#     pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path, 
-#                                                  fields = c("Package", 
-#                                                             "Version"))
-#     pkg_name <- pkg_desc$Package
-#     pkg_ver <- pkg_desc$Version
-#     pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
-#     
-#     covr_timeout <- Inf
-#     
-#     covr_list <- suppressMessages(sanofi.risk.metric::run_coverage(
-#       pkg_source_path,  # must use untarred package dir
-#       covr_timeout)
-#     )
-#     
-#     testthat::expect_error(
-#       tm <- create_traceability_matrix(pkg_name, 
-#                                        pkg_source_path, 
-#                                        covr_list$res_cov),
-#       "an R directory is needed to create a traceability matrix"
-#     )
-#     
-#   } else {
-#     message(glue::glue("cannot run traceability matrix for {basename(pkg_source_path)}"))
-#   } 
-#   
-# })
+test_that("running tm for created package in tar file with empty R directory", {
+
+  dp <- system.file("test-data/test.package.0005_0.1.0.tar.gz",
+                    package = "sanofi.risk.metric")
+
+  # set up package
+  install_list <- sanofi.risk.metric::set_up_pkg(dp)
+
+  build_vignettes <- install_list$build_vignettes
+  package_installed <- install_list$package_installed
+  pkg_source_path <- install_list$pkg_source_path
+  rcmdcheck_args <- install_list$rcmdcheck_args
+
+  if (package_installed == TRUE ) {
+
+    # setup parameters for running covr
+    pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path,
+                                                 fields = c("Package",
+                                                            "Version"))
+    pkg_name <- pkg_desc$Package
+    pkg_ver <- pkg_desc$Version
+    pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
+
+    covr_timeout <- Inf
+
+    covr_list <- suppressMessages(sanofi.risk.metric::run_coverage(
+      pkg_source_path,  # must use untarred package dir
+      covr_timeout)
+    )
+
+    testthat::expect_message(
+      tm <- create_traceability_matrix(pkg_name, 
+                                       pkg_source_path, 
+                                       covr_list$res_cov),
+      glue::glue("creating traceability matrix for {basename(pkg_source_path)}"),
+      fixed = TRUE
+    )
+    
+    testthat::expect_message(
+      tm <- create_traceability_matrix(pkg_name, 
+                                       pkg_source_path, 
+                                       covr_list$res_cov),
+      glue::glue("traceability matrix for {basename(pkg_source_path)} unsuccessful"),
+      fixed = TRUE
+    )
+    
+    testthat::expect_message(
+      tm <- create_traceability_matrix(pkg_name, 
+                                       pkg_source_path, 
+                                       covr_list$res_cov),
+      glue::glue("No top level assignments found in R folder for {basename(pkg_source_path)}"),
+      fixed = TRUE
+    )
+
+  } else {
+    message(glue::glue("cannot run traceability matrix for {basename(pkg_source_path)}"))
+  }
+
+})

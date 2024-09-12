@@ -47,8 +47,13 @@ assess_examples <- function(pkg_name, pkg_source_path) {
 #' @export
 #'
 assess_exports <- function(data) {
+  
   exports <- pkgload::parse_ns_file(data)$exports
-  export_calc <- 1 - 1 / (1 + exp(-0.25 * (sqrt(length(exports)) - sqrt(25))))
+  if (length(exports) > 0) {
+    export_calc <- 1 - 1 / (1 + exp(-0.25 * (sqrt(length(exports)) - sqrt(25))))
+  } else {
+    export_calc <- 0
+  }
 }  
 
 #' assess_export_help
@@ -62,15 +67,20 @@ assess_exports <- function(data) {
 assess_export_help <- function(pkg_name, pkg_source_path) {
   
   exported_functions <- getNamespaceExports(pkg_name)
-  db <- tools::Rd_db(pkg_name, pkg_source_path)
-  missing_docs <- setdiff(exported_functions, gsub("\\.Rd$", "", names(db)))
-  if (length(missing_docs) == 0) {
-    message(glue::glue("All exported functions have corresponding help files in {pkg_name}"))
-    export_help <- 1
+  if (length(exported_functions) > 0) {
+    db <- tools::Rd_db(pkg_name, pkg_source_path)
+    missing_docs <- setdiff(exported_functions, gsub("\\.Rd$", "", names(db)))
+    if (length(missing_docs) == 0) {
+      message(glue::glue("All exported functions have corresponding help files in {pkg_name}"))
+      export_help <- 1
+    } else {
+      message(glue::glue("Some exported functions are missing help files in {pkg_name}"))
+      # message(glue::glue("The following exported functions are missing help files in {pkg_name}"))
+      # print(missing_docs) comment out - reactivate if needed
+      export_help <- 0
+    }
   } else {
-    message(glue::glue("Some exported functions are missing help files in {pkg_name}"))
-    # message(glue::glue("The following exported functions are missing help files in {pkg_name}"))
-    # print(missing_docs) comment out - reactivate if needed
+    message(glue::glue("No exported functions in {pkg_name}"))
     export_help <- 0
   }
   return(export_help)
@@ -200,7 +210,7 @@ assess_news_current <- function(pkg_name, pkg_ver, pkg_source_path) {
                           news_content, 
                           value = TRUE)
   } else {
-    message(glue::glue("{pkg_name} has no news"))
+    message(glue::glue("{pkg_name} has no news path"))
     version_lines <- character(0)
   }
   
@@ -303,6 +313,7 @@ assess_vignettes <- function(pkg_name, pkg_source_path) {
 #'
 doc_riskmetric <- function(pkg_name, pkg_ver, pkg_source_path) {
   
+  
   export_help <- 
     sanofi.risk.metric::assess_export_help(pkg_name, 
                                            pkg_source_path)
@@ -311,9 +322,13 @@ doc_riskmetric <- function(pkg_name, pkg_ver, pkg_source_path) {
     sanofi.risk.metric::assess_description_file_elements(pkg_name, 
                                                          pkg_source_path)
   
-  size_codebase <- 
-    sanofi.risk.metric::assess_size_codebase(pkg_source_path)
-  
+  if (fs::dir_exists(fs::path(pkg_source_path, "R"))) {
+    size_codebase <- 
+      sanofi.risk.metric::assess_size_codebase(pkg_source_path)
+  } else {
+    size_codebase <- 0
+    message(glue::glue("{pkg_name} has no R folder to assess codebase size"))
+  }
   has_vignettes <- 
     sanofi.risk.metric::assess_vignettes(pkg_name, 
                                            pkg_source_path)
