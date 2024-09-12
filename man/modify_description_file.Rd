@@ -4,12 +4,10 @@
 \alias{modify_description_file}
 \title{Modify the DESCRIPTION File in a R Package Tarball}
 \usage{
-modify_description_file(tar_file, package_name)
+modify_description_file(tar_file)
 }
 \arguments{
 \item{tar_file}{A string representing the path to the `.tar.gz` file that contains the R package.}
-
-\item{package_name}{A string representing the name of the package, which should match the directory name after extraction.}
 }
 \value{
 A string containing the path to the newly created modified `.tar.gz` file.
@@ -20,7 +18,7 @@ by appending Config/build/clean-inst-doc: false parameter.
 }
 \examples{
 \dontrun{
-  modified_tar <- modify_description_file("path/to/mypackage.tar.gz", "mypackage")
+  modified_tar <- modify_description_file("path/to/mypackage.tar.gz")
   print(modified_tar)
   # Unpack the tar.gz file
   contents <- sanofi.risk.metric::unpack_tarball(modified_tar)
