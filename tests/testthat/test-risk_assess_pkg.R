@@ -2,7 +2,7 @@ library(testthat)
 
 # Mock function for file.choose
 mock_file_choose <- function() {
-  return(system.file("test-data/test.package.0001.tar.gz", 
+  return(system.file("test-data/test.package.0001_0.1.0.tar.gz", 
                      package = "sanofi.risk.metric"))
 }
 
