@@ -115,7 +115,15 @@ test_that("assess exports for no help files works correctly", {
   pkg_source_path <- install_list$pkg_source_path
   rcmdcheck_args <- install_list$rcmdcheck_args
   
+  # install package locally to ensure test works
+  package_installed <- 
+    install_package_local(pkg_source_path)
+  package_installed <- TRUE
+  
   if (package_installed == TRUE ) {	
+    
+    # ensure path is set to package source path
+    rcmdcheck_args$path <- pkg_source_path
     
     # Get package name and version
     pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path, 

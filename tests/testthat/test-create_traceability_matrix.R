@@ -67,12 +67,15 @@ test_that("running tm for created package in tar file with no tests", {
   rcmdcheck_args <- install_list$rcmdcheck_args
 
   # install package locally to ensure test works
-  # package_installed <- 
-  #  install_package_local(pkg_source_path)
-  # package_installed <- TRUE
+  package_installed <- 
+    install_package_local(pkg_source_path)
+  package_installed <- TRUE
   
   if (package_installed == TRUE ) {
 
+    # ensure path is set to package source path
+    rcmdcheck_args$path <- pkg_source_path
+    
     # setup parameters for running covr
     pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path,
                                                  fields = c("Package",
