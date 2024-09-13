@@ -12,6 +12,8 @@ containing the names of all exported functions. Can also have other columns
 (which will be returned unmodified).}
 
 \item{pkg_source_path}{a file path pointing to an unpacked/untarred package directory}
+
+\item{verbose}{check for extra information}
 }
 \value{
 A data.frame with the columns `exported_function` and `code_script`.

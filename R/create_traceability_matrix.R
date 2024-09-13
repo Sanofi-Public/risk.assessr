@@ -82,6 +82,7 @@ create_traceability_matrix <- function(pkg_name,
 #'   containing the names of all exported functions. Can also have other columns
 #'   (which will be returned unmodified).
 #' @param pkg_source_path a file path pointing to an unpacked/untarred package directory
+#' @param verbose check for extra information
 #'
 #' @return A data.frame with the columns `exported_function` and `code_script`.
 #'
@@ -119,6 +120,8 @@ map_functions_to_scripts <- function(exports_df, pkg_source_path, verbose){
 #' list all package exports
 #'
 #' adapted from mpn.scorecard
+#'
+#' @param pkg_source_path a file path pointing to an unpacked/untarred package directory
 #'
 #' @return data.frame, with one column `exported_function`, that can be passed
 #'   to all downstream map_* helpers
@@ -172,23 +175,22 @@ filter_symbol_functions <- function(funcs){
 #' to capture any global variables or anything else that could be potentially
 #' exported by the package.
 #'
+#' @param pkg_source_path a file path pointing to an unpacked/untarred package directory
 #'
 #' @return A data.frame with the columns `function` and `code_script` with a row for
 #'   every top-level object defined in the package.
 #'
-#' @keywords internal
+#' @export
+#' 
 get_toplevel_assignments <- function(pkg_source_path){
+  
   r_files <- tools::list_files_with_type(file.path(pkg_source_path, "R"), "code")
   
   # Triggering this means an R/ directory exists, but no R/Q/S files were found.
   if(rlang::is_empty(r_files)){
     # This shouldn't be triggered, and either indicates a bug in `get_toplevel_assignments`,
     # or an unexpected package setup that we may want to support.
-    msg <- paste(
-      "No sourceable R scripts were found in the R/ directory for package",
-      glue::glue("`{basename(pkg_source_path)}`. Make sure this was expected.")
-    )
-    warning(msg)
+    message(glue::glue("No sourceable R scripts were found in the R/ directory for package {basename(pkg_source_path)}. Make sure this was expected."))
     return(tibble::tibble(func = character(), code_script = character()))
   }
   

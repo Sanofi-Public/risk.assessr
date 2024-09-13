@@ -6,6 +6,9 @@
 \usage{
 get_toplevel_assignments(pkg_source_path)
 }
+\arguments{
+\item{pkg_source_path}{a file path pointing to an unpacked/untarred package directory}
+}
 \value{
 A data.frame with the columns `function` and `code_script` with a row for
   every top-level object defined in the package.
@@ -19,4 +22,3 @@ declarations, regardless of type. This is intentional, because we also want
 to capture any global variables or anything else that could be potentially
 exported by the package.
 }
-\keyword{internal}
