@@ -6,11 +6,13 @@
 \usage{
 get_exports(pkg_source_path)
 }
+\arguments{
+\item{pkg_source_path}{a file path pointing to an unpacked/untarred package directory}
+}
 \value{
 data.frame, with one column `exported_function`, that can be passed
   to all downstream map_* helpers
 }
 \description{
-list all package exports
+adapted from mpn.scorecard
 }
-\keyword{internal}

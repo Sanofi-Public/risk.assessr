@@ -85,7 +85,8 @@ run_coverage <- function(pkg_source_path, timeout = Inf) {
         coverage_list$totalcoverage <- 0
         notes <- "no testable functions found"
       }else{
-        rlang::abort("Total coverage returned NaN. This likely means the package had non-standard characteristics. Contact the developer to add support")
+        message(glue::glue("Total coverage returned NaN. This likely means the package had non-standard characteristics."))
+        notes <- NA
       }
     }else{
       notes <- NA
@@ -97,12 +98,16 @@ run_coverage <- function(pkg_source_path, timeout = Inf) {
     coverage_list <- list(filecoverage = NA, totalcoverage = NA_integer_)
     list(
       name = pkg_name, coverage = coverage_list,
-      errors = wrap_callr_error(cond),
+      errors = cond,
       notes = NA
     )
   })
   
-  message(glue::glue("code coverage for {pkg_name} successful"))
+  if(is.na(res_cov$coverage$totalcoverage)) {
+    message(glue::glue("code coverage for {pkg_name} unsuccessful"))
+  } else {
+    message(glue::glue("code coverage for {pkg_name} successful"))
+  }  
   
   # return total coverage as fraction
   total_cov <- as.numeric(res_cov$coverage$totalcoverage/100)
@@ -144,15 +149,4 @@ run_covr <- function(path, timeout) {
   )
 }
 
-wrap_callr_error <- function(e) {
-  class(e) <- c("scorecard_covr_error", class(e))
-  return(e)
-}
 
-#' @export
-conditionMessage.scorecard_covr_error <- function(c) {
-  # Prevent rlib_error_3_0 method from adding ansi escape sequences, which would
-  # trigger a LateX failure on render.
-  withr::local_options(list("crayon.enabled" = FALSE))
-  NextMethod()
-}

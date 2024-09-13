@@ -12,6 +12,6 @@ Returns the data.frame passed to `exports_df`, with a `documentation`
   `man/` that document the associated exported functions.
 }
 \description{
-Map all Rd files to the functions they describe
+adapted from mpn.scorecard
 }
 \keyword{internal}

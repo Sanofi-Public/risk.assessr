@@ -194,3 +194,59 @@ test_that("running coverage for created package in tar file with no functions", 
   } 
   
 })
+
+test_that("run_coverage handles errors in coverage_list correctly", {
+  # Create a temporary package source path that will cause an error
+  temp_pkg_path <- tempfile()
+  dir.create(temp_pkg_path)
+  
+  # Create a dummy DESCRIPTION file to make it look like an R package
+  writeLines("Package: tempPkg\nVersion: 0.1.0\n", file.path(temp_pkg_path, "DESCRIPTION"))
+  
+  # Run the coverage function with the temporary package path
+  result <- run_coverage(temp_pkg_path, timeout = 1)
+  
+  # Check that the coverage_list contains NA values indicating an error
+  expect_true(is.na(result$res_cov$coverage$filecoverage))
+  expect_true(is.na(result$res_cov$coverage$totalcoverage))
+  
+  # Check that the errors field is not NA
+  expect_false(is.null(result$res_cov$errors))
+})
+
+test_that("run_coverage captures all messages", {
+  # Mock the run_covr function to simulate different scenarios
+  mock_run_covr <- function(path, timeout) {
+    if (path == "no_testable_functions") {
+      return(list(filecoverage = logical(0), totalcoverage = NaN))
+    } else if (path == "nan_total_coverage") {
+      return(list(filecoverage = list(), totalcoverage = NaN))
+    } else if (path == "successful_coverage") {
+      return(list(filecoverage = list(), totalcoverage = 80))
+    } else {
+      stop("Unexpected path")
+    }
+  }
+  
+  # Use with_mocked_bindings to temporarily replace the run_covr function with the mock
+  with_mocked_bindings(
+    run_covr = mock_run_covr,
+    {
+      # Test case: No testable functions found
+      messages <- capture_messages(run_coverage("no_testable_functions"))
+      expect_true(any(grepl("running code coverage for no_testable_functions", messages)))
+      expect_true(any(grepl("R coverage for no_testable_functions had notes: no testable functions found", messages)))
+      
+      # # Test case: Total coverage returned NaN
+      messages <- capture_messages(run_coverage("nan_total_coverage"))
+      expect_true(any(grepl("running code coverage for nan_total_coverage", messages)))
+      expect_true(any(grepl("code coverage for nan_total_coverage unsuccessful", messages)))
+      expect_true(any(grepl("R coverage for nan_total_coverage failed. Read in the covr output to see what went wrong:", messages)))
+      
+      # Test case: Successful coverage
+      messages <- capture_messages(run_coverage("successful_coverage"))
+      expect_true(any(grepl("running code coverage for successful_coverage", messages)))
+    }
+  )
+})
+
