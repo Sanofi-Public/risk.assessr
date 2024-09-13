@@ -267,8 +267,7 @@ test_that("running assess_pkg for test package with Config/build/clean-inst-doc:
   }
   
   # Run the function to modify the DESCRIPTION file
-  package_name <- "test.package.0005"
-  modified_tar_file <- modify_description_file(temp_file, package_name)
+  modified_tar_file <- modify_description_file(temp_file)
   
   # set up package
   install_list <- sanofi.risk.metric::set_up_pkg(dp)

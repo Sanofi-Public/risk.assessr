@@ -61,7 +61,9 @@ jobs:
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git checkout -b ${{ github.head_ref }}
+          git branch
           git pull --rebase origin ${{ github.head_ref }}
+          git checkout --ours README.md || true 
           sed -i 's|!\[Coverage\](https://img.shields.io/badge/coverage-[0-9]*%25-[a-z]*\.svg)|![Coverage]('"${{ env.badge_url }}"')|g' README.md
           git status
           git add README.md
@@ -78,6 +80,7 @@ jobs:
           git checkout main
           git branch
           git pull --rebase origin main
+          git checkout --ours README.md || true 
           sed -i 's|!\[Coverage\](https://img.shields.io/badge/coverage-[0-9]*%25-[a-z]*\.svg)|![Coverage]('"${{ env.badge_url }}"')|g' README.md
           git status
           git add README.md
