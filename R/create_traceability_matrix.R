@@ -76,6 +76,8 @@ create_traceability_matrix <- function(pkg_name,
 
 #' Get all exported functions and map them to R script where they are defined
 #'
+#' adapted from mpn.scorecard
+#'
 #' @param exports_df data.frame with a column, named `exported_function`,
 #'   containing the names of all exported functions. Can also have other columns
 #'   (which will be returned unmodified).
@@ -116,6 +118,7 @@ map_functions_to_scripts <- function(exports_df, pkg_source_path, verbose){
 
 #' list all package exports
 #'
+#' adapted from mpn.scorecard
 #'
 #' @return data.frame, with one column `exported_function`, that can be passed
 #'   to all downstream map_* helpers
@@ -148,6 +151,8 @@ get_exports <- function(pkg_source_path){
 
 #' Remove specific symbols from vector of functions
 #'
+#' adapted from mpn.scorecard
+#' 
 #' @param funcs vector of functions to filter
 #'
 #' @keywords internal
@@ -160,6 +165,8 @@ filter_symbol_functions <- function(funcs){
 
 #' list all top-level objects defined in the package code
 #'
+#' adapted from mpn.scorecard
+#' 
 #' This is primarily for getting all _functions_, but it also returns top-level
 #' declarations, regardless of type. This is intentional, because we also want
 #' to capture any global variables or anything else that could be potentially
@@ -222,6 +229,8 @@ get_toplevel_assignments <- function(pkg_source_path){
 
 #' Map all Rd files to the functions they describe
 #'
+#' adapted from mpn.scorecard
+#'
 #' @return Returns the data.frame passed to `exports_df`, with a `documentation`
 #'   column appended. This column will contain the path to the `.Rd` files in
 #'   `man/` that document the associated exported functions.
@@ -277,6 +286,8 @@ map_functions_to_docs <- function(exports_df, pkg_source_path, verbose) {
 
 #' Get function descriptions
 #'
+#' adapted from mpn.scorecard
+#' 
 #' @description get descriptions of exported functions 
 #' 
 #' @param pkg_name - name of the package

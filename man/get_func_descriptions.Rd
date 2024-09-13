@@ -12,4 +12,7 @@ get_func_descriptions(pkg_name)
 \description{
 get descriptions of exported functions
 }
+\details{
+adapted from mpn.scorecard
+}
 \keyword{internal}

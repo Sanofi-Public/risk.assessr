@@ -11,6 +11,6 @@ data.frame, with one column `exported_function`, that can be passed
   to all downstream map_* helpers
 }
 \description{
-list all package exports
+adapted from mpn.scorecard
 }
 \keyword{internal}

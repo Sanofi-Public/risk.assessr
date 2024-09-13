@@ -17,6 +17,6 @@ containing the names of all exported functions. Can also have other columns
 A data.frame with the columns `exported_function` and `code_script`.
 }
 \description{
-Get all exported functions and map them to R script where they are defined
+adapted from mpn.scorecard
 }
 \keyword{internal}
