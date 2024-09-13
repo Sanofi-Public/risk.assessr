@@ -85,7 +85,7 @@ create_traceability_matrix <- function(pkg_name,
 #'
 #' @return A data.frame with the columns `exported_function` and `code_script`.
 #'
-#' @keywords internal
+#' @export
 map_functions_to_scripts <- function(exports_df, pkg_source_path, verbose){
   
   # Search for scripts functions are defined in
@@ -123,7 +123,7 @@ map_functions_to_scripts <- function(exports_df, pkg_source_path, verbose){
 #' @return data.frame, with one column `exported_function`, that can be passed
 #'   to all downstream map_* helpers
 #'
-#' @keywords internal
+#' @export
 get_exports <- function(pkg_source_path){
   # Get exports
   nsInfo <- pkgload::parse_ns_file(pkg_source_path)

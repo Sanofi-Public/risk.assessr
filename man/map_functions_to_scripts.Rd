@@ -19,4 +19,3 @@ A data.frame with the columns `exported_function` and `code_script`.
 \description{
 adapted from mpn.scorecard
 }
-\keyword{internal}
