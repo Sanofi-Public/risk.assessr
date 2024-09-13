@@ -149,15 +149,4 @@ run_covr <- function(path, timeout) {
   )
 }
 
-wrap_callr_error <- function(e) {
-  class(e) <- c("scorecard_covr_error", class(e))
-  return(e)
-}
 
-#' @export
-conditionMessage.scorecard_covr_error <- function(c) {
-  # Prevent rlib_error_3_0 method from adding ansi escape sequences, which would
-  # trigger a LateX failure on render.
-  withr::local_options(list("crayon.enabled" = FALSE))
-  NextMethod()
-}
