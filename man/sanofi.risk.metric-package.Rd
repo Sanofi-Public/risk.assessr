@@ -6,6 +6,8 @@
 \alias{sanofi.risk.metric-package}
 \title{sanofi.risk.metric: Sanofi risk metric}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Sanofi riskmetric package.
 }
 \author{
