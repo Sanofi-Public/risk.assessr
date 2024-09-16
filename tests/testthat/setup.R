@@ -132,12 +132,25 @@ results <- list(
   covr = ""
 )
 
-# Function to uninstall toy packages
-uninstall_package <- function(pkg_name) {
-  if (pkg_name %in% installed.packages()[, "Package"]) {
-    remove.packages(pkg_name)
-    message(glue::glue("{pkg_name} has been uninstalled"))
-  } else {
-    message(glue::glue("{pkg_name} is not installed"))
-  }
-}
+# needed for test-assess_pkg() and test-create_traceability_matrix
+install_package_local <- function (pkg_source_path) {
+  pkg_disp <- sanofi.risk.metric::get_pkg_name(pkg_source_path)
+  message(glue::glue("installing {pkg_disp} locally"))
+  tryCatch(
+    {
+      remotes::install_local(
+        pkg_source_path,
+        upgrade = "never",
+        force = TRUE,
+        quiet = TRUE,
+        INSTALL_opts = "--with-keep.source"
+      )
+      message(glue::glue("{pkg_disp} installed locally"))
+      return(TRUE)
+    },  
+    error=function(cond) {
+      message(glue::glue("Local installation issue is: {cond}"))
+      message(glue::glue("{pkg_disp} not installed locally"))
+      return(FALSE)
+    })    
+} 
