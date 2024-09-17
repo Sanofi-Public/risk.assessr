@@ -32,6 +32,10 @@ risk_assess_pkg <-function() {
   pkg_source_path <- install_list$pkg_source_path
   rcmdcheck_args <- install_list$rcmdcheck_args
   
+  # check if the package needs to be installed locally
+  package_installed <- 
+    sanofi.risk.metric::install_package_local(pkg_source_path)
+  
   # Check if the package was installed successfully
   if (package_installed == TRUE) {
     # Assess the package

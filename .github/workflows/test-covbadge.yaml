@@ -86,5 +86,5 @@ jobs:
           git add README.md
           git commit -m 'Update README with coverage badge' || echo "No changes to commit"
           git push origin main
-          env:
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
