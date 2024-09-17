@@ -29,7 +29,7 @@ options(repos = r)
 
 pkg_source_path <- file.choose()
 pkg_name <- sub("\\\\.tar\\\\.gz$", "", basename(pkg_source_path)) 
-modified_tar_file <- modify_description_file(pkg_source_path, pkg_name)
+modified_tar_file <- modify_description_file(pkg_source_path)
 
 # Set up the package using the temporary file
 install_list <- sanofi.risk.metric::set_up_pkg(modified_tar_file)
@@ -39,6 +39,10 @@ build_vignettes <- install_list$build_vignettes
 package_installed <- install_list$package_installed
 pkg_source_path <- install_list$pkg_source_path
 rcmdcheck_args <- install_list$rcmdcheck_args
+
+# check if the package needs to be installed locally
+package_installed <- 
+  sanofi.risk.metric::install_package_local(pkg_source_path)
 
 # Check if the package was installed successfully
 if (package_installed == TRUE) {
