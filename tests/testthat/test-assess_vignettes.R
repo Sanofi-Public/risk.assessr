@@ -5,17 +5,17 @@ test_that("assess vignettes for tar file with vignettes works correctly", {
   options(repos = r)
   
   dp <- system.file("test-data/here-1.0.1.tar.gz", 
-                    package = "sanofi.risk.metric")
+                    package = "sanofi.risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp)
+  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   rcmdcheck_args <- install_list$rcmdcheck_args
 
-  pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path, 
+  pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path, 
                                                fields = c("Package", 
                                                           "Version"))
   pkg_name <- pkg_desc$Package
@@ -24,7 +24,7 @@ test_that("assess vignettes for tar file with vignettes works correctly", {
   
   if (package_installed == TRUE ) {	
     has_vignettes <- 
-      sanofi.risk.metric::assess_vignettes(pkg_name, 
+      sanofi.risk.assessr::assess_vignettes(pkg_name, 
                                            pkg_source_path)
     
     expect_identical(length(has_vignettes), 1L)
@@ -47,17 +47,17 @@ test_that("assess vignettes for tar file with no vignettes works correctly", {
   options(repos = r)
   
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz", 
-                    package = "sanofi.risk.metric")
+                    package = "sanofi.risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.metric::set_up_pkg(dp)
+  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   rcmdcheck_args <- install_list$rcmdcheck_args
   
-  pkg_desc <- sanofi.risk.metric::get_pkg_desc(pkg_source_path, 
+  pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path, 
                                                fields = c("Package", 
                                                           "Version"))
   pkg_name <- pkg_desc$Package
@@ -66,7 +66,7 @@ test_that("assess vignettes for tar file with no vignettes works correctly", {
   
   if (package_installed == TRUE ) {	
     has_vignettes <- 
-      sanofi.risk.metric::assess_vignettes(pkg_name, 
+      sanofi.risk.assessr::assess_vignettes(pkg_name, 
                                            pkg_source_path)
     
     expect_identical(length(has_vignettes), 1L)

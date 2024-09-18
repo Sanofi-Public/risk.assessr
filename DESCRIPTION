@@ -1,10 +1,10 @@
-Package: sanofi.risk.metric
-Title: Sanofi risk metric
-Version: 0.0.0.9000
+Package: sanofi.risk.assessr
+Title: Assessing package risk metrics
+Version: 1.0.0
 Authors@R: c(
   person('Edward', 'Gillian', email = 'edward.gillian-ext@sanofi.com', role = c('cre', 'aut')),
   person('Hugo', 'Bottois', email = "hugo.bottois@sanofi.com", role = "aut"))
-Description: Sanofi riskmetric package.
+Description: Tools for assessing R packages against a number of metrics to  help validate their trustworthiness and reliability.
 License: Apache License (>= 2)
 Depends: 
   R (>= 4.1.0)

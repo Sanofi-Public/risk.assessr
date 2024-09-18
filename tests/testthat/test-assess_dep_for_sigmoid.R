@@ -1,6 +1,6 @@
 test_that("assess deps for sigmoid works correctly", {
   riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
-  package = "sanofi.risk.metric")
+  package = "sanofi.risk.assessr")
    
   sigmoid_test <- suppressWarnings(assess_dep_for_sigmoid(riskdata_results))
   

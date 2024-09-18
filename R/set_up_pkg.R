@@ -11,10 +11,10 @@ set_up_pkg <- function(dp, check_type = "1") {
   build_vignettes <- TRUE
   
   suppressWarnings(pkg_source_path <-   
-                     sanofi.risk.metric::unpack_tarball(dp))
+                     sanofi.risk.assessr::unpack_tarball(dp))
   
   # check for vignettes folder
-  bv_result <- sanofi.risk.metric::contains_vignette_folder(dp)
+  bv_result <- sanofi.risk.assessr::contains_vignette_folder(dp)
   
   #set up build vignettes for R CMD check
   if (bv_result == FALSE) {
@@ -37,7 +37,7 @@ set_up_pkg <- function(dp, check_type = "1") {
   
   if (package_installed == TRUE ) {	
     
-    rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(check_type, 
+    rcmdcheck_args <- sanofi.risk.assessr::setup_rcmdcheck_args(check_type, 
                                                                build_vignettes)
   } 
   install_list <- list(

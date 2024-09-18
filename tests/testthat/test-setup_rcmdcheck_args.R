@@ -2,7 +2,7 @@ test_that("test setup_rcmdcheck_args", {
 
   check_type <- "1"
   
-  rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(check_type, 
+  rcmdcheck_args <- sanofi.risk.assessr::setup_rcmdcheck_args(check_type, 
                                                              build_vignettes)
   
   expect_identical(length(rcmdcheck_args), 4L)
@@ -15,7 +15,7 @@ test_that("test setup_rcmdcheck_args", {
   
   build_vignettes <- FALSE
   
-  rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(check_type, 
+  rcmdcheck_args <- sanofi.risk.assessr::setup_rcmdcheck_args(check_type, 
                                                              build_vignettes)
   
   expect_identical(length(rcmdcheck_args), 5L)
@@ -28,7 +28,7 @@ test_that("test setup_rcmdcheck_args", {
   
   build_vignettes <- TRUE
   
-  rcmdcheck_args <- sanofi.risk.metric::setup_rcmdcheck_args(check_type, 
+  rcmdcheck_args <- sanofi.risk.assessr::setup_rcmdcheck_args(check_type, 
                                                              build_vignettes)
   
   expect_identical(length(rcmdcheck_args), 4L)
