@@ -5,14 +5,14 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/R-CMD-check.yaml)
-[![test-coverage](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.metric/actions/workflows/test-coverage.yaml)
+[![R-CMD-check](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/actions/workflows/R-CMD-check.yaml)
+[![test-coverage](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/actions/workflows/test-coverage.yaml)
 ![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen.svg)
 
 
 <!-- badges: end -->
 
-# sanofi.risk.metrics
+# sanofi.risk.assessr
 
 # Overview
 
@@ -117,7 +117,7 @@ package and draws on some of their ideas and functions.
 <!-- -->
 
     auth_token = Sys.getenv("GITHUBTOKEN")
-    devtools::install_github("Sanofi-GitHub/bp-art-sanofi.risk.metric", ref = "main", auth_token = auth_token)
+    devtools::install_github("Sanofi-GitHub/bp-art-sanofi.risk.assessr", ref = "main", auth_token = auth_token)
 
 ## Assessing your own package
 
@@ -132,10 +132,10 @@ To assess your package, do the following steps:
 `tar.gz` file
 
 ``` r
-library(sanofi.risk.metric)
+library(sanofi.risk.assessr)
 
 # for local tar.gz R package
-risk_assess_package <- sanofi.risk.metric::risk_assess_pkg()
+risk_assess_package <- sanofi.risk.assessr::risk_assess_pkg()
 ```
 
 ``` r
@@ -306,8 +306,8 @@ risk_assess_package$tm
 To check a package on `CRAN` or `bioconductor`, run the following code:
 
 ``` r
-library(sanofi.risk.metric)
-risk_assess_package <- sanofi.risk.metric::assess_pkg_r_package("here", 
+library(sanofi.risk.assessr)
+risk_assess_package <- sanofi.risk.assessr::assess_pkg_r_package("here", 
                                                                 version = "1.0.1")
 ```
 

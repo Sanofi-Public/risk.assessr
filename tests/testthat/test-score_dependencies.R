@@ -1,6 +1,6 @@
 test_that("test score_dependencies", {
   
-  dep_score <- sanofi.risk.metric::score_dependencies(test_deps)
+  dep_score <- sanofi.risk.assessr::score_dependencies(test_deps)
   
   expect_true(checkmate::check_numeric(dep_score))
   

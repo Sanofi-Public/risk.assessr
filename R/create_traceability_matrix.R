@@ -22,7 +22,7 @@ create_traceability_matrix <- function(pkg_name,
   tm_possible <- contains_r_folder(pkg_source_path) 
   # 
   if (tm_possible == FALSE) {
-    tm <- sanofi.risk.metric::create_empty_tm(pkg_name)
+    tm <- sanofi.risk.assessr::create_empty_tm(pkg_name)
     message(glue::glue("no R folder to create traceability matrix for {pkg_name}"))
   } else {  
     
@@ -67,7 +67,7 @@ create_traceability_matrix <- function(pkg_name,
       
       message(glue::glue("traceability matrix for {pkg_name} successful"))
     } else {
-      tm <- sanofi.risk.metric::create_empty_tm(pkg_name)
+      tm <- sanofi.risk.assessr::create_empty_tm(pkg_name)
       message(glue::glue("traceability matrix for {pkg_name} unsuccessful"))
     }
   }

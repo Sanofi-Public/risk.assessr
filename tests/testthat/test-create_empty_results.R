@@ -1,6 +1,6 @@
 test_that("test create_empty_results", {
 
-  results <- sanofi.risk.metric::create_empty_results(test_pkg_name,
+  results <- sanofi.risk.assessr::create_empty_results(test_pkg_name,
                                                       test_pkg_ver,
                                                       test_pkg_source_path,
                                                       test_metadata)

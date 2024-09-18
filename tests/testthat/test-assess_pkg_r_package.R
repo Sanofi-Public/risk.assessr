@@ -1,5 +1,5 @@
 library(testthat)
-library(sanofi.risk.metric)
+library(sanofi.risk.assessr)
 library(httr2)
 library(jsonlite)
 
@@ -100,7 +100,7 @@ test_that("test on fail url package not found", {
 #     response_body <- list(
 #       package_name = "test.package.0001_0.1.0",
 #       version = "1.02222.0",
-#       tar_link = system.file("test-data/test.package.0001_0.1.0.tar.gz", package = "sanofi.risk.metric"),
+#       tar_link = system.file("test-data/test.package.0001_0.1.0.tar.gz", package = "sanofi.risk.assessr"),
 #       source = "CRAN",
 #       error = NA,
 #       version_available = c(

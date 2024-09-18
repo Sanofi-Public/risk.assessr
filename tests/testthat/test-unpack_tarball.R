@@ -1,9 +1,9 @@
 test_that("Unpacking a tar file works correctly", {
   pkg <- system.file("test-data/here-1.0.1.tar.gz", 
-                     package = "sanofi.risk.metric")
+                     package = "sanofi.risk.assessr")
   
   extract_files <-  
-    suppressWarnings(sanofi.risk.metric::unpack_tarball(pkg))
+    suppressWarnings(sanofi.risk.assessr::unpack_tarball(pkg))
   
   expect_true(checkmate::checkVector(extract_files))
   
@@ -16,10 +16,10 @@ test_that("Unpacking a tar file works correctly", {
 
 test_that("Unpacking an empty tar file works correctly", {
   pkg <- system.file("test-data/empty.tar.gz", 
-                     package = "sanofi.risk.metric")
+                     package = "sanofi.risk.assessr")
   
   extract_files <-  
-    suppressWarnings(sanofi.risk.metric::unpack_tarball(pkg))
+    suppressWarnings(sanofi.risk.assessr::unpack_tarball(pkg))
   
   expect_true(checkmate::checkVector(extract_files))
   

@@ -23,7 +23,7 @@ library(lubridate)
 #' \dontrun{
 #' # Example usage:
 #' # Assuming the function and the API endpoint are properly set up and accessible:
-#' result <- sanofi.risk.metric::get_package_version("dplyr")
+#' result <- sanofi.risk.assessr::get_package_version("dplyr")
 #' print(result)
 #' # Expected result (truncated):
 #' # A tibble: 44 × 5

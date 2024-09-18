@@ -6,6 +6,6 @@ Sys.setenv("R_TESTS" = "")
 
 library(testthat)
 library(mockery)
-library(sanofi.risk.metric)
+library(sanofi.risk.assessr)
 
-test_check("sanofi.risk.metric")
+test_check("sanofi.risk.assessr")

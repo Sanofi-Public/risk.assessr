@@ -23,7 +23,7 @@ library(lubridate)
 #' @examples
 #' \dontrun{
 #' # Example usage:
-#' package_info <- sanofi.risk.metric::fetch_Bioconductor_Package_Info("GenomicRanges", "1.42.0")
+#' package_info <- sanofi.risk.assessr::fetch_Bioconductor_Package_Info("GenomicRanges", "1.42.0")
 #' print(package_info)
 #' }
 #' @export

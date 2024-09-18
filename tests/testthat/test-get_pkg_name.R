@@ -11,9 +11,9 @@ input_string <- "here_1.0.1.tar.gz"
 
 test_that("finds package name in file path", {
 
- pkg_source_path <- "/home/user/R/x86_64-pc-linux-gnu-library/4.1/sanofi.risk.metric/test-data/test.package.0001_0.1.0.tar.gz"
+ pkg_source_path <- "/home/user/R/x86_64-pc-linux-gnu-library/4.1/sanofi.risk.assessr/test-data/test.package.0001_0.1.0.tar.gz"
  
- pkg_disp <- sanofi.risk.metric::get_pkg_name(pkg_source_path)
+ pkg_disp <- sanofi.risk.assessr::get_pkg_name(pkg_source_path)
  
  testthat::expect_true(!is.na(pkg_disp))
  
@@ -24,9 +24,9 @@ test_that("finds package name in file path", {
 
 test_that("finds package name in file path", {
   
-  pkg_source_path <- "/home/user/R/x86_64-pc-linux-gnu-library/4.1/sanofi.risk.metric/test-data/here_0.1.0.tar.gz"
+  pkg_source_path <- "/home/user/R/x86_64-pc-linux-gnu-library/4.1/sanofi.risk.assessr/test-data/here_0.1.0.tar.gz"
   
-  pkg_disp <- sanofi.risk.metric::get_pkg_name(pkg_source_path)
+  pkg_disp <- sanofi.risk.assessr::get_pkg_name(pkg_source_path)
   
   testthat::expect_true(!is.na(pkg_disp))
   
@@ -37,9 +37,9 @@ test_that("finds package name in file path", {
 
 test_that("finds package name in file path", {
   
-  pkg_source_path <- "/home/user/R/x86_64-pc-linux-gnu-library/4.1/sanofi.risk.metric/test-data/here-0.1.0.tar.gz"
+  pkg_source_path <- "/home/user/R/x86_64-pc-linux-gnu-library/4.1/sanofi.risk.assessr/test-data/here-0.1.0.tar.gz"
   
-  pkg_disp <- sanofi.risk.metric::get_pkg_name(pkg_source_path)
+  pkg_disp <- sanofi.risk.assessr::get_pkg_name(pkg_source_path)
   
   testthat::expect_true(!is.na(pkg_disp))
   
@@ -52,7 +52,7 @@ test_that("finds package name in file path", {
 test_that("finds package name in tar file string", {
   pkg <- "TxDb.Dmelanogaster.UCSC.dm3.ensGene_3.2.2.tar.gz"
   
-  pkg_disp <- sanofi.risk.metric::get_pkg_name(pkg)
+  pkg_disp <- sanofi.risk.assessr::get_pkg_name(pkg)
   
   testthat::expect_true(!is.na(pkg_disp))
   
@@ -65,7 +65,7 @@ test_that("finds package name in tar file string", {
 test_that("finds package name in tar file string", {
   pkg <- "here_0.1.0.tar.gz"
   
-  pkg_disp <- sanofi.risk.metric::get_pkg_name(pkg)
+  pkg_disp <- sanofi.risk.assessr::get_pkg_name(pkg)
   
   testthat::expect_true(!is.na(pkg_disp))
   
@@ -78,7 +78,7 @@ test_that("finds package name in tar file string", {
 test_that("finds package name in tar file string", {
   pkg <- "here-0.1.0.tar.gz"
   
-  pkg_disp <- sanofi.risk.metric::get_pkg_name(pkg)
+  pkg_disp <- sanofi.risk.assessr::get_pkg_name(pkg)
   
   testthat::expect_true(!is.na(pkg_disp))
   
