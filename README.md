@@ -156,14 +156,12 @@ library(risk.assessr)
 risk_assess_package <- risk.assessr::risk_assess_pkg()
 ```
 
+# Result: Metrics and Risk assessment
+
 ``` r
 # to check the overall riskmetric results
 risk_assess_package$results
 ```
-
-# Result: Metrics and Risk assessment
-
-``` r
     risk_assess_package$results
     $pkg_name
     [1] "here"
@@ -252,17 +250,12 @@ risk_assess_package$results
 
     $risk_profile
     [1] "Low"
-``` 
 
 # Check the RCMD check results
 
 ``` r
 risk_assess_package$check_list$res_check
 ```
-
-## R CMD check results
-
-``` r
 
     risk_assess_package$check_list$res_check
     ── R CMD check results ─────────────────────────────────────────────────────────── here 1.0.1 ────
@@ -280,8 +273,6 @@ risk_assess_package$check_list$res_check
 
 risk_assess_package$covr_list
 ```
-
-# Test coverage results
 
     risk_assess_package$covr_list
     $total_cov
@@ -305,15 +296,13 @@ risk_assess_package$covr_list
 
     $res_cov$notes
     [1] NA
-``` 
+
 
 # Traceability Matrix
 
 ``` r
 risk_assess_package$tm
 ```
-
-``` r
 
     # A tibble: 4 × 5
       exported_function code_script  documentation description                   coverage_percent
@@ -322,7 +311,7 @@ risk_assess_package$tm
     2 here              R/here.R     here.Rd       "here() uses a reasonable he…            100  
     3 i_am              R/i_am.R     i_am.Rd       "Add a call to here::i_am(\"…             95.8
     4 set_here          R/set_here.R set_here.Rd   "html<a href='https://www.ti…            100
-```
+
 
 
 # Current/Future directions

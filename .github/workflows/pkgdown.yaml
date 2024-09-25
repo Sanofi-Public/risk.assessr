@@ -52,6 +52,6 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: Sanofi-GitHub/sih-github-actions/deploy-connect@main
         with:
-          app-name: 'art-sanofiriskmetric'
+          app-name: 'risk.assessr'
           connect-account: 'I0555262'
           connect-api-key: ${{ secrets.CONNECT_API_KEY }}
