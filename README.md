@@ -22,11 +22,10 @@ Successful open source packages such as `admiral`, `tern` and as well as collabo
 
 However, open source raises inherent challenges in terms of:
 
-::: {#tbl:info-table}
 | Aspect         | Security                                                | Legal                                                 | Operational                                                                                                          |
 |----------------|---------------------------------------------------------|-------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
 | Considerations | \- Vulnerability issues <br> - Confidentiality concerns | \- Is the source code under a non-permissive license? | \- Is the package maintained by an active community? <br> - Does it follow good practices? <br> - Is it sustainable? |
-:::
+
 
 We need to use open-source projects responsibly and safely by adhering to best practices and ensure the reliability of the package being utilized for FDA submission.
 
