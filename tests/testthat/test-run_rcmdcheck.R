@@ -1,10 +1,10 @@
 test_that("running rcmd check for test package in tar file - no notes", {
 
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
 
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
 
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -40,10 +40,10 @@ test_that("running rcmd check for test package in tar file - 1 note 1 warning", 
   check_type <- "2"
 
   dp <- system.file("test-data/test.package.0002_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
 
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp, check_type)
+  install_list <- risk.assessr::set_up_pkg(dp, check_type)
 
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -84,9 +84,9 @@ test_that("running rcmd check for test package in tar file - 1 note 1 error", {
   check_type <- "2"
 
   dp <- system.file("test-data/test.package.0003_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp, check_type)
+  install_list <- risk.assessr::set_up_pkg(dp, check_type)
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
@@ -122,9 +122,9 @@ test_that("running rcmd check for test package - error handling", {
   check_type <- "2"
   
   dp <- system.file("test-data/test.package.0003_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp, check_type)
+  install_list <- risk.assessr::set_up_pkg(dp, check_type)
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path

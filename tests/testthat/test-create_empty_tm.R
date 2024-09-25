@@ -2,7 +2,7 @@ test_that("test create_empty_tm ", {
   
   pkg_name <- ""
   
-  empty_tm <- sanofi.risk.assessr::create_empty_tm(pkg_name)
+  empty_tm <- risk.assessr::create_empty_tm(pkg_name)
   
   expect_identical(length(empty_tm), 4L)
   

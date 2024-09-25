@@ -96,7 +96,7 @@ assess_export_help <- function(pkg_name, pkg_source_path) {
 #'
 assess_description_file_elements <- function(pkg_name, pkg_source_path) {
   
-  desc_elements <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path, 
+  desc_elements <- risk.assessr::get_pkg_desc(pkg_source_path, 
                                                     fields = c(
                                                                "Package", 
                                                                "BugReports",
@@ -315,34 +315,34 @@ doc_riskmetric <- function(pkg_name, pkg_ver, pkg_source_path) {
   
   
   export_help <- 
-    sanofi.risk.assessr::assess_export_help(pkg_name, 
+    risk.assessr::assess_export_help(pkg_name, 
                                            pkg_source_path)
   
   desc_elements <- 
-    sanofi.risk.assessr::assess_description_file_elements(pkg_name, 
+    risk.assessr::assess_description_file_elements(pkg_name, 
                                                          pkg_source_path)
   
   if (fs::dir_exists(fs::path(pkg_source_path, "R"))) {
     size_codebase <- 
-      sanofi.risk.assessr::assess_size_codebase(pkg_source_path)
+      risk.assessr::assess_size_codebase(pkg_source_path)
   } else {
     size_codebase <- 0
     message(glue::glue("{pkg_name} has no R folder to assess codebase size"))
   }
   has_vignettes <- 
-    sanofi.risk.assessr::assess_vignettes(pkg_name, 
+    risk.assessr::assess_vignettes(pkg_name, 
                                            pkg_source_path)
   
   has_examples <- 
-    sanofi.risk.assessr::assess_examples(pkg_name, 
+    risk.assessr::assess_examples(pkg_name, 
                                          pkg_source_path)
   
   has_news <- 
-    sanofi.risk.assessr::assess_news(pkg_name, 
+    risk.assessr::assess_news(pkg_name, 
                                         pkg_source_path)
   
   news_current <- 
-    sanofi.risk.assessr::assess_news_current(pkg_name,
+    risk.assessr::assess_news_current(pkg_name,
                                             pkg_ver,
                                             pkg_source_path)
   

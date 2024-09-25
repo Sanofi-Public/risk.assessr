@@ -1,6 +1,6 @@
 test_that("assess deps for sigmoid works correctly", {
   riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
-                                  package = "sanofi.risk.assessr")
+                                  package = "risk.assessr")
   
   update_comments <- "recalc test"
   

@@ -15,12 +15,12 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(sanofi.risk.assessr)
+library(risk.assessr)
 ```
 
 ## Create your own weights profile.
 
-The `sanofi.risk.assessr` package has a default weighting profile which assigns a weighting profile of 1 to each riskmetric
+The `risk.assessr` package has a default weighting profile which assigns a weighting profile of 1 to each riskmetric
 giving equal weighting to each risk metric.
 
 If you wish to create your own weighting profile, 
@@ -32,7 +32,7 @@ If you wish to create your own weighting profile,
 
 ```
 ```{r, eval=FALSE}
-library(sanofi.risk.assessr)
+library(risk.assessr)
 
 create_weights_profile <- function() {
   weights <- c(

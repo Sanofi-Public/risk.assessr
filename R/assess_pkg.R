@@ -10,7 +10,7 @@
 #' 
 #' @examples
 #' \dontrun{
-#' library(sanofi.risk.assessr)
+#' library(risk.assessr)
 #' # set CRAN repo to enable running of reverse dependencies
 #' r = getOption("repos")
 #' r["CRAN"] = "http://cran.us.r-project.org"
@@ -21,7 +21,7 @@
 #' modified_tar_file <- modify_description_file(pkg_source_path)
 #' 
 #' # Set up the package using the temporary file
-#' install_list <- sanofi.risk.assessr::set_up_pkg(modified_tar_file)
+#' install_list <- risk.assessr::set_up_pkg(modified_tar_file)
 #' 
 #' # Extract information from the installation list
 #' build_vignettes <- install_list$build_vignettes
@@ -31,12 +31,12 @@
 #' 
 #' # check if the package needs to be installed locally
 #' package_installed <- 
-#'   sanofi.risk.assessr::install_package_local(pkg_source_path)
+#'   risk.assessr::install_package_local(pkg_source_path)
 #' 
 #' # Check if the package was installed successfully
 #' if (package_installed == TRUE) {
 #'   # Assess the package
-#'   assess_package <- sanofi.risk.assessr::assess_pkg(pkg_source_path, rcmdcheck_args)
+#'   assess_package <- risk.assessr::assess_pkg(pkg_source_path, rcmdcheck_args)
 #'   # Output the assessment result
 #' } else {
 #'   message("Package installation failed.")
@@ -67,27 +67,27 @@ assess_pkg <- function(
   checkmate::check_logical(rcmdcheck_args$quiet)
   
   # Get package name and version
-  pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path, 
+  pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path, 
                                                fields = c("Package", 
                                                           "Version"))
   pkg_name <- pkg_desc$Package
   pkg_ver <- pkg_desc$Version
   pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
 
-  metadata <- sanofi.risk.assessr::get_risk_metadata()
+  metadata <- risk.assessr::get_risk_metadata()
   
-  results <- sanofi.risk.assessr::create_empty_results(pkg_name,
+  results <- risk.assessr::create_empty_results(pkg_name,
                                                       pkg_ver,
                                                       pkg_source_path,
                                                       metadata)
   
   doc_scores <- 
-    sanofi.risk.assessr::doc_riskmetric(pkg_name, 
+    risk.assessr::doc_riskmetric(pkg_name, 
                                        pkg_ver, 
                                        pkg_source_path)
   
   results <- 
-    sanofi.risk.assessr::update_results_doc_scores(results, 
+    risk.assessr::update_results_doc_scores(results, 
                                                   doc_scores)
   # run R code coverage
   covr_list <- run_coverage(
@@ -100,7 +100,7 @@ assess_pkg <- function(
   
   if (is.na(results$covr) | results$covr == 0L) {
     #  create empty traceability matrix
-    tm <- sanofi.risk.assessr::create_empty_tm(pkg_name)
+    tm <- risk.assessr::create_empty_tm(pkg_name)
   } else {
     #  create traceability matrix
     tm <- create_traceability_matrix(pkg_name, 
@@ -114,15 +114,15 @@ assess_pkg <- function(
   # add rcmd check score to results
   results$check <- check_list$check_score
   
-  deps_list <- sanofi.risk.assessr::calc_dependencies(pkg_source_path)
+  deps_list <- risk.assessr::calc_dependencies(pkg_source_path)
   
   results$dependencies <- paste( unlist(deps_list$deps), collapse = '#')
   
   results$dep_score <- deps_list$dep_score
   
-  results$revdep_score <- sanofi.risk.assessr::calc_reverse_dependencies(pkg_source_path)
+  results$revdep_score <- risk.assessr::calc_reverse_dependencies(pkg_source_path)
   
-  results$export_calc <- sanofi.risk.assessr::assess_exports(pkg_source_path)
+  results$export_calc <- risk.assessr::assess_exports(pkg_source_path)
  
   # convert NAs and NANs to zero
   results <- rapply( results, f=function(x) ifelse(is.nan(x),0,x), how="replace" )	  
@@ -130,12 +130,12 @@ assess_pkg <- function(
   
   # calculate risk score with user defined metrics
   results$overall_risk_score <- 
-    sanofi.risk.assessr::calc_overall_risk_score(results, 
+    risk.assessr::calc_overall_risk_score(results, 
                                                 default_weights = FALSE)
   
   # calculate risk profile with user defined thresholds
   results$risk_profile <- 
-    sanofi.risk.assessr::calc_risk_profile(results$overall_risk_score)
+    risk.assessr::calc_risk_profile(results$overall_risk_score)
   
   return(list(
               results = results,

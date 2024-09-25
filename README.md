@@ -5,8 +5,8 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/actions/workflows/R-CMD-check.yaml)
-[![test-coverage](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/actions/workflows/test-coverage.yaml)
+[![R-CMD-check](https://github.com/Sanofi-GitHub/bp-art-risk.assessr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-risk.assessr/actions/workflows/R-CMD-check.yaml)
+[![test-coverage](https://github.com/Sanofi-GitHub/bp-art-risk.assessr/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/actions/workflows/test-coverage.yaml)
 ![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen.svg)
 
 
@@ -16,13 +16,49 @@
 
 # Overview
 
-The business case is to establish a comprehensive and reliable package
+Open-source projects can improve how clinical trials work by making them more transparent and collaborative to solve problems and define a common standard in the clinical trial ecosystem.
+
+Successful open source packages such as `admiral`, `tern` and as well as collaborative initiatives (`Pharmaverse`, `Transcellerate`, `Phuse`) could greatly standardize and harmonize processes for different laboratories as well as allowing for faster deliverable for submission.
+
+However, open source raises inherent challenges in terms of:
+
+::: {#tbl:info-table}
+| Aspect         | Security                                                | Legal                                                 | Operational                                                                                                          |
+|----------------|---------------------------------------------------------|-------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| Considerations | \- Vulnerability issues <br> - Confidentiality concerns | \- Is the source code under a non-permissive license? | \- Is the package maintained by an active community? <br> - Does it follow good practices? <br> - Is it sustainable? |
+:::
+
+We need to use open-source projects responsibly and safely by adhering to best practices and ensure the reliability of the package being utilized for FDA submission.
+
+
+Ours goal is to establish a comprehensive and reliable package
 that helps in the initial determining of a package’s reliability and
 security in terms of maintenance, documentation, and dependencies.
 
-This package is designed to carry out a risk assessment of R packages at
-the beginning of the validation process when packages are not on github
-(either internal or open source).
+This package is designed to carry out a risk assessment of R packages at an early stage of development may be internal and/or contrary to open-source package.
+
+
+This packages can:
+
+-   Actively run `R CMD check` (a series of technical checks that ensure examples run\
+    successfully, tests pass, the packages are compatible with other packages on CRAN)
+
+-   Provide some answers as to why certain steps are not passing
+
+-   Actively run `test coverage` checks to ensure tests pass and calculate unit test coverage
+
+-   create a `traceability matrix` that matches the function / test descriptions to tests\
+    and match to test pass/fail and associated test coverage
+
+-   Can be executed in several environments (different OS, wise) and with different R\
+    versions
+
+-   Can work with package versions
+
+
+-   Provide a overall risk score
+
+
 
 It calculates risk metrics such as:
 
@@ -33,12 +69,7 @@ composite coverage of dependencies
 example(s), return object description for exported functions, and type
 of license
 
-**Dependency Metrics** - package dependencies and reverse dependencies
 
-It also calculates a:
-
-**Traceability matrix** - matching the function / test descriptions to
-tests and match to test pass/fail
 
 # Description
 
@@ -54,7 +85,7 @@ an overall risk score for each package as shown in the example below.
 
 This package executes the following tasks:
 
-1.  upload the source package(`renv.lock` or `tar.gz` file)
+1.  upload the source package(`tar.gz` file) locally
 
 2.  Unpack the `tar.gz` file
 
@@ -68,34 +99,11 @@ This package executes the following tasks:
 
 7.  Run risk assessment metrics using default or user defined weighting
 
-# Notes
 
-This package fixes a number of errors in `pharmaR/riskmetric`
-
-1.  running R CMD check and code coverage with locally installed
-    packages
-2.  user defined weighting works
-3.  `Suggests` added to checking dependencies
-4.  `assess_dependencies` and `assess_reverse_dependencies` has sigmoid
-    point increased
-5.  `assess_dependencies` has value range changed to fit in with other
-    scoring metrics
-
-# Current/Future directions
-
-- overall risk profile - `DONE`
-- traceability matrix - matching the function / test descriptions to
-  tests and match to test pass/fail - `DONE`
-- check package versions with **verdepcheck**
-
-# Acknowledgements
-
-The project is inspired by the
-[`riskmetric`](https://github.com/pharmaR/riskmetric) package and the
-[`mpn.scorecard`](https://github.com/metrumresearchgroup/mpn.scorecard)
-package and draws on some of their ideas and functions.
 
 # Installation
+
+## from github repository
 
 - Create a `Personal Access Token` (PAT) on `github`
 
@@ -116,10 +124,20 @@ package and draws on some of their ideas and functions.
 
 <!-- -->
 
-    auth_token = Sys.getenv("GITHUBTOKEN")
-    devtools::install_github("Sanofi-GitHub/bp-art-sanofi.risk.assessr", ref = "main", auth_token = auth_token)
+``` r
+auth_token = Sys.getenv("GITHUBTOKEN")
+devtools::install_github("Sanofi-GitHub/bp-art-risk.assessr", ref = "main", auth_token = auth_token)
 
-## Assessing your own package
+```
+
+  
+## from CRAN
+
+``` r
+install.package("risk.assessr")
+```
+
+# Assessing your own package
 
 To assess your package, do the following steps:
 
@@ -132,10 +150,10 @@ To assess your package, do the following steps:
 `tar.gz` file
 
 ``` r
-library(sanofi.risk.assessr)
+library(risk.assessr)
 
 # for local tar.gz R package
-risk_assess_package <- sanofi.risk.assessr::risk_assess_pkg()
+risk_assess_package <- risk.assessr::risk_assess_pkg()
 ```
 
 ``` r
@@ -143,8 +161,9 @@ risk_assess_package <- sanofi.risk.assessr::risk_assess_pkg()
 risk_assess_package$results
 ```
 
-## Metrics and Risk assessment
+# Result: Metrics and Risk assessment
 
+``` r
     risk_assess_package$results
     $pkg_name
     [1] "here"
@@ -233,15 +252,17 @@ risk_assess_package$results
 
     $risk_profile
     [1] "Low"
+``` 
 
 # Check the RCMD check results
 
 ``` r
-
 risk_assess_package$check_list$res_check
 ```
 
 ## R CMD check results
+
+``` r
 
     risk_assess_package$check_list$res_check
     ── R CMD check results ─────────────────────────────────────────────────────────── here 1.0.1 ────
@@ -284,14 +305,15 @@ risk_assess_package$covr_list
 
     $res_cov$notes
     [1] NA
+``` 
 
-# Check the traceability matrix
+# Traceability Matrix
 
 ``` r
 risk_assess_package$tm
 ```
 
-# Traceability Matrix
+``` r
 
     # A tibble: 4 × 5
       exported_function code_script  documentation description                   coverage_percent
@@ -300,16 +322,27 @@ risk_assess_package$tm
     2 here              R/here.R     here.Rd       "here() uses a reasonable he…            100  
     3 i_am              R/i_am.R     i_am.Rd       "Add a call to here::i_am(\"…             95.8
     4 set_here          R/set_here.R set_here.Rd   "html<a href='https://www.ti…            100
-
-# R package on CRAN or bioconductor
-
-To check a package on `CRAN` or `bioconductor`, run the following code:
-
-``` r
-library(sanofi.risk.assessr)
-risk_assess_package <- sanofi.risk.assessr::assess_pkg_r_package("here", 
-                                                                version = "1.0.1")
 ```
 
-This will produce similar results to the example with
-`Assessing your own package` with a `tar` file.
+
+# Current/Future directions
+
+- Experimental analysis to define overall risk profile
+- Open source database with `risk.assessr` data on `Sanofi` package and on internal environment
+- Module to automatically fetch source R package `tar.gz` file with package name and version:
+
+``` r
+library(risk.assessr)
+
+# for local tar.gz R package
+risk_assess_package <- risk.assessr::assess_pkg_r_package("ggplot2", version = "3.5.1")
+
+```
+
+# Acknowledgements
+
+The project is inspired by the
+[`riskmetric`](https://github.com/pharmaR/riskmetric) package and the
+[`mpn.scorecard`](https://github.com/metrumresearchgroup/mpn.scorecard)
+package and draws on some of their ideas and functions.
+

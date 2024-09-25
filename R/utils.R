@@ -130,7 +130,7 @@ calc_overall_risk_score <- function(data,
     weights <- add_default_risk_weights(data) 
     message(glue::glue("Default weights used"))
   } else {
-    weights <- sanofi.risk.assessr::create_weights_profile()
+    weights <- risk.assessr::create_weights_profile()
     message(glue::glue("User defined weights used"))
   }  
   
@@ -151,7 +151,7 @@ calc_overall_risk_score <- function(data,
 calc_risk_profile <- function(risk_data) {
   
   # get risk profile thresholds
-  risk_profile_thresholds <- sanofi.risk.assessr::create_risk_profile()
+  risk_profile_thresholds <- risk.assessr::create_risk_profile()
   
   risk_data <- as.data.frame(risk_data)
   # set up risk profile thresholds
@@ -187,7 +187,7 @@ calc_risk_profile <- function(risk_data) {
 #' 
 #' @examples 
 #' riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
-#' package = "sanofi.risk.assessr")
+#' package = "risk.assessr")
 #' update_comments <- "recalc scores example"
 #' 
 #' recalc_example <- recalc_risk_scores(riskdata_results, update_comments)
@@ -214,7 +214,7 @@ recalc_risk_scores <- function(riskdata_results, update_comments) {
   # calculate risk score with user defined metrics
   results$overall_risk_score <- results |>
     split(1:nrow(results)) |> 
-    purrr::map(sanofi.risk.assessr::calc_overall_risk_score) |> 
+    purrr::map(risk.assessr::calc_overall_risk_score) |> 
     unlist()
   
   
@@ -222,7 +222,7 @@ recalc_risk_scores <- function(riskdata_results, update_comments) {
  results$risk_profile <- results |>
    dplyr::select(overall_risk_score) |> 
    split(1:nrow(results)) |>
-   purrr::map(sanofi.risk.assessr::calc_risk_profile) |> 
+   purrr::map(risk.assessr::calc_risk_profile) |> 
    unlist()
  
  # add comments

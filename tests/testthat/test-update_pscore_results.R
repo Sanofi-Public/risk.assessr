@@ -1,6 +1,6 @@
 test_that("test update_pscore_results", {
   
-  results <- sanofi.risk.assessr::update_pscore_results(update_risk_results, update_pscore)
+  results <- risk.assessr::update_pscore_results(update_risk_results, update_pscore)
   
   expect_identical(length(results), 18L)
   

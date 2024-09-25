@@ -1,21 +1,21 @@
 # test_that("don't run test coverage for  empty tar file works correctly", {
 # 
 #   dp <- system.file("test-data/empty.tar.gz",
-#                     package = "sanofi.risk.assessr")
+#                     package = "risk.assessr")
 #   
 #   # set up package
-#   install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+#   install_list <- risk.assessr::set_up_pkg(dp)
 #   
 #   build_vignettes <- install_list$build_vignettes
 #   package_installed <- install_list$package_installed
 #   pkg_source_path <- install_list$pkg_source_path
 #   rcmdcheck_args <- install_list$rcmdcheck_args
 # 
-#   pkg_disp <- sanofi.risk.assessr::get_pkg_name(pkg_source_path)
+#   pkg_disp <- risk.assessr::get_pkg_name(pkg_source_path)
 #   
 #   if (skip_if(package_installed != TRUE,
 #                message = glue::glue("cannot run coverage test for {pkg_disp}")) ) {
-#     covr_list <- sanofi.risk.assessr::run_coverage(pkg_source_path)
+#     covr_list <- risk.assessr::run_coverage(pkg_source_path)
 # 
 #     # add total coverage to results
 #     results$covr <- covr_list$total_cov
@@ -30,10 +30,10 @@
 test_that("running coverage for created package in tar file with no notes", {
   
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -43,7 +43,7 @@ test_that("running coverage for created package in tar file with no notes", {
   if (package_installed == TRUE ) {
   
     testthat::expect_message(
-      covr_list <- sanofi.risk.assessr::run_coverage(pkg_source_path),
+      covr_list <- risk.assessr::run_coverage(pkg_source_path),
       glue::glue("code coverage for {basename(pkg_source_path)} successful"),
       fixed = TRUE
     )
@@ -64,9 +64,9 @@ test_that("running coverage for created package in tar file with 1 note 1 warnin
   
   
   dp <- system.file("test-data/test.package.0002_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -76,7 +76,7 @@ test_that("running coverage for created package in tar file with 1 note 1 warnin
   if (package_installed == TRUE ) {
     
     testthat::expect_message(
-      covr_list <- sanofi.risk.assessr::run_coverage(pkg_source_path),
+      covr_list <- risk.assessr::run_coverage(pkg_source_path),
       glue::glue("code coverage for {basename(pkg_source_path)} successful"),
       fixed = TRUE
     )
@@ -96,9 +96,9 @@ test_that("running coverage for created package in tar file with 1 note 1 warnin
 test_that("running coverage for created package in tar file with 1 note 1 error", {
   
   dp <- system.file("test-data/test.package.0003_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -108,7 +108,7 @@ test_that("running coverage for created package in tar file with 1 note 1 error"
   if (package_installed == TRUE ) {
     
     testthat::expect_message(
-      covr_list <- sanofi.risk.assessr::run_coverage(pkg_source_path),
+      covr_list <- risk.assessr::run_coverage(pkg_source_path),
       glue::glue("R coverage for {basename(pkg_source_path)} failed"),
       fixed = TRUE
     )
@@ -128,9 +128,9 @@ test_that("running coverage for created package in tar file with 1 note 1 error"
 test_that("running coverage for created package in tar file with no tests", {
   
   dp <- system.file("test-data/test.package.0004_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -139,7 +139,7 @@ test_that("running coverage for created package in tar file with no tests", {
   
   if (package_installed == TRUE ) {
     
-    covr_list <- sanofi.risk.assessr::run_coverage(pkg_source_path)
+    covr_list <- risk.assessr::run_coverage(pkg_source_path)
     
     # add total coverage to results
     results$covr <- covr_list$total_cov
@@ -161,9 +161,9 @@ test_that("running coverage for created package in tar file with no tests", {
 test_that("running coverage for created package in tar file with no functions", {
   
   dp <- system.file("test-data/test.package.0005_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -173,7 +173,7 @@ test_that("running coverage for created package in tar file with no functions", 
   if (package_installed == TRUE ) {
     
     testthat::expect_message(
-      covr_list <- sanofi.risk.assessr::run_coverage(pkg_source_path),
+      covr_list <- risk.assessr::run_coverage(pkg_source_path),
       glue::glue("R coverage for {basename(pkg_source_path)} had notes: no testable functions found"),
       fixed = TRUE
     )

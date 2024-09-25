@@ -22,7 +22,7 @@ create_traceability_matrix <- function(pkg_name,
   tm_possible <- contains_r_folder(pkg_source_path) 
   # 
   if (tm_possible == FALSE) {
-    tm <- sanofi.risk.assessr::create_empty_tm(pkg_name)
+    tm <- risk.assessr::create_empty_tm(pkg_name)
     message(glue::glue("no R folder to create traceability matrix for {pkg_name}"))
   } else {  
     
@@ -36,7 +36,7 @@ create_traceability_matrix <- function(pkg_name,
     exports_df <- map_functions_to_docs(exports_df, pkg_source_path, verbose)
     
     descrip <- get_func_descriptions(pkg_name)
-    descript_df <- tibble::enframe(descrip) |> 
+    descript_df <- tibble::enframe(descrip) |>  
       dplyr::rename(
         c(documentation = name,
           description = value)
@@ -67,7 +67,7 @@ create_traceability_matrix <- function(pkg_name,
       
       message(glue::glue("traceability matrix for {pkg_name} successful"))
     } else {
-      tm <- sanofi.risk.assessr::create_empty_tm(pkg_name)
+      tm <- risk.assessr::create_empty_tm(pkg_name)
       message(glue::glue("traceability matrix for {pkg_name} unsuccessful"))
     }
   }

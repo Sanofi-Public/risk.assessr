@@ -5,10 +5,10 @@ test_that("assess exports for help files works correctly", {
   options(repos = r)
   
   dp <- system.file("test-data/here-1.0.1.tar.gz", 
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -18,7 +18,7 @@ test_that("assess exports for help files works correctly", {
   if (package_installed == TRUE ) {	
     
     # Get package name and version
-    pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path, 
+    pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path, 
                                                  fields = c("Package", 
                                                             "Version"))
     pkg_name <- pkg_desc$Package
@@ -26,14 +26,14 @@ test_that("assess exports for help files works correctly", {
     pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
     
     testthat::expect_message(
-      export_help <- sanofi.risk.assessr::assess_export_help(pkg_name, pkg_source_path),
+      export_help <- risk.assessr::assess_export_help(pkg_name, pkg_source_path),
       glue::glue("All exported functions have corresponding help files in {(pkg_name)}"),
       fixed = TRUE
     )
     
-    export_help <- sanofi.risk.assessr::assess_export_help(pkg_name, pkg_source_path)
+    export_help <- risk.assessr::assess_export_help(pkg_name, pkg_source_path)
     
-    export_calc <- sanofi.risk.assessr::assess_exports(pkg_source_path)
+    export_calc <- risk.assessr::assess_exports(pkg_source_path)
     
     expect_identical(length(export_help), 1L)
     
@@ -55,10 +55,10 @@ test_that("assess exports for missing help files works correctly", {
   options(repos = r)
   
   dp <- system.file("test-data/stringr-1.5.1.tar.gz", 
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -68,7 +68,7 @@ test_that("assess exports for missing help files works correctly", {
   if (package_installed == TRUE ) {	
     
     # Get package name and version
-    pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path, 
+    pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path, 
                                                  fields = c("Package", 
                                                             "Version"))
     pkg_name <- pkg_desc$Package
@@ -76,14 +76,14 @@ test_that("assess exports for missing help files works correctly", {
     pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
     
     testthat::expect_message(
-      export_help <- sanofi.risk.assessr::assess_export_help(pkg_name, pkg_source_path),
+      export_help <- risk.assessr::assess_export_help(pkg_name, pkg_source_path),
       glue::glue("Some exported functions are missing help files in {(pkg_name)}"),
       fixed = TRUE
     )
     
-    export_help <- sanofi.risk.assessr::assess_export_help(pkg_name, pkg_source_path)
+    export_help <- risk.assessr::assess_export_help(pkg_name, pkg_source_path)
     
-    export_calc <- sanofi.risk.assessr::assess_exports(pkg_source_path)
+    export_calc <- risk.assessr::assess_exports(pkg_source_path)
     
     expect_identical(length(export_help), 1L)
     
@@ -105,10 +105,10 @@ test_that("assess exports for no help files works correctly", {
   options(repos = r)
   
   dp <- system.file("test-data/test.package.0006_0.1.0.tar.gz", 
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -126,7 +126,7 @@ test_that("assess exports for no help files works correctly", {
     rcmdcheck_args$path <- pkg_source_path
     
     # Get package name and version
-    pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path, 
+    pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path, 
                                                  fields = c("Package", 
                                                             "Version"))
     pkg_name <- pkg_desc$Package
@@ -134,14 +134,14 @@ test_that("assess exports for no help files works correctly", {
     pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
     
     testthat::expect_message(
-      export_help <- sanofi.risk.assessr::assess_export_help(pkg_name, pkg_source_path),
+      export_help <- risk.assessr::assess_export_help(pkg_name, pkg_source_path),
       glue::glue("No exported functions in {(pkg_name)}"),
       fixed = TRUE
     )
     
-    export_help <- sanofi.risk.assessr::assess_export_help(pkg_name, pkg_source_path)
+    export_help <- risk.assessr::assess_export_help(pkg_name, pkg_source_path)
     
-    export_calc <- sanofi.risk.assessr::assess_exports(pkg_source_path)
+    export_calc <- risk.assessr::assess_exports(pkg_source_path)
     
     expect_identical(length(export_help), 1L)
     

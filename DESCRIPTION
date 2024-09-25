@@ -1,4 +1,4 @@
-Package: sanofi.risk.assessr
+Package: risk.assessr
 Title: Assessing package risk metrics
 Version: 1.0.0
 Authors@R: c(
@@ -6,45 +6,20 @@ Authors@R: c(
   person('Hugo', 'Bottois', email = "hugo.bottois@sanofi.com", role = "aut"))
 Description: Tools for assessing R packages against a number of metrics to  help validate their trustworthiness and reliability.
 License: Apache License (>= 2)
-Depends: 
-  R (>= 4.1.0)
-Imports:
-  callr,
-  checkmate,
-  covr,
-  devtools,
-  dplyr,
-  lubridate,
-  purrr,
-  rcmdcheck,
-  rlang,
-  httr2,
-  jsonlite
-Suggests:
-  forcats,
-  fs,
-  glue,
-  here,
-  knitr,
-  magrittr,
-  openxlsx,
-  remotes,
-  readr,
-  roxygen2,
-  pkgload,
-  testthat (>= 3.0.0),
-  stringr (>= 1.4.0),
-  tibble,
-  tidyr,
-  tidyselect,
-  tools,
-  rmarkdown,
-  utils,
-  withr,
-  mockery
+Depends: R (>= 4.1.0)
+Imports: callr, checkmate, covr, devtools, dplyr, lubridate, purrr,
+        rcmdcheck, rlang, httr2, jsonlite
+Suggests: forcats, fs, glue, here, knitr, magrittr, openxlsx, remotes,
+        readr, roxygen2, pkgload, testthat (>= 3.0.0), stringr (>=
+        1.4.0), tibble, tidyr, tidyselect, tools, rmarkdown, utils,
+        withr, mockery
 Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Config/testthat/edition: 3
 Config/build/clean-inst-doc: false
 VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2024-09-24 15:02:32 UTC; u1004798
+Author: Edward Gillian [cre, aut],
+  Hugo Bottois [aut]
+Maintainer: Edward Gillian <edward.gillian-ext@sanofi.com>

@@ -1,10 +1,10 @@
 test_that("set up package for tar file with default check type", {
   
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz", 
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   expect_identical(length(install_list), 4L)
   
@@ -22,12 +22,12 @@ test_that("set up package for tar file with default check type", {
 
 test_that("set up package for tar file with check type 1", {    
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz", 
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   check_type <- "1"
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp, 
+  install_list <- risk.assessr::set_up_pkg(dp, 
                                                  check_type 
                                                  )
   
@@ -48,12 +48,12 @@ test_that("set up package for tar file with check type 1", {
 
 test_that("set up package for tar file with check type 1", {    
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz", 
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   check_type <- "2"
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp, 
+  install_list <- risk.assessr::set_up_pkg(dp, 
                                                  check_type 
   )
   

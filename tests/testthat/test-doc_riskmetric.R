@@ -1,23 +1,23 @@
 test_that("test doc_riskmetrics", {
   
-  library(sanofi.risk.assessr)
+  library(risk.assessr)
   # set CRAN repo 
   r = getOption("repos")
   r["CRAN"] = "http://cran.us.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/stringr-1.5.1.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
   pkg_source_path <- install_list$pkg_source_path
   rcmdcheck_args <- install_list$rcmdcheck_args
   
-  pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path, 
+  pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path, 
                                                fields = c("Package", 
                                                           "Version"))
   pkg_name <- pkg_desc$Package
@@ -25,7 +25,7 @@ test_that("test doc_riskmetrics", {
   pkg_name_ver <- paste0(pkg_name, "_", pkg_ver)
   
   doc_riskmetric_test <- 
-    sanofi.risk.assessr::doc_riskmetric(pkg_name,
+    risk.assessr::doc_riskmetric(pkg_name,
                                        pkg_ver,
                                        pkg_source_path)
   

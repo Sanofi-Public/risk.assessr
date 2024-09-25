@@ -69,9 +69,9 @@ calc_dependencies <- function(pkg_source_path) {
   
   message(glue::glue("running package dependencies for {pkg_name}"))
   
-  deps <- sanofi.risk.assessr::parse_dcf_dependencies(pkg_source_path)
+  deps <- risk.assessr::parse_dcf_dependencies(pkg_source_path)
   
-  dep_score <- sanofi.risk.assessr::score_dependencies(deps)
+  dep_score <- risk.assessr::score_dependencies(deps)
   
   deps_results <- list(
     deps = deps,
@@ -137,9 +137,9 @@ calc_reverse_dependencies <- function(pkg_source_path) {
   
   message(glue::glue("running reverse dependencies for {pkg_name}"))
   
-  rev_deps <- sanofi.risk.assessr::find_reverse_dependencies(name)
+  rev_deps <- risk.assessr::find_reverse_dependencies(name)
   
-  revdep_score <- sanofi.risk.assessr::score_reverse_dependencies(rev_deps)
+  revdep_score <- risk.assessr::score_reverse_dependencies(rev_deps)
   
   message(glue::glue("reverse dependencies successful for {pkg_name}"))
   
@@ -158,7 +158,7 @@ calc_reverse_dependencies <- function(pkg_source_path) {
 #' 
 #' @examples 
 #' riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
-#' package = "sanofi.risk.assessr")
+#' package = "risk.assessr")
 #' 
 #' sigmoid_example <- assess_dep_for_sigmoid(riskdata_results)
 #' print(sigmoid_example$all_count_mean)

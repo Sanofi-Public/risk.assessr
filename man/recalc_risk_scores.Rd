@@ -22,7 +22,7 @@ without running the whole risk assessment process again}
 }
 \examples{
 riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
-package = "sanofi.risk.assessr")
+package = "risk.assessr")
 update_comments <- "recalc scores example"
 
 recalc_example <- recalc_risk_scores(riskdata_results, update_comments)

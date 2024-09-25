@@ -1,10 +1,10 @@
 test_that("running tm for created package in tar file with no notes", {
 
   dp <- system.file("test-data/stringr-1.5.1.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -14,7 +14,7 @@ test_that("running tm for created package in tar file with no notes", {
   if (package_installed == TRUE ) {
 
     # setup parameters for running covr
-    pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path,
+    pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path,
                                                  fields = c("Package",
                                                             "Version"))
     pkg_name <- pkg_desc$Package
@@ -23,7 +23,7 @@ test_that("running tm for created package in tar file with no notes", {
 
     covr_timeout <- Inf
 
-    covr_list <- sanofi.risk.assessr::run_coverage(
+    covr_list <- risk.assessr::run_coverage(
       pkg_source_path,  # must use untarred package dir
       covr_timeout
     )
@@ -56,10 +56,10 @@ test_that("running tm for created package in tar file with no notes", {
 test_that("running tm for created package in tar file with no tests", {
 
   dp <- system.file("test-data/test.package.0004_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
 
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
 
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -77,7 +77,7 @@ test_that("running tm for created package in tar file with no tests", {
     rcmdcheck_args$path <- pkg_source_path
     
     # setup parameters for running covr
-    pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path,
+    pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path,
                                                  fields = c("Package",
                                                             "Version"))
     pkg_name <- pkg_desc$Package
@@ -86,12 +86,12 @@ test_that("running tm for created package in tar file with no tests", {
 
     covr_timeout <- Inf
 
-    covr_list <- suppressMessages(sanofi.risk.assessr::run_coverage(
+    covr_list <- suppressMessages(risk.assessr::run_coverage(
       pkg_source_path,  # must use untarred package dir
       covr_timeout)
     )
 
-    tm <- sanofi.risk.assessr::create_traceability_matrix(pkg_name,
+    tm <- risk.assessr::create_traceability_matrix(pkg_name,
                                        pkg_source_path,
                                        covr_list$res_cov)
 
@@ -117,10 +117,10 @@ test_that("running tm for created package in tar file with no tests", {
 test_that("running tm for created package in tar file with no R directory", {
   
   dp <- system.file("test-data/test.package.0006_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -130,7 +130,7 @@ test_that("running tm for created package in tar file with no R directory", {
   if (package_installed == TRUE ) {
     
     # setup parameters for running covr
-    pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path, 
+    pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path, 
                                                  fields = c("Package", 
                                                             "Version"))
     pkg_name <- pkg_desc$Package
@@ -139,7 +139,7 @@ test_that("running tm for created package in tar file with no R directory", {
     
     covr_timeout <- Inf
     
-    covr_list <- suppressMessages(sanofi.risk.assessr::run_coverage(
+    covr_list <- suppressMessages(risk.assessr::run_coverage(
       pkg_source_path,  # must use untarred package dir
       covr_timeout)
     )
@@ -175,15 +175,15 @@ test_that("running tm for created package in tar file with no R directory", {
 })
 
 # The following test will be reactivated when 
-# https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/issues/78 is fixed
+# https://github.com/Sanofi-GitHub/bp-art-risk.assessr/issues/78 is fixed
 
 test_that("running tm for created package in tar file with empty R directory", {
 
   dp <- system.file("test-data/test.package.0005_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
 
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
 
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -193,7 +193,7 @@ test_that("running tm for created package in tar file with empty R directory", {
   if (package_installed == TRUE ) {
 
     # setup parameters for running covr
-    pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path,
+    pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path,
                                                  fields = c("Package",
                                                             "Version"))
     pkg_name <- pkg_desc$Package
@@ -202,7 +202,7 @@ test_that("running tm for created package in tar file with empty R directory", {
 
     covr_timeout <- Inf
 
-    covr_list <- suppressMessages(sanofi.risk.assessr::run_coverage(
+    covr_list <- suppressMessages(risk.assessr::run_coverage(
       pkg_source_path,  # must use untarred package dir
       covr_timeout)
     )
