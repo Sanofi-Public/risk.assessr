@@ -1,7 +1,7 @@
 test_that("modify_description_file modifies DESCRIPTION correctly", {
 
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
 
   # Check if the file exists before attempting to download
   if (!file.exists(dp)) {
@@ -51,7 +51,7 @@ test_that("modify_description_file modifies DESCRIPTION correctly", {
 test_that("modify_description_file modifies DESCRIPTION correctly 1bis", {
 
   dp <- system.file("test-data/test.package.0005_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
 
   # Check if the file exists before attempting to download
   if (!file.exists(dp)) {
@@ -139,7 +139,7 @@ test_that("modify_description_file modifies DESCRIPTION correctly 2", {
 
 test_that("Config/build/clean-inst-doc: false already in DESCRIPTION file", {
   dp <- system.file("test-data/test.package.0008_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
 
   # Check if the file exists before attempting to download
   if (!file.exists(dp)) {

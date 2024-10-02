@@ -69,9 +69,9 @@ calc_dependencies <- function(pkg_source_path) {
   
   message(glue::glue("running package dependencies for {pkg_name}"))
   
-  deps <- sanofi.risk.assessr::parse_dcf_dependencies(pkg_source_path)
+  deps <- risk.assessr::parse_dcf_dependencies(pkg_source_path)
   
-  dep_score <- sanofi.risk.assessr::score_dependencies(deps)
+  dep_score <- risk.assessr::score_dependencies(deps)
   
   deps_results <- list(
     deps = deps,
@@ -137,84 +137,11 @@ calc_reverse_dependencies <- function(pkg_source_path) {
   
   message(glue::glue("running reverse dependencies for {pkg_name}"))
   
-  rev_deps <- sanofi.risk.assessr::find_reverse_dependencies(name)
+  rev_deps <- risk.assessr::find_reverse_dependencies(name)
   
-  revdep_score <- sanofi.risk.assessr::score_reverse_dependencies(rev_deps)
+  revdep_score <- risk.assessr::score_reverse_dependencies(rev_deps)
   
   message(glue::glue("reverse dependencies successful for {pkg_name}"))
   
   return(revdep_score)
 }
-
-#' Assess dependencies for sigmoid point
-#' 
-#' @param riskdata_results - path to riskdata_results toy dataset
-#' 
-#' @description This function calculates average number of dependencies to 
-#' determine the dependency sigmoid point
-#'
-#' @return nested list with dependencies, Import count mean, 
-#' and all dependency count and mean
-#' 
-#' @examples 
-#' riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
-#' package = "sanofi.risk.assessr")
-#' 
-#' sigmoid_example <- assess_dep_for_sigmoid(riskdata_results)
-#' print(sigmoid_example$all_count_mean)
-#'   
-#' @export
-#'
-
-assess_dep_for_sigmoid <- function(riskdata_results) {
-  
-  # read in the results
-  results <- read.csv(file.path(riskdata_results))
-  
-  # filter existing data from initial run
-  results <- results |> 
-    dplyr::filter(grepl("\\Initial", comments, ignore.case = FALSE))
-  
-  # convert NAs and NANs to zero
-  results <- rapply( results, f=function(x) ifelse(is.nan(x),0,x), how="replace" )	  
-  results <- rapply( results, f=function(x) ifelse(is.na(x),0,x), how="replace" )
-  
-  results <- results |> dplyr::select(pkg_name,
-                                      pkg_version,
-                                      dependencies
-                                      )
-  
-  # both imp_count and mean produce same result
-  results$imp_count <- stringr::str_count(results$dependencies, '#Imports')
-  
-  results$link_count <- stringr::str_count(results$dependencies, '#LinkingTo')
-  
-  results$sug_count <- stringr::str_count(results$dependencies, '#Suggests')
-  
-  imp_link_count_mean <- 
-    results |> 
-      dplyr::summarize(dplyr::across(imp_count:link_count, 
-                                     mean, 
-                                     na.rm= TRUE))
-  
-  imp_link_count_mean <- 
-    imp_link_count_mean |> dplyr::mutate(
-      mean_total = imp_count + link_count
-    )  
-  
-  all_count_mean <- results |> 
-    dplyr::summarize(dplyr::across(imp_count:sug_count, mean, na.rm= TRUE))
-  
-  all_count_mean <- 
-    all_count_mean |> dplyr::mutate(
-      mean_total = imp_count + link_count + sug_count
-    )
-  
-  results_list <- list(
-    results = results,
-    imp_link_count_mean = imp_link_count_mean,
-    all_count_mean = all_count_mean
-  )
-  
-  return(results_list)
-}  

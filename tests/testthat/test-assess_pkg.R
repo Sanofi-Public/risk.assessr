@@ -10,11 +10,11 @@ test_that("running assess_pkg for test package in tar file - no notes", {
   options(repos = r)
 
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
 
 
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
 
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -30,7 +30,7 @@ test_that("running assess_pkg for test package in tar file - no notes", {
 
 
     assess_package <-
-      sanofi.risk.assessr::assess_pkg(pkg_source_path,
+      risk.assessr::assess_pkg(pkg_source_path,
                                      rcmdcheck_args)
 
     testthat::expect_identical(length(assess_package), 4L)
@@ -132,11 +132,11 @@ test_that("running assess_pkg for test package in tar file - no exports", {
   options(repos = r)
 
   dp <- system.file("test-data/test.package.0005_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
 
 
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
 
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -154,7 +154,7 @@ test_that("running assess_pkg for test package in tar file - no exports", {
     rcmdcheck_args$path <- pkg_source_path
     
     assess_package <-
-      sanofi.risk.assessr::assess_pkg(pkg_source_path,
+      risk.assessr::assess_pkg(pkg_source_path,
                                      rcmdcheck_args)
 
     testthat::expect_identical(length(assess_package), 4L)
@@ -247,7 +247,7 @@ test_that("running assess_pkg for test package in tar file - no exports", {
 test_that("running assess_pkg for test package with Config/build/clean-inst-doc: false", {
   
   dp <- system.file("test-data/test.package.0005_0.1.0.tar.gz",
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # Check if the file exists before attempting to download
   if (!file.exists(dp)) {
@@ -270,7 +270,7 @@ test_that("running assess_pkg for test package with Config/build/clean-inst-doc:
   modified_tar_file <- modify_description_file(temp_file)
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -280,7 +280,7 @@ test_that("running assess_pkg for test package with Config/build/clean-inst-doc:
   if (package_installed == TRUE ) {
     
     assess_package <-
-      sanofi.risk.assessr::assess_pkg(pkg_source_path,
+      risk.assessr::assess_pkg(pkg_source_path,
                                      rcmdcheck_args)
     
     #testthat::expect_identical(length(assess_package), 4L)

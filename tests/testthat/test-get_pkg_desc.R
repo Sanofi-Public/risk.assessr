@@ -5,10 +5,10 @@ test_that("get package description works correctly", {
   options(repos = r)
   
   dp <- system.file("test-data/here-1.0.1.tar.gz", 
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
  
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -16,7 +16,7 @@ test_that("get package description works correctly", {
   rcmdcheck_args <- install_list$rcmdcheck_args
   
   if (package_installed == TRUE ) {	
-    pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path)
+    pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path)
     
     expect_identical(length(pkg_desc), 17L)
     

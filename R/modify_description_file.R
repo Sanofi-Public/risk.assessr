@@ -13,7 +13,7 @@
 #'   modified_tar <- modify_description_file("path/to/mypackage.tar.gz")
 #'   print(modified_tar)
 #'   # Unpack the tar.gz file
-#'   contents <- sanofi.risk.assessr::unpack_tarball(modified_tar)
+#'   contents <- risk.assessr::unpack_tarball(modified_tar)
 #    # Read and display the DESCRIPTION file
 #'   description_path <- file.path(contents, "DESCRIPTION")
 #'   description_content <- readLines(description_path)

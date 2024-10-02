@@ -5,10 +5,10 @@ test_that("assess exports for tar file works correctly", {
   options(repos = r)
   
   dp <- system.file("test-data/here-1.0.1.tar.gz", 
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -16,7 +16,7 @@ test_that("assess exports for tar file works correctly", {
   rcmdcheck_args <- install_list$rcmdcheck_args
 
   if (package_installed == TRUE ) {	
-    export_calc <- sanofi.risk.assessr::assess_exports(pkg_source_path)
+    export_calc <- risk.assessr::assess_exports(pkg_source_path)
     
     expect_identical(length(export_calc), 1L)
     
@@ -38,10 +38,10 @@ test_that("assess exports for tar file works correctly", {
   options(repos = r)
   
   dp <- system.file("test-data/test.package.0006_0.1.0.tar.gz", 
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -49,7 +49,7 @@ test_that("assess exports for tar file works correctly", {
   rcmdcheck_args <- install_list$rcmdcheck_args
   
   if (package_installed == TRUE ) {	
-    export_calc <- sanofi.risk.assessr::assess_exports(pkg_source_path)
+    export_calc <- risk.assessr::assess_exports(pkg_source_path)
     
     expect_identical(length(export_calc), 1L)
     

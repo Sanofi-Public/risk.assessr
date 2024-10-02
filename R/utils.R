@@ -130,7 +130,7 @@ calc_overall_risk_score <- function(data,
     weights <- add_default_risk_weights(data) 
     message(glue::glue("Default weights used"))
   } else {
-    weights <- sanofi.risk.assessr::create_weights_profile()
+    weights <- risk.assessr::create_weights_profile()
     message(glue::glue("User defined weights used"))
   }  
   
@@ -151,7 +151,7 @@ calc_overall_risk_score <- function(data,
 calc_risk_profile <- function(risk_data) {
   
   # get risk profile thresholds
-  risk_profile_thresholds <- sanofi.risk.assessr::create_risk_profile()
+  risk_profile_thresholds <- risk.assessr::create_risk_profile()
   
   risk_data <- as.data.frame(risk_data)
   # set up risk profile thresholds
@@ -172,66 +172,6 @@ calc_risk_profile <- function(risk_data) {
   message(glue::glue("Risk profile calculated"))  
   
   return(risk_profile)
-}
-
-#' Re-calculate package risk scores
-#' 
-#' @description {Use this function to re-calculate risk scores and risk profile}
-#' @details {Use cases: if the weighting profile and/or risk profile thresholds
-#' have changed and the risk metrics have not changed, then
-#' use this function to re-calculate the risk scores and profile
-#' without running the whole risk assessment process again}
-#' 
-#' @param riskdata_results - path to riskdata_results toy dataset
-#' @param update_comments notes explaining why score recalculated
-#' 
-#' @examples 
-#' riskdata_results <- system.file("test-data/riskdata_results_slim.csv", 
-#' package = "sanofi.risk.assessr")
-#' update_comments <- "recalc scores example"
-#' 
-#' recalc_example <- recalc_risk_scores(riskdata_results, update_comments)
-#' 
-#' @export
-#'
-recalc_risk_scores <- function(riskdata_results, update_comments) {
-  
-  
-  # read in the results
-  results <- read.csv(file.path(riskdata_results))
-  
-  # save existing data 
-  results_old <- results 
-  
-  # filter existing data from initial run
-  results <- results |> 
-    dplyr::filter(grepl("\\Initial", comments, ignore.case = FALSE))
-  
-  # convert NAs and NANs to zero
-  results <- rapply( results, f=function(x) ifelse(is.nan(x),0,x), how="replace" )	  
-  results <- rapply( results, f=function(x) ifelse(is.na(x),0,x), how="replace" )
-  
-  # calculate risk score with user defined metrics
-  results$overall_risk_score <- results |>
-    split(1:nrow(results)) |> 
-    purrr::map(sanofi.risk.assessr::calc_overall_risk_score) |> 
-    unlist()
-  
-  
-  # calculate risk profile with user defined thresholds
- results$risk_profile <- results |>
-   dplyr::select(overall_risk_score) |> 
-   split(1:nrow(results)) |>
-   purrr::map(sanofi.risk.assessr::calc_risk_profile) |> 
-   unlist()
- 
- # add comments
- results <- results |> 
-    dplyr::mutate(comments = update_comments)
-
- # append new data to old data  
- results <- rbind(results_old, results)
- 
 }
 
 #' get package name for display

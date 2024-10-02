@@ -5,10 +5,10 @@ test_that("assess exports for current news works correctly", {
   options(repos = r)
   
   dp <- system.file("test-data/here-1.0.1.tar.gz", 
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -18,7 +18,7 @@ test_that("assess exports for current news works correctly", {
   if (package_installed == TRUE ) {	
     
     # Get package name and version
-    pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path, 
+    pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path, 
                                                  fields = c("Package", 
                                                             "Version"))
     pkg_name <- pkg_desc$Package
@@ -26,7 +26,7 @@ test_that("assess exports for current news works correctly", {
     
     testthat::expect_message(
       news_current <- 
-        sanofi.risk.assessr::assess_news_current(pkg_name,
+        risk.assessr::assess_news_current(pkg_name,
                                                 pkg_ver,
                                                 pkg_source_path),
       glue::glue("{(pkg_name)} has current news"),
@@ -34,7 +34,7 @@ test_that("assess exports for current news works correctly", {
     )
     
     news_current <- 
-      sanofi.risk.assessr::assess_news_current(pkg_name, 
+      risk.assessr::assess_news_current(pkg_name, 
                                       pkg_ver,
                                       pkg_source_path)
     
@@ -58,10 +58,10 @@ test_that("assess exports for missing news works correctly", {
   options(repos = r)
   
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz", 
-                    package = "sanofi.risk.assessr")
+                    package = "risk.assessr")
   
   # set up package
-  install_list <- sanofi.risk.assessr::set_up_pkg(dp)
+  install_list <- risk.assessr::set_up_pkg(dp)
   
   build_vignettes <- install_list$build_vignettes
   package_installed <- install_list$package_installed
@@ -71,7 +71,7 @@ test_that("assess exports for missing news works correctly", {
   if (package_installed == TRUE ) {	
     
     # Get package name and version
-    pkg_desc <- sanofi.risk.assessr::get_pkg_desc(pkg_source_path, 
+    pkg_desc <- risk.assessr::get_pkg_desc(pkg_source_path, 
                                                  fields = c("Package", 
                                                             "Version"))
     pkg_name <- pkg_desc$Package
@@ -79,7 +79,7 @@ test_that("assess exports for missing news works correctly", {
     
     testthat::expect_message(
       news_current <- 
-        sanofi.risk.assessr::assess_news_current(pkg_name,
+        risk.assessr::assess_news_current(pkg_name,
                                                 pkg_ver,
                                                 pkg_source_path),
       glue::glue("{(pkg_name)} has no current news"),
@@ -88,7 +88,7 @@ test_that("assess exports for missing news works correctly", {
     
     testthat::expect_message(
       news_current <- 
-        sanofi.risk.assessr::assess_news_current(pkg_name,
+        risk.assessr::assess_news_current(pkg_name,
                                                 pkg_ver,
                                                 pkg_source_path),
       glue::glue("{(pkg_name)} has no news"),
@@ -96,7 +96,7 @@ test_that("assess exports for missing news works correctly", {
     )
     
     news_current <- 
-      sanofi.risk.assessr::assess_news_current(pkg_name, 
+      risk.assessr::assess_news_current(pkg_name, 
                                               pkg_ver,
                                               pkg_source_path)
     

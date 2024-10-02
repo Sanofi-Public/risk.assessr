@@ -24,7 +24,7 @@ risk_assess_pkg <-function() {
   options(repos = r)
  
   # Set up the package using the temporary file
-  install_list <- sanofi.risk.assessr::set_up_pkg(modified_tar_file)
+  install_list <- risk.assessr::set_up_pkg(modified_tar_file)
   
   # Extract information from the installation list
   build_vignettes <- install_list$build_vignettes
@@ -34,13 +34,13 @@ risk_assess_pkg <-function() {
   
   # check if the package needs to be installed locally
   package_installed <- 
-    sanofi.risk.assessr::install_package_local(pkg_source_path)
+    risk.assessr::install_package_local(pkg_source_path)
   
   # Check if the package was installed successfully
   if (package_installed == TRUE) {
     # Assess the package
     risk_assess_package <- 
-      sanofi.risk.assessr::assess_pkg(pkg_source_path, 
+      risk.assessr::assess_pkg(pkg_source_path, 
                                      rcmdcheck_args)
     # Output the assessment result
   } else {
