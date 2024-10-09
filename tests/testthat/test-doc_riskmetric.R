@@ -3,7 +3,7 @@ test_that("test doc_riskmetrics", {
   library(risk.assessr)
   # set CRAN repo 
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/stringr-1.5.1.tar.gz",

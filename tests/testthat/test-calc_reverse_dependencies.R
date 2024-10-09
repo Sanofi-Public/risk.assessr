@@ -2,7 +2,7 @@ test_that("parse deps for tar file works correctly", {
   
   # set CRAN repo to calculate reverse dependencies
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/here-1.0.1.tar.gz", 

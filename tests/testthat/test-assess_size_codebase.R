@@ -1,7 +1,7 @@
 test_that("assess code base size for small package works correctly", {
   
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz", 
@@ -34,7 +34,7 @@ test_that("assess code base size for small package works correctly", {
 test_that("assess code base size for large package works correctly", {
   
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/stringr-1.5.1.tar.gz", 

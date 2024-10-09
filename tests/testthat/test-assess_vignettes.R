@@ -1,7 +1,7 @@
 test_that("assess vignettes for tar file with vignettes works correctly", {
   
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/here-1.0.1.tar.gz", 
@@ -43,7 +43,7 @@ test_that("assess vignettes for tar file with vignettes works correctly", {
 test_that("assess vignettes for tar file with no vignettes works correctly", {
   
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/test.package.0001_0.1.0.tar.gz", 
