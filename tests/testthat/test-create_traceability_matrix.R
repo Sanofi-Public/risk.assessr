@@ -51,8 +51,8 @@ test_that("running tm for created package in tar file with no notes", {
 
 # The following test is commented out temporarily
 # the test with devtools::test() but the problem is caused by
-#  httpss://github.com/hadley/testthat/issues/144
-# and httpss://github.com/r-lib/testthat/issues/86
+#  https://github.com/hadley/testthat/issues/144
+# and https://github.com/r-lib/testthat/issues/86
 test_that("running tm for created package in tar file with no tests", {
 
   dp <- system.file("test-data/test.package.0004_0.1.0.tar.gz",
@@ -175,7 +175,7 @@ test_that("running tm for created package in tar file with no R directory", {
 })
 
 # The following test will be reactivated when 
-# httpss://github.com/Sanofi-GitHub/bp-art-risk.assessr/issues/78 is fixed
+# https://github.com/Sanofi-GitHub/bp-art-risk.assessr/issues/78 is fixed
 
 test_that("running tm for created package in tar file with empty R directory", {
 
