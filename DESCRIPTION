@@ -5,7 +5,7 @@ Authors@R: c(
   person('Edward', 'Gillian', email = 'edward.gillian-ext@sanofi.com', role = c('cre', 'aut')),
   person('Hugo', 'Bottois', email = "hugo.bottois@sanofi.com", role = "aut"))
 Description: Tools for assessing R packages against a number of metrics to  help validate their trustworthiness and reliability.
-License: GPL (>= 3)
+License: GPL (>= 2)
 Depends: R (>= 4.1.0)
 Imports: callr, checkmate, covr, devtools, dplyr, lubridate, purrr,
         rcmdcheck, rlang, httr2, jsonlite
