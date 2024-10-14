@@ -3,7 +3,7 @@ test_that("test assess_description_file_elements for all elements present", {
   library(risk.assessr)
   # set CRAN repo 
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/stringr-1.5.1.tar.gz",
@@ -79,7 +79,7 @@ test_that("test assess_description_file_elements for all elements present", {
   library(risk.assessr)
   # set CRAN repo 
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/test.package.0007_0.1.0.tar.gz",

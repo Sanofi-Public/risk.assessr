@@ -24,7 +24,7 @@ assess package for risk metrics
 library(risk.assessr)
 # set CRAN repo to enable running of reverse dependencies
 r = getOption("repos")
-r["CRAN"] = "http://cran.us.r-project.org"
+r["CRAN"] = "https://cloud.r-project.org"
 options(repos = r)
 
 pkg_source_path <- file.choose()

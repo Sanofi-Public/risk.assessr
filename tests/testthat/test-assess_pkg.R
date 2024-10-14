@@ -128,7 +128,7 @@ test_that("running assess_pkg for test package in tar file - no exports", {
 
   # set CRAN repo to calculate reverse dependencies
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
 
   dp <- system.file("test-data/test.package.0005_0.1.0.tar.gz",

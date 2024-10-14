@@ -1,7 +1,7 @@
 test_that("assess exports for help files works correctly", {
   
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/here-1.0.1.tar.gz", 
@@ -51,7 +51,7 @@ test_that("assess exports for help files works correctly", {
 test_that("assess exports for missing help files works correctly", {
   
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/stringr-1.5.1.tar.gz", 
@@ -101,7 +101,7 @@ test_that("assess exports for missing help files works correctly", {
 test_that("assess exports for no help files works correctly", {
   
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/test.package.0006_0.1.0.tar.gz", 

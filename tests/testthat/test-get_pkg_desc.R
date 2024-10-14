@@ -1,7 +1,7 @@
 test_that("get package description works correctly", {
   
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
   
   dp <- system.file("test-data/here-1.0.1.tar.gz", 

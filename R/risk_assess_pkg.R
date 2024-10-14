@@ -20,7 +20,7 @@ risk_assess_pkg <-function() {
   
   # set CRAN repo to enable running of reverse dependencies
   r = getOption("repos")
-  r["CRAN"] = "http://cran.us.r-project.org"
+  r["CRAN"] = "https://cloud.r-project.org"
   options(repos = r)
  
   # Set up the package using the temporary file
