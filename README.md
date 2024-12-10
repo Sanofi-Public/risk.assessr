@@ -155,6 +155,14 @@ library(risk.assessr)
 risk_assess_package <- risk.assessr::risk_assess_pkg()
 ```
 
+OR
+
+```
+library(risk.assessr)
+results <- sanofi.risk.assessr::assess_pkg_r_package(package_name, version)
+```
+
+
 # Result: Metrics and Risk assessment
 
 ``` r
