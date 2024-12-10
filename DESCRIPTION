@@ -9,7 +9,7 @@ License: GPL (>= 2)
 Depends: R (>= 4.1.0)
 Imports: callr, checkmate, remotes, covr, devtools, dplyr, lubridate, purrr,
         rcmdcheck, rlang, httr2, jsonlite
-Suggests: forcats, fs, glue, here, knitr, magrittr, openxlsx, remotes,
+Suggests: forcats, fs, glue, here, knitr, magrittr, openxlsx,
         readr, roxygen2, pkgload, testthat (>= 3.0.0), stringr (>=
         1.4.0), tibble, tidyr, tidyselect, tools, rmarkdown, utils,
         withr, mockery
