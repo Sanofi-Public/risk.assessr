@@ -23,7 +23,7 @@
 #' print(results)
 #' }
 #' 
-#' @importFrom sanofi.risk.assessr set_up_pkg assess_pkg install_package_local
+#' @importFrom risk.assessr set_up_pkg assess_pkg install_package_local
 #' @importFrom remotes download_version
 #' @export
 assess_pkg_r_package <- function(package_name, version=NA) {
@@ -39,7 +39,7 @@ assess_pkg_r_package <- function(package_name, version=NA) {
   modified_tar_file <- modify_description_file(temp_file)
   
   # Set up the package using the temporary file
-  install_list <- sanofi.risk.assessr::set_up_pkg(modified_tar_file)
+  install_list <- risk.assessr::set_up_pkg(modified_tar_file)
   
   # Extract information from the installation list
   build_vignettes <- install_list$build_vignettes
@@ -48,14 +48,14 @@ assess_pkg_r_package <- function(package_name, version=NA) {
   rcmdcheck_args <- install_list$rcmdcheck_args
   
   # Check if the package needs to be installed locally
-  package_installed <- sanofi.risk.assessr::install_package_local(pkg_source_path)
+  package_installed <- risk.assessr::install_package_local(pkg_source_path)
   
   # Check if the package was installed successfully
   if (package_installed == TRUE) {
     
     rcmdcheck_args$path <- pkg_source_path
     # Assess the package
-    assess_package <- sanofi.risk.assessr::assess_pkg(pkg_source_path, rcmdcheck_args)
+    assess_package <- risk.assessr::assess_pkg(pkg_source_path, rcmdcheck_args)
   } else {
     message("Package installation failed.")
     assess_package <- NULL
