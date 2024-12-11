@@ -1,6 +1,6 @@
 #' Assess an R Package riskmetric with package name and version
 #'
-#' This function use `risk.assessr::assess_pkg` assessment function with only the package name and version
+#' This function uses `risk.assessr::assess_pkg` assessment function with only the package name and version
 #'
 #' @param package_name A character string specifying the name of the package to assess.
 #' @param version A character string specifying the version of the package to assess. Default is `NA`, which assesses the latest version.

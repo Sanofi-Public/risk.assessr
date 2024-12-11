@@ -12,7 +12,7 @@
 
 <!-- badges: end -->
 
-# sanofi.risk.assessr
+# risk.assessr
 
 # Overview
 
@@ -109,7 +109,6 @@ This package executes the following tasks:
   - Log into your `github` account
   - Go to the token settings URL using the [Token Settings
     URL](https://github.com/settings/tokens)
-    - (do not forget to add the SSH `Sanofi-GitHub` authorization)
 
 - Create a `.Renviron` file with your GITHUBTOKEN as:
 
@@ -129,14 +128,13 @@ devtools::install_github("Sanofi-GitHub/bp-art-risk.assessr", ref = "main", auth
 
 ```
 
-  
 ## from CRAN
 
 ``` r
 install.package("risk.assessr")
 ```
 
-# Assessing your own package
+# Assessing package
 
 To assess your package, do the following steps:
 
@@ -157,9 +155,13 @@ risk_assess_package <- risk.assessr::risk_assess_pkg()
 
 OR
 
+To assess Open source package on CRAN/Bioconductor
+
 ```
 library(risk.assessr)
-results <- sanofi.risk.assessr::assess_pkg_r_package(package_name, version)
+# The function will retrieve the latest version of the package if no version is provided
+
+results <- sanofi.risk.assessr::assess_pkg_r_package(package_name, version=NA)
 ```
 
 
@@ -324,16 +326,8 @@ risk_assess_package$tm
 # Current/Future directions
 
 - Experimental analysis to define overall risk profile
-- Open source database with `risk.assessr` data on `Sanofi` package and on internal environment
-- Module to automatically fetch source R package `tar.gz` file with package name and version:
+- Open source database with `risk.assessr` data on package and on internal environment
 
-``` r
-library(risk.assessr)
-
-# for local tar.gz R package
-risk_assess_package <- risk.assessr::assess_pkg_r_package("ggplot2", version = "3.5.1")
-
-```
 
 # Acknowledgements
 
