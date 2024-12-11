@@ -2,8 +2,10 @@ Package: risk.assessr
 Title: Assessing package risk metrics
 Version: 1.0.0
 Authors@R: c(
-  person('Edward', 'Gillian', email = 'edward.gillian-ext@sanofi.com', role = c('cre', 'aut')),
-  person('Hugo', 'Bottois', email = "hugo.bottois@sanofi.com", role = "aut"))
+    person("Edward", "Gillian", , "edward.gillian-ext@sanofi.com", role = c("cre", "aut")),
+    person("Hugo", "Bottois", , "hugo.bottois@sanofi.com", role = "aut"),
+    person("Paulin", "Charliquart", , "paulin.charliquart@sanofi.com", role = "aut")
+  )
 Description: Tools for assessing R packages against a number of metrics to  help validate their trustworthiness and reliability.
 License: GPL (>= 2)
 Depends: R (>= 4.1.0)
