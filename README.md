@@ -32,7 +32,7 @@ We need to use open-source projects responsibly and safely by adhering to best p
 
 Ours goal is to establish a comprehensive and reliable package that helps to determine a package’s reliability and security in terms of maintenance, documentation, and dependencies.
 
-This package is designed to carry out a risk assessment of internal or open source R packages.
+This package is designed to carry out a risk assessment for internal or open source R packages.
 
 This packages can:
 
