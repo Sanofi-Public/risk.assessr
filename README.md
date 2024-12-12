@@ -30,12 +30,9 @@ However, open source raises inherent challenges in terms of:
 We need to use open-source projects responsibly and safely by adhering to best practices and ensure the reliability of the package being utilized for FDA submission.
 
 
-Ours goal is to establish a comprehensive and reliable package
-that helps in the initial determining of a package’s reliability and
-security in terms of maintenance, documentation, and dependencies.
+Ours goal is to establish a comprehensive and reliable package that helps do determine a package’s reliability and security in terms of maintenance, documentation, and dependencies.
 
-This package is designed to carry out a risk assessment of R packages at an early stage of development may be internal and/or contrary to open-source package.
-
+This package is designed to carry out a risk assessment of internal or open source R packages.
 
 This packages can:
 
