@@ -168,94 +168,185 @@ results <- sanofi.risk.assessr::assess_pkg_r_package(package_name, version=NA)
 # to check the overall riskmetric results
 risk_assess_package$results
 ```
-    risk_assess_package$results
-    $pkg_name
-    [1] "here"
 
-    $pkg_version
-    [1] "1.0.1"
+``` r
 
-    $pkg_source_path
-      /tmp/RtmpBPtvSG/temp_file_22f8324c0828/here-1.0.1 
-    "/tmp/RtmpBPtvSG/temp_file_22f8324c0828/here-1.0.1" 
+$pkg_name
+[1] "here"
 
-    $date_time
-    [1] "2024-09-10 10:35:58"
+$pkg_version
+[1] "1.0.1"
 
-    $executor
-    [1] "u1004798"
+$pkg_source_path
+  C:/Users/I0555262/AppData/Local/Temp/RtmpOc7aOz/temp_file_5a30450d2c4c/here 
+"C:/Users/I0555262/AppData/Local/Temp/RtmpOc7aOz/temp_file_5a30450d2c4c/here" 
 
-    $sysname
-    [1] "Linux"
+$date_time
+[1] "2024-10-29 12:08:35"
 
-    $version
-    [1] "#1 SMP Tue Aug 18 14:50:17 EDT 2020"
+$executor
+[1] ""
 
-    $release
-    [1] "3.10.0-1160.el7.x86_64"
+$sysname
+[1] "Windows"
 
-    $machine
-    [1] "x86_64"
+$version
+[1] "build 19045"
 
-    $comments
-    [1] " "
+$release
+[1] "10 x64"
 
-    $has_bug_reports_url
-    [1] 1
+$machine
+[1] "x86-64"
 
-    $license
-    [1] 1
+$comments
+[1] " "
 
-    $has_examples
-    [1] 1
+$has_bug_reports_url
+[1] 1
 
-    $has_maintainer
-    [1] 0
+$license
+[1] 1
 
-    $size_codebase
-    [1] 0.4680851
+$has_examples
+[1] 1
 
-    $has_news
-    [1] 1
+$has_maintainer
+[1] 1
 
-    $has_source_control
-    [1] 1
+$size_codebase
+[1] 0.4680851
 
-    $has_vignettes
-    [1] 1
+$has_news
+[1] 1
 
-    $has_website
-    [1] 1
+$has_source_control
+[1] 1
 
-    $news_current
-    [1] 1
+$has_vignettes
+[1] 1
 
-    $export_help
-    [1] 1
+$has_website
+[1] 1
 
-    $export_calc
-    [1] 0.6791787
+$news_current
+[1] 1
 
-    $check
-    [1] 1
+$export_help
+[1] 1
 
-    $covr
-    [1] 0.9867
+$export_calc
+[1] 0.6791787
 
-    $dependencies
-    [1] "rprojroot (>= 2.0.2)#conflicted#covr#fs#knitr#palmerpenguins#plyr#readr#rlang#rmarkdown#testthat#uuid#withr#Imports#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests"
+$check
+[1] 0
 
-    $dep_score
-    [1] 0.04742587
+$covr
+[1] 0.9867
 
-    $revdep_score
-    [1] 0.9662389
+$dependencies
+$dependencies$imports
+$dependencies$imports$rprojroot
+[1] "2.0.4"
 
-    $overall_risk_score
-    [1] 0.1806717
 
-    $risk_profile
-    [1] "Low"
+$dependencies$suggests
+$dependencies$suggests$conflicted
+[1] "None"
+
+$dependencies$suggests$covr
+[1] "3.6.4"
+
+$dependencies$suggests$fs
+[1] "1.6.3"
+
+$dependencies$suggests$knitr
+[1] "None"
+
+$dependencies$suggests$palmerpenguins
+[1] "None"
+
+$dependencies$suggests$plyr
+[1] "None"
+
+$dependencies$suggests$readr
+[1] "None"
+
+$dependencies$suggests$rlang
+[1] "1.1.3"
+
+$dependencies$suggests$rmarkdown
+[1] "None"
+
+$dependencies$suggests$testthat
+[1] "3.2.1.1"
+
+$dependencies$suggests$uuid
+[1] "None"
+
+$dependencies$suggests$withr
+[1] "3.0.1"
+
+
+$dep_score
+[1] 0.04742587
+
+$rev_deps
+  [1] "adepro"                     "APCalign"                   "archetyper"                
+  [4] "ARUtools"                   "AzureAppInsights"           "bdc"                       
+  [7] "BeeBDC"                     "blastula"                   "boxr"                      
+ [10] "bscui"                      "cache"                      "cape"                      
+ [13] "cbcTools"                   "ciTools"                    "clockify"                  
+ [16] "CohortCharacteristics"      "CohortConstructor"          "CohortSymmetry"            
+ [19] "cpsvote"                    "cricketdata"                "crosstalkr"                
+ [22] "denguedatahub"              "DescrTab2"                  "designit"                  
+ [25] "did"                        "diffEnrich"                 "DrugUtilisation"           
+ [28] "dtrackr"                    "dyn.log"                    "EIEntropy"                 
+ [31] "elaborator"                 "emayili"                    "EpiNow2"                   
+ [34] "filecacher"                 "flourishcharts"             "flow"                      
+ [37] "folders"                    "formods"                    "funspotr"                  
+ [40] "fusen"                      "gghdx"                      "ggseg"                     
+ [43] "ghclass"                    "GIMMEgVAR"                  "GISSB"                     
+ [46] "gitignore"                  "golem"                      "graphicalMCP"              
+ [49] "gtfsrouter"                 "Guerry"                     "heddlr"                    
+ [52] "heplots"                    "hkdatasets"                 "IncidencePrevalence"       
+ [55] "isotracer"                  "ixplorer"                   "justifier"                 
+ [58] "k5"                         "kindisperse"                "logitr"                    
+ [61] "logrx"                      "longsurr"                   "lterdatasampler"           
+ [64] "mailmerge"                  "maraca"                     "marginaleffects"           
+ [67] "metabolic"                  "metR"                       "midfieldr"                 
+ [70] "MiscMetabar"                "mlr3spatiotempcv"           "morphemepiece"             
+ [73] "naijR"                      "naniar"                     "nascaR.data"               
+ [76] "nestedLogit"                "nettskjemar"                "OlinkAnalyze"              
+ [79] "omopgenerics"               "OmopSketch"                 "OmopViewer"                
+ [82] "OptimalGoldstandardDesigns" "organizr"                   "PatientProfiles"           
+ [85] "pharmr"                     "phdcocktail"                "phsmethods"                
+ [88] "popstudy"                   "precommit"                  "projects"                  
+ [91] "PUMP"                       "r4lineups"                  "RAINBOWR"                  
+ [94] "rang"                       "rdfp"                       "REDCapCAST"                
+ [97] "regions"                    "reticulate"                 "retroharmonize"            
+[100] "ReviewR"                    "rfold"                      "rjtools"                   
+[103] "rnassqs"                    "rsf"                        "rUM"                       
+[106] "rworkflows"                 "salesforcer"                "schtools"                  
+[109] "SHAPforxgboost"             "smdi"                       "socialmixr"                
+[112] "Spectran"                   "stRoke"                     "styler"                    
+[115] "tcplfit2"                   "tfrmtbuilder"               "tfruns"                    
+[118] "tibble"                     "tidychangepoint"            "tidyxl"                    
+[121] "toxEval"                    "tsgc"                       "UKB.COVID19"               
+[124] "unpivotr"                   "upstartr"                   "validateIt"                
+[127] "vcdExtra"                   "vegawidget"                 "vembedr"                   
+[130] "weed"                       "wither"                     "x3ptools"                  
+[133] "xpose"                      "yum"                       
+
+$revdep_score
+[1] 0.9721276
+
+$overall_risk_score
+[1] 0.2963372
+
+$risk_profile
+[1] "Medium"
+```
 
 # Check the RCMD check results
 
