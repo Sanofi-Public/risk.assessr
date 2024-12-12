@@ -93,7 +93,7 @@ This package executes the following tasks:
 
 6.  Run R CMD check
 
-7.  Run risk assessment metrics using default or user defined weighting
+7.  Run risk assessment metrics using default weighting
 
 
 
