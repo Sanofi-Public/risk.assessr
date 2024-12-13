@@ -7,12 +7,12 @@
 
 [![R-CMD-check](https://github.com/Sanofi-GitHub/bp-art-risk.assessr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-risk.assessr/actions/workflows/R-CMD-check.yaml)
 [![test-coverage](https://github.com/Sanofi-GitHub/bp-art-risk.assessr/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/actions/workflows/test-coverage.yaml)
-![Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen.svg)
+![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen.svg)
 
 
 <!-- badges: end -->
 
-# sanofi.risk.assessr
+# risk.assessr
 
 # Overview
 
@@ -30,12 +30,9 @@ However, open source raises inherent challenges in terms of:
 We need to use open-source projects responsibly and safely by adhering to best practices and ensure the reliability of the package being utilized for FDA submission.
 
 
-Ours goal is to establish a comprehensive and reliable package
-that helps in the initial determining of a package’s reliability and
-security in terms of maintenance, documentation, and dependencies.
+Our goal is to establish a comprehensive and reliable package that helps to determine a package’s reliability and security in terms of maintenance, documentation, and dependencies.
 
-This package is designed to carry out a risk assessment of R packages at an early stage of development may be internal and/or contrary to open-source package.
-
+This package is designed to carry out a risk assessment for internal or open source R packages.
 
 This packages can:
 
@@ -96,7 +93,7 @@ This package executes the following tasks:
 
 6.  Run R CMD check
 
-7.  Run risk assessment metrics using default or user defined weighting
+7.  Run risk assessment metrics using default weighting
 
 
 
@@ -109,7 +106,6 @@ This package executes the following tasks:
   - Log into your `github` account
   - Go to the token settings URL using the [Token Settings
     URL](https://github.com/settings/tokens)
-    - (do not forget to add the SSH `Sanofi-GitHub` authorization)
 
 - Create a `.Renviron` file with your GITHUBTOKEN as:
 
@@ -129,14 +125,13 @@ devtools::install_github("Sanofi-GitHub/bp-art-risk.assessr", ref = "main", auth
 
 ```
 
-  
 ## from CRAN
 
 ``` r
 install.package("risk.assessr")
 ```
 
-# Assessing your own package
+# Assessing package
 
 To assess your package, do the following steps:
 
@@ -155,100 +150,120 @@ library(risk.assessr)
 risk_assess_package <- risk.assessr::risk_assess_pkg()
 ```
 
+OR
+
+To assess Open source package on CRAN/Bioconductor
+
+```
+library(risk.assessr)
+# The function will retrieve the latest version of the package if no version is provided
+
+results <- sanofi.risk.assessr::assess_pkg_r_package(package_name, version=NA)
+```
+
+
 # Result: Metrics and Risk assessment
 
 ``` r
 # to check the overall riskmetric results
 risk_assess_package$results
 ```
-    risk_assess_package$results
-    $pkg_name
-    [1] "here"
 
-    $pkg_version
-    [1] "1.0.1"
+``` r
 
-    $pkg_source_path
-      /tmp/RtmpBPtvSG/temp_file_22f8324c0828/here-1.0.1 
-    "/tmp/RtmpBPtvSG/temp_file_22f8324c0828/here-1.0.1" 
+$results
+$results$pkg_name
+[1] "here"
 
-    $date_time
-    [1] "2024-09-10 10:35:58"
+$results$pkg_version
+[1] "1.0.1"
 
-    $executor
-    [1] "u1004798"
+$results$pkg_source_path
+  C:/Users/I0555262/AppData/Local/Temp/RtmpQpuI8r/temp_file_e6c1c466252/here 
+"C:/Users/I0555262/AppData/Local/Temp/RtmpQpuI8r/temp_file_e6c1c466252/here" 
 
-    $sysname
-    [1] "Linux"
+$results$date_time
+[1] "2024-12-13 11:44:27"
 
-    $version
-    [1] "#1 SMP Tue Aug 18 14:50:17 EDT 2020"
+$results$executor
+[1] ""
 
-    $release
-    [1] "3.10.0-1160.el7.x86_64"
+$results$sysname
+[1] "Windows"
 
-    $machine
-    [1] "x86_64"
+$results$version
+[1] "build 22631"
 
-    $comments
-    [1] " "
+$results$release
+[1] "10 x64"
 
-    $has_bug_reports_url
-    [1] 1
+$results$machine
+[1] "x86-64"
 
-    $license
-    [1] 1
+$results$comments
+[1] " "
 
-    $has_examples
-    [1] 1
+$results$has_bug_reports_url
+[1] 1
 
-    $has_maintainer
-    [1] 0
+$results$license
+[1] 1
 
-    $size_codebase
-    [1] 0.4680851
+$results$has_examples
+[1] 1
 
-    $has_news
-    [1] 1
+$results$has_maintainer
+[1] 1
 
-    $has_source_control
-    [1] 1
+$results$size_codebase
+[1] 0.4680851
 
-    $has_vignettes
-    [1] 1
+$results$has_news
+[1] 1
 
-    $has_website
-    [1] 1
+$results$has_source_control
+[1] 1
 
-    $news_current
-    [1] 1
+$results$has_vignettes
+[1] 1
 
-    $export_help
-    [1] 1
+$results$has_website
+[1] 1
 
-    $export_calc
-    [1] 0.6791787
+$results$news_current
+[1] 1
 
-    $check
-    [1] 1
+$results$export_help
+[1] 1
 
-    $covr
-    [1] 0.9867
+$results$export_calc
+[1] 0.6791787
 
-    $dependencies
-    [1] "rprojroot (>= 2.0.2)#conflicted#covr#fs#knitr#palmerpenguins#plyr#readr#rlang#rmarkdown#testthat#uuid#withr#Imports#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests"
+$results$check
+[1] 0
 
-    $dep_score
-    [1] 0.04742587
+$results$covr
+[1] 0.9867
 
-    $revdep_score
-    [1] 0.9662389
+$results$dependencies
+[1] "rprojroot (>= 2.0.2)#conflicted#covr#fs#knitr#palmerpenguins#plyr#readr#rlang#rmarkdown#testthat#uuid#withr#Imports#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests#Suggests"
 
-    $overall_risk_score
-    [1] 0.1806717
+$results$dep_score
+[1] 0.04742587
 
-    $risk_profile
-    [1] "Low"
+$results$revdep_score
+[1] 0.9738213
+
+$results$overall_risk_score
+[1] 0.2963015
+
+$results$risk_profile
+[1] "Medium"
+``` r
+
+
+
+```
 
 # Check the RCMD check results
 
@@ -316,16 +331,8 @@ risk_assess_package$tm
 # Current/Future directions
 
 - Experimental analysis to define overall risk profile
-- Open source database with `risk.assessr` data on `Sanofi` package and on internal environment
-- Module to automatically fetch source R package `tar.gz` file with package name and version:
+- Open source database with `risk.assessr` data on package and on internal environment
 
-``` r
-library(risk.assessr)
-
-# for local tar.gz R package
-risk_assess_package <- risk.assessr::assess_pkg_r_package("ggplot2", version = "3.5.1")
-
-```
 
 # Acknowledgements
 
