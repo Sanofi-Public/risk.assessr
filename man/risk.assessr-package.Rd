@@ -11,11 +11,18 @@
 Tools for assessing R packages against a number of metrics to help validate their trustworthiness and reliability.
 }
 \author{
-\strong{Maintainer}: Edward Gillian \email{edward.gillian-ext@sanofi.com}
+\strong{Maintainer}: Edward Gillian \email{edward.gillian-ext@sanofi.com} (\href{https://orcid.org/0000-0003-2732-5107}{ORCID})
 
 Authors:
 \itemize{
-  \item Hugo Bottois \email{hugo.bottois@sanofi.com}
+  \item Hugo Bottois \email{hugo.bottois@sanofi.com} (\href{https://orcid.org/0000-0003-4674-0875}{ORCID})
+  \item Paulin Charliquart \email{paulin.charliquart@sanofi.com}
+  \item Andre Couturier \email{andre.couturier@sanofi.com}
+}
+
+Other contributors:
+\itemize{
+  \item Sanofi [copyright holder, funder]
 }
 
 }
