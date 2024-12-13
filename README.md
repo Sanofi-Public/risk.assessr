@@ -168,6 +168,9 @@ results <- sanofi.risk.assessr::assess_pkg_r_package(package_name, version=NA)
 # to check the overall riskmetric results
 risk_assess_package$results
 ```
+
+``` r
+
 $results
 $results$pkg_name
 [1] "here"
