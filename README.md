@@ -5,10 +5,9 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/Sanofi-GitHub/bp-art-risk.assessr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-risk.assessr/actions/workflows/R-CMD-check.yaml)
-[![test-coverage](https://github.com/Sanofi-GitHub/bp-art-risk.assessr/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr/actions/workflows/test-coverage.yaml)
-![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen.svg)
-
+![test-coverage](https://img.shields.io/badge/coverage-95%25-brightgreen.svg)
+![R-CMD-check](https://img.shields.io/badge/Test%20coverage-Passing-brightgreen.svg)
+![Coverage](https://img.shields.io/badge/R%20CMD%20check-Passing-brightgreen.svg)
 
 <!-- badges: end -->
 
@@ -121,7 +120,7 @@ This package executes the following tasks:
 
 ``` r
 auth_token = Sys.getenv("GITHUBTOKEN")
-devtools::install_github("Sanofi-GitHub/bp-art-risk.assessr", ref = "main", auth_token = auth_token)
+devtools::install_github(Sanofi-Public/risk.assessr", ref = "main", auth_token = auth_token)
 
 ```
 
