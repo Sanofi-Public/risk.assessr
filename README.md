@@ -258,7 +258,7 @@ $results$overall_risk_score
 
 $results$risk_profile
 [1] "Medium"
-``` r
+``` 
 
 
 
