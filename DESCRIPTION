@@ -1,0 +1,29 @@
+Package: risk.assessr
+Title: Assessing package risk metrics
+Version: 1.0.0
+Authors@R: c(
+    person("Edward", "Gillian", , "edward.gillian-ext@sanofi.com", role = c("cre", "aut"), comment = c(ORCID = "0000-0003-2732-5107")),
+    person("Hugo", "Bottois", , "hugo.bottois@sanofi.com", role = "aut", comment = c(ORCID = "0000-0003-4674-0875")),
+    person("Paulin", "Charliquart", , "paulin.charliquart@sanofi.com", role = "aut"),
+    person("Andre", "Couturier", , "andre.couturier@sanofi.com", role = "aut"),
+    person("Sanofi", role = c("cph", "fnd"))
+  )
+Description: Tools for assessing R packages against a number of metrics to  help validate their trustworthiness and reliability.
+License: GPL (>= 2)
+Depends: R (>= 4.1.0)
+Imports: callr, checkmate, remotes, covr, devtools, dplyr, lubridate, purrr,
+        rcmdcheck, rlang, httr2, jsonlite
+Suggests: forcats, fs, glue, here, knitr, magrittr, openxlsx,
+        readr, roxygen2, pkgload, testthat (>= 3.0.0), stringr (>=
+        1.4.0), tibble, tidyr, tidyselect, tools, rmarkdown, utils,
+        withr, mockery
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+Config/testthat/edition: 3
+Config/build/clean-inst-doc: false
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2024-09-24 15:02:32 UTC; u1004798
+Author: Edward Gillian [cre, aut],
+  Hugo Bottois [aut]
+Maintainer: Edward Gillian <edward.gillian-ext@sanofi.com>

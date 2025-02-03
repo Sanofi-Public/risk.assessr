@@ -1,0 +1,73 @@
+---
+title: "Create your weights profile"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Create your weights profile}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(risk.assessr)
+```
+
+## Create your own weights profile.
+
+The `risk.assessr` package has a default weighting profile which assigns a weighting profile of 1 to each riskmetric
+giving equal weighting to each risk metric.
+
+If you wish to create your own weighting profile, 
+
+1 - go to the R script 
+`create_weights_profile()` in the `R` folder.
+
+2 - Open the script and you will see the following code:
+
+```
+```{r, eval=FALSE}
+library(risk.assessr)
+
+create_weights_profile <- function() {
+  weights <- c(
+    has_bug_reports_url = .2,
+    license = .1,
+    has_examples = .4,
+    has_maintainer = .2,
+    has_news = .2,
+    size_codebase = .2,
+    has_source_control = .1,
+    has_vignettes = .4,
+    has_website = .4,
+    news_current = .2,
+    export_help = .2,
+    export_calc = .2,
+    check = .75,
+    covr = .6,
+    dep_score = .5,
+    revdep_score = .1
+  )
+  return(weights)
+}
+```
+
+3 - set your own weights for each risk metric
+
+4 - save the file
+
+5 - Go to the `Build` Tab
+
+6 - Click the `More` Tab
+
+7 - Click `Document`, `Clean and Install`, and `Load All` 
+
+8 - Run the riskmetric functions `assess_pkg()` or `assess_pkg_r_package()` to
+    calculate riskmetrics using your weights profile. 
+
+
