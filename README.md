@@ -127,7 +127,7 @@ devtools::install_github(Sanofi-Public/risk.assessr", ref = "main", auth_token =
 ## from CRAN
 
 ``` r
-install.package("risk.assessr")
+install.packages("risk.assessr")
 ```
 
 # Assessing package
