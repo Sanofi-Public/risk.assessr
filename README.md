@@ -120,7 +120,7 @@ This package executes the following tasks:
 
 ``` r
 auth_token = Sys.getenv("GITHUBTOKEN")
-devtools::install_github(Sanofi-Public/risk.assessr", ref = "main", auth_token = auth_token)
+devtools::install_github("Sanofi-Public/risk.assessr", ref = "main", auth_token = auth_token)
 
 ```
 
