@@ -157,7 +157,7 @@ To assess Open source package on CRAN/Bioconductor
 library(risk.assessr)
 # The function will retrieve the latest version of the package if no version is provided
 
-results <- sanofi.risk.assessr::assess_pkg_r_package(package_name, version=NA)
+results <- risk.assessr::assess_pkg_r_package(package_name, version=NA)
 ```
 
 
