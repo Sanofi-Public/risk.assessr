@@ -120,14 +120,14 @@ This package executes the following tasks:
 
 ``` r
 auth_token = Sys.getenv("GITHUBTOKEN")
-devtools::install_github(Sanofi-Public/risk.assessr", ref = "main", auth_token = auth_token)
+devtools::install_github("Sanofi-Public/risk.assessr", ref = "main", auth_token = auth_token)
 
 ```
 
 ## from CRAN
 
 ``` r
-install.package("risk.assessr")
+install.packages("risk.assessr")
 ```
 
 # Assessing package
@@ -157,7 +157,7 @@ To assess Open source package on CRAN/Bioconductor
 library(risk.assessr)
 # The function will retrieve the latest version of the package if no version is provided
 
-results <- sanofi.risk.assessr::assess_pkg_r_package(package_name, version=NA)
+results <- risk.assessr::assess_pkg_r_package(package_name, version=NA)
 ```
 
 
