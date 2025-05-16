@@ -3,7 +3,7 @@ pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   create-your-weights-profile: create-your-weights-profile.html
-last_built: 2025-05-16T10:32Z
+last_built: 2025-05-16T10:41Z
 urls:
   reference: https://Sanofi-Public.github.io/bp-art-risk.assessr/reference
   article: https://Sanofi-Public.github.io/bp-art-risk.assessr/articles
