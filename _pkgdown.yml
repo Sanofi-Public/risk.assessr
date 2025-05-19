@@ -1,0 +1,6 @@
+url: https://Sanofi-Public.github.io/bp-art-risk.assessr
+
+template:
+  bootstrap: 5
+development:
+  mode: release

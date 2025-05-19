@@ -1,0 +1,391 @@
+---
+title: "&nbsp;"
+output:
+  rmarkdown::html_document:
+  css: www/styles.css
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/",
+  out.width = "100%"
+)
+
+# Suppress package loading messages
+suppressMessages({
+  library(dplyr)
+  library(kableExtra)
+})
+
+suppressWarnings({
+  library(htmltools)
+  library(htmlwidgets)
+})
+```
+
+# Package Assessment Report for `r get('pkg_name', envir = report_env)` version `r get('pkg_version', envir = report_env)` <a><img src="`r system.file('man/figures/logo.png', package = 'risk.assessr')`" align="right" height="100" /><br></a>
+
+
+
+```{r risk_summary, echo=FALSE}
+library(knitr)
+library(kableExtra)
+
+risk_summary_output <- get("risk_summary_output", envir = report_env)
+
+# Render the table using knitr and kableExtra
+risk_summary_output_html <- knitr::kable(risk_summary_output,
+                                         col.names = c("Type", "Values"),
+                                         "html") %>%
+  kableExtra::kable_styling("striped", 
+                            position = "left", 
+                            font_size = 12)
+
+# Apply conditional formatting based on the "Risk Profile" value
+risk_summary_output_html <- risk_summary_output_html %>%
+  kableExtra::row_spec(which(risk_summary_output$Value == "Low"), 
+                       background = "green") %>%
+  kableExtra::row_spec(which(risk_summary_output$Value == "Medium"), 
+                       background = "yellow") %>%
+  kableExtra::row_spec(which(risk_summary_output$Value == "High"), 
+                       background = "red") %>%
+  kableExtra::row_spec(0, 
+                       bold = TRUE,
+                       italic = TRUE,
+                       background = "green"
+                               )%>%
+  kableExtra::add_header_above(c("Risk Assessment Summary" = 2), bold = TRUE, background = "green", color = "black")
+
+# Display the table
+risk_summary_output_html
+```   
+
+```{r risk_details, echo=FALSE}
+library(knitr)
+library(kableExtra)
+risk_details_output <- get("risk_details_output", envir = report_env)
+
+# Display df
+risk_details_output_html <- knitr::kable((risk_details_output),
+                               col.names = c(
+                                 "Type",
+                                 "Details"),
+                          "html")
+kableExtra::kable_styling(risk_details_output_html, 
+                          "striped", 
+                          position = "left", 
+                          font_size = 12) %>%
+  kableExtra::row_spec(0, 
+                       bold = TRUE,
+                       italic = TRUE,
+                       background = "green"
+                               ) %>%
+  kableExtra::row_spec(which(risk_details_output$Metric == "R CMD Check Score" & risk_details_output$Value == 1), 
+                       background = "green") %>%
+  kableExtra::row_spec(which(risk_details_output$Metric == "R CMD Check Score" & risk_details_output$Value == 0), 
+                       background = "red") %>%
+  kableExtra::row_spec(which(risk_details_output$Metric == "R CMD Check Score" & risk_details_output$Value > 0 & risk_details_output$Value < 1), 
+                       background = "yellow") %>%
+  kableExtra::row_spec(which(risk_details_output$Metric == "Test Coverage Score" & risk_details_output$Value == 1), 
+                       background = "green") %>%
+  kableExtra::row_spec(which(risk_details_output$Metric == "Test Coverage Score" & risk_details_output$Value == 0), 
+                       background = "red") %>%
+  kableExtra::row_spec(which(risk_details_output$Metric == "Test Coverage Score" & risk_details_output$Value > 0 & risk_details_output$Value < 1), 
+                       background = "yellow") %>%
+  kableExtra::add_header_above(c("Core Metrics and Assessment Run Details" = 2), bold = TRUE, background = "green", color = "black")
+```   
+
+```{r rcmdcheck, echo=FALSE}
+library(knitr)
+library(kableExtra)
+rcmd_check_output <- get("rcmd_check_output", envir = report_env)
+
+# Get the column indices based on the column names
+# score_col <- which(names(rcmd_check_output) == "Score")
+errors_col <- which(names(rcmd_check_output) == "Errors")
+warnings_col <- which(names(rcmd_check_output) == "Warnings")
+notes_col <- which(names(rcmd_check_output) == "Notes")
+
+# Render the table using knitr and kableExtra
+# Display df
+rcmd_check_output_html <- knitr::kable((rcmd_check_output),
+                               col.names = c(
+                                 " ",
+                                 "Score",
+                                 "Errors",
+                                 "Warnings",
+                                 "Notes"
+                                 ),
+                          "html")
+kableExtra::kable_styling(rcmd_check_output_html, 
+                          "striped", 
+                          position = "left", 
+                          font_size = 12) %>%
+  kableExtra::row_spec(0, 
+                       bold = TRUE,
+                       italic = TRUE,
+                       background = "green" 
+                               ) %>%
+  kableExtra::column_spec(errors_col, 
+                          background = ifelse(rcmd_check_output$Errors == "No errors", "green", "red")) %>%
+  kableExtra::column_spec(warnings_col, 
+                          background = ifelse(rcmd_check_output$Warnings == "No warnings", "green", "yellow")) %>%
+  kableExtra::column_spec(notes_col, 
+                          background = ifelse(rcmd_check_output$Notes == "No notes", "green", "yellow")) %>%
+  kableExtra::add_header_above(c("R CMD check" = 5), bold = TRUE, background = "green", color = "black") 
+```
+
+```{r test_coverage, echo=FALSE}
+library(knitr)
+library(kableExtra)
+coverage_output <- get("coverage_output", envir = report_env)
+
+colnames(coverage_output) <- c("Function", "Coverage", "Errors", "Notes")
+
+
+# Get the column indices based on the column names
+errors_col <- which(names(coverage_output) == "Errors")
+notes_col <- which(names(coverage_output) == "Notes")
+
+# Render the table using knitr and kableExtra
+# Display df
+coverage_output_html_DT <- DT::datatable(coverage_output, 
+                                         rownames = FALSE, 
+                                         colnames = c("Function", "Coverage", "Errors", "Notes"),
+                                         options = list(
+                                           pageLength = 10,  # Number of rows to display per page
+                                           lengthMenu = c(10, 20, 50),  # Options for number of rows per page
+                                           search = list(search = ""),  # Enable search functionality
+                                           dom = 'Bfrtip',  # Include buttons, filter, and pagination
+                                           buttons = c('copy', 'csv', 'excel', 'pdf', 'print')  # Export buttons
+                                         ))
+
+# Apply styling
+coverage_output_html_DT <- coverage_output_html_DT %>%
+  DT::formatStyle(
+    columns = 'Errors',
+    backgroundColor = DT::styleEqual(
+      levels = c("No test coverage errors", "Other Value"),
+      values = c("green", "red")
+    )
+  ) %>%
+  DT::formatStyle(
+    columns = 'Notes',
+    backgroundColor = DT::styleEqual(
+      levels = c("No test coverage notes", "Other Value"),
+      values = c("green", "yellow")
+    )
+  )
+
+# Render the datatable with a custom header
+htmltools::tagList(
+  htmltools::tags$h2("Test Coverage", style = "font-weight: bold; background-color: green; color: black; text-align: center;"),
+  coverage_output_html_DT
+)
+
+# Render the datatable
+# coverage_output_html_DT
+```
+
+```{r doc_metrics, echo=FALSE}
+library(knitr)
+library(kableExtra)
+doc_metrics_output <- get("doc_metrics_output", envir = report_env)
+
+# Render the table using knitr and kableExtra
+# Display df
+doc_metrics_output_html <- knitr::kable((doc_metrics_output),
+                               col.names = c(
+                                 "Metric Type",
+                                 "Value"
+                                 ),
+                          "html")
+kableExtra::kable_styling(doc_metrics_output_html, 
+                          "striped", 
+                          position = "left", 
+                          font_size = 12) %>%
+  kableExtra::row_spec(0, 
+                       bold = TRUE,
+                       italic = TRUE,
+                       background = "yellow"
+                               ) %>%
+  kableExtra::row_spec(which(doc_metrics_output$Value == "Included"), 
+                       background = "green") %>%
+  kableExtra::row_spec(which(doc_metrics_output$Value == "Not Included"), 
+                       background = "red") %>%
+  kableExtra::add_header_above(c("Documentation Metrics" = 2), bold = TRUE, background = "yellow", color = "black")
+```
+
+```{r deps_score, echo=FALSE}
+library(knitr)
+library(kableExtra)
+dep_score <- get("dep_score", envir = report_env)
+deps_output <- get("deps_df", envir = report_env)
+
+# Create a summary data frame
+deps_summary <- data.frame(
+  Dependency_Score = dep_score,
+  No_of_Dependencies = nrow(deps_output)
+)
+
+# Render the summary table using knitr and kableExtra
+deps_summary_html <- knitr::kable(deps_summary,
+                                  col.names = c("Dependency Score", 
+                                                "Number of Dependencies"),
+                                  "html") %>%
+  kableExtra::kable_styling("striped", 
+                            position = "left", 
+                            font_size = 12) %>%
+  kableExtra::row_spec(0, 
+                       bold = TRUE,
+                       italic = TRUE,
+                       background = "#AA4A44") %>%
+  kableExtra::row_spec(which(deps_summary$No_of_Dependencies < 20), 
+                       background = "green") %>%
+  kableExtra::row_spec(which(deps_summary$No_of_Dependencies > 39), 
+                       background = "red") %>%
+  kableExtra::row_spec(which(deps_summary$No_of_Dependencies > 19 & deps_summary$No_of_Dependencies < 40), 
+                       background = "yellow") %>%
+  kableExtra::add_header_above(c("Dependencies" = 2), bold = TRUE, background = "#AA4A44", color = "black")
+
+# Display the summary table
+deps_summary_html
+```
+
+```{r deps_details, echo=FALSE}
+library(knitr)
+library(DT)
+# Get the dependency score from report_env
+deps_output <- get("deps_df", envir = report_env)
+
+# Render the detailed table using DT
+deps_output_html_DT <- DT::datatable(deps_output, 
+                                     options = list(
+                                       pageLength = 10,  # Number of rows to display per page
+                                       lengthMenu = c(10, 20, 50),  # Options for number of rows per page
+                                       search = list(search = "")  # Enable search functionality
+                                     ))
+
+# Display the interactive DT table
+deps_output_html_DT
+```
+
+```{r rev_deps_sum, echo=FALSE}
+library(knitr)
+library(kableExtra)
+
+# Get the rev deps data 
+rev_deps_output <- get("rev_deps_df", envir = report_env)
+rev_deps_summary_list <- get("rev_deps_summary", envir = report_env)
+
+# Convert the summary list to a data frame
+rev_deps_summary <- data.frame(
+  Reverse_Dep_Score = rev_deps_summary_list$rev_deps_score,
+  No_of_Dependencies = rev_deps_summary_list$rev_deps_no
+)
+
+# Render the summary table using knitr and kableExtra
+rev_deps_summary_html <- knitr::kable(rev_deps_summary,
+                                      col.names = c("Reverse Dependency Score", 
+                                                    "Number of Reverse Dependencies"),
+                                      "html") %>%
+  kableExtra::kable_styling("striped", 
+                            position = "left", 
+                            font_size = 12) %>%
+  kableExtra::row_spec(0, 
+                       bold = TRUE,
+                       italic = TRUE,
+                       background = "#AA4A44") %>%
+  kableExtra::row_spec(which(rev_deps_summary$No_of_Dependencies < 20), 
+                       background = "red") %>%
+  kableExtra::row_spec(which(rev_deps_summary$No_of_Dependencies > 39), 
+                       background = "green") %>%
+  kableExtra::row_spec(which(rev_deps_summary$No_of_Dependencies > 19 & rev_deps_summary$No_of_Dependencies < 40), 
+                       background = "yellow") %>%
+  kableExtra::add_header_above(c("Reverse Dependencies" = 2), bold = TRUE, background = "#AA4A44", color = "black")
+
+# Display the summary table
+rev_deps_summary_html
+```
+
+```{r rev_deps_details, echo=FALSE}
+library(knitr)
+library(kableExtra)
+library(DT)
+
+
+# Get the rev deps detailed data 
+rev_deps_output <- get("rev_deps_df", envir = report_env)
+
+# Render the detailed table using DT
+rev_deps_output_html_DT <- DT::datatable(rev_deps_output, 
+                                     options = list(
+                                       pageLength = 10,  # Number of rows to display per page
+                                       lengthMenu = c(10, 20, 50),  # Options for number of rows per page
+                                       search = list(search = "")
+                                     ))  %>%
+  htmlwidgets::onRender("function(el, x) {
+    $(el).find('thead').hide();
+  }")
+
+# Display the interactive DT table
+rev_deps_output_html_DT
+```
+
+
+```{r trace_matrix, echo=FALSE}
+library(knitr)
+library(kableExtra)
+library(DT)
+library(htmlwidgets)
+library(htmltools)
+library(stringr)
+
+trace_matrix_output <- get("trace_matrix_output", envir = report_env)
+
+# Wrap the Description column at 90 characters
+trace_matrix_output$Description <- sapply(trace_matrix_output$Description, function(x) {
+  paste(stringr::str_wrap(x, width = 90), collapse = "\n")
+})
+
+brks <- c(60, 80)  # Breakpoints for 0-60, 61-80, and >80
+clrs <- c('red', 'yellow', 'green')  # Colors for the ranges
+
+# Create the datatable with additional options and custom CSS for styling
+tm_datatable_html <- DT::datatable(trace_matrix_output, options = list(
+  pageLength = 10,  # Number of rows to display per page
+  lengthMenu = c(10, 20, 50),  # Options for number of rows per page
+  search = list(search = ""),  # Enable search functionality
+  dom = 'Bfrtip'  # Include buttons, filter, and pagination
+)) %>%
+  DT::formatStyle(
+    columns = names(trace_matrix_output),
+    backgroundColor = DT::styleInterval(brks, clrs),
+    valueColumns = 'Test_Coverage'
+  ) %>%
+  DT::formatStyle(
+    columns = 1:5,
+    fontSize = '12px',
+    fontWeight = 'bold'
+  ) %>%
+  DT::formatStyle(
+    columns = 1,
+    color = 'white',
+    backgroundColor = 'purple'
+  )
+
+# header with purple background and text "Traceability Matrix"
+tm_datatable_html <- htmltools::tagList(
+  htmltools::tags$h2("Traceability Matrix", 
+                     style = "background-color: purple; 
+                     color: black; 
+                     padding: 10px; 
+                     text-align: center;"),
+  tm_datatable_html
+)
+
+# Print the datatable
+tm_datatable_html
+```
