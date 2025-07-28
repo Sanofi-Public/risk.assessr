@@ -66,30 +66,41 @@ This package fixes a number of errors in `pharmaR/riskmetric`
 5.  `assess_dependencies` has value range changed to fit in with other
     scoring metrics
 
+# Package Installation
 
-# Installation
+## from [Github](https://github.com/Sanofi-GitHub/bp-art-sanofi.risk.assessr)
 
-- Create a `Personal Access Token` (PAT) on `github`
+-   Create a `Personal Access Token` (PAT) on `github`
 
-  - Log into your `github` account
-  - Go to the token settings URL using the [Token Settings
-    URL](https://github.com/settings/tokens)
-    - (do not forget to add the SSH `Sanofi-Public` authorization)
+    -   Log into your `github` account
+    -   Go to the token settings URL using the [Token Settings URL](https://github.com/settings/tokens)
+        -   (do not forget to add the SSH `Sanofi-GitHub` authorization)
 
-- Create a `.Renviron` file with your GITHUBTOKEN as:
-
-<!-- -->
-
-    # .Renviron
-    GITHUBTOKEN=dfdxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxfdf
-
-- restart R session
-- You can install the package with:
+-   Create a `.Renviron` file with your GITHUBTOKEN as:
 
 <!-- -->
 
-    auth_token = Sys.getenv("GITHUBTOKEN")
-    devtools::install_github("Sanofi-Public/risk.assessr", ref = "main", auth_token = auth_token)
+```         
+# .Renviron
+GITHUBTOKEN=dfdxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxfdf
+```
+
+-   restart R session
+-   You can install the package with:
+
+<!-- -->
+
+```         
+auth_token = Sys.getenv("GITHUBTOKEN")
+devtools::install_github("Sanofi-GitHub/bp-art-sanofi.risk.assessr", ref = "main", auth_token = auth_token)
+```
+
+## from [CRAN](https://cran.r-project.org/web/packages/risk.assessr/index.html)
+
+``` r
+options(repos = "http://cran.us.r-project.org")
+installed.packages(sanofi.risk.asssessr)
+```
     
     
 # Usage
@@ -482,6 +493,55 @@ risk_assess_package$tm
     3 i_am              regular       R/i_am.R     i_am.Rd       "Add a call to here::i_am(\"…             95.8
     4 set_here          regular       R/set_here.R set_here.Rd   "html<a href='https://www.ti…            100
 
+
+# Publication/presentation
+
+# PHUSE 2025 Presentations – Sanofi
+
+1. **Conference:** Connect 2025  
+   **Location:** Orlando, US  
+   **Session ID:** OS17  
+   **Title:** *Risk.assessr: A Tool for Assessing and Mitigating Risks with Open-Source R Packages in Clinical Trials*  
+   **Presenters:** Andre Couturier, Edward Gillian  
+   **Co-Authors:** Hugo Bottois, Paulin Charliquart  
+   **Company:** Sanofi  
+   **Materials**  
+   - [Presentation (PDF)](https://phuse.s3.eu-central-1.amazonaws.com/Archive/2025/Connect/US/Orlando/PRE_OS17.pdf)  
+   - [Paper (PDF)](https://phuse.s3.eu-central-1.amazonaws.com/Archive/2025/Connect/US/Orlando/PAP_OS17.pdf)
+
+2. **Conference:** PHUSE SDE 2025  
+   **Location:** Beijing, China  
+   **Title:** *CI/CD in R Package Development with Integrated Risk Assessment*  
+   **Presenter:** Neo Yang  
+   **Co-Authors:** Hugo Bottois, Paulin Charliquart, Andre Couturier  
+   **Company:** Sanofi  
+   **Materials**  
+   - [Presentation (PDF)](https://phuse.s3.eu-central-1.amazonaws.com/Archive/2025/SDE/APAC/Beijing/PRE_Beijing07.pdf)
+
+3. **Conference:** EU Connect 2025  
+   **Location:** Hamburg, Germany  
+   **Session ID:** CT10  
+   **Title:** *Risk.assessr: Extracting OOP Function Details*  
+   **Presenter:** Edward Gillian  
+   **Co-Authors:** Hugo Bottois, Paulin Charliquart, Andre Couturier  
+   **Company:** Sanofi  
+   **Materials / Status:**  
+   - *Ongoing*
+
+
+# Citation
+
+Gillian E, Bottois H, Charliquart P, Couturier A (2025). sanofi.risk.assessr: Assessing Package Risk Metrics. R package version 2.0.0, <https://probable-chainsaw-kgro2o7.pages.github.io/>.
+
+```         
+@Manual{,
+  title = {sanofi.risk.assessr: Assessing Package Risk Metrics},
+  author = {Edward Gillian and Hugo Bottois and Paulin Charliquart and Andre Couturier},
+  year = {2025},
+  note = {R package version 2.0.0},
+  url = {https://probable-chainsaw-kgro2o7.pages.github.io/},
+}
+```
 
 # Current/Future directions
 
